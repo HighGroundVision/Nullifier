@@ -12,7 +12,9 @@ namespace HGV.Nullifier.Data
         public int id { get; set; }
 
         [Index(IsUnique = true)]
-        public int game_mode { get; set; }
+        public int mode { get; set; }
+
+        public string name { get; set; }
 
         public int picks { get; set; }
     }

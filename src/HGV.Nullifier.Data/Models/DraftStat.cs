@@ -15,6 +15,10 @@ namespace HGV.Nullifier.Data
         [StringLength(16)]
         public string key { get; set; }
 
+        public bool is_same_hero { get; set; }
+
+        public string names { get; set; }
+
         public int picks { get; set; }
 
         public int wins { get; set; }

@@ -14,6 +14,8 @@ namespace HGV.Nullifier.Data.Migrations
                         id = c.Int(nullable: false, identity: true),
                         ability1 = c.Int(nullable: false),
                         ability2 = c.Int(nullable: false),
+                        names = c.String(),
+                        is_same_hero = c.Boolean(nullable: false),
                         picks = c.Int(nullable: false),
                         wins = c.Int(nullable: false),
                     })
@@ -27,6 +29,8 @@ namespace HGV.Nullifier.Data.Migrations
                         id = c.Int(nullable: false, identity: true),
                         ability = c.Int(nullable: false),
                         hero = c.Int(nullable: false),
+                        names = c.String(),
+                        is_same_hero = c.Boolean(nullable: false),
                         picks = c.Int(nullable: false),
                         wins = c.Int(nullable: false),
                     })
@@ -39,6 +43,7 @@ namespace HGV.Nullifier.Data.Migrations
                     {
                         id = c.Int(nullable: false, identity: true),
                         ability = c.Int(nullable: false),
+                        name = c.String(),
                         picks = c.Int(nullable: false),
                         wins = c.Int(nullable: false),
                     })
@@ -51,6 +56,8 @@ namespace HGV.Nullifier.Data.Migrations
                     {
                         id = c.Int(nullable: false, identity: true),
                         key = c.String(maxLength: 16),
+                        is_same_hero = c.Boolean(nullable: false),
+                        names = c.String(),
                         picks = c.Int(nullable: false),
                         wins = c.Int(nullable: false),
                     })
@@ -62,11 +69,12 @@ namespace HGV.Nullifier.Data.Migrations
                 c => new
                     {
                         id = c.Int(nullable: false, identity: true),
-                        game_mode = c.Int(nullable: false),
+                        mode = c.Int(nullable: false),
+                        name = c.String(),
                         picks = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.id)
-                .Index(t => t.game_mode, unique: true);
+                .Index(t => t.mode, unique: true);
             
             CreateTable(
                 "dbo.HeroStats",
@@ -74,6 +82,7 @@ namespace HGV.Nullifier.Data.Migrations
                     {
                         id = c.Int(nullable: false, identity: true),
                         hero = c.Int(nullable: false),
+                        name = c.String(),
                         picks = c.Int(nullable: false),
                         wins = c.Int(nullable: false),
                     })
@@ -85,7 +94,7 @@ namespace HGV.Nullifier.Data.Migrations
         public override void Down()
         {
             DropIndex("dbo.HeroStats", new[] { "hero" });
-            DropIndex("dbo.GameModeStats", new[] { "game_mode" });
+            DropIndex("dbo.GameModeStats", new[] { "mode" });
             DropIndex("dbo.DraftStats", new[] { "key" });
             DropIndex("dbo.AbilityStats", new[] { "ability" });
             DropIndex("dbo.AbilityHeroStats", "IX_AbilityAndHero");

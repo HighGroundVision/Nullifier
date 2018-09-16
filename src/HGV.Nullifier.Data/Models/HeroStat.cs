@@ -14,6 +14,8 @@ namespace HGV.Nullifier.Data
         [Index(IsUnique = true)]
         public int hero { get; set; }
 
+        public string name { get; set; }
+
         public int picks { get; set; }
 
         public int wins { get; set; }

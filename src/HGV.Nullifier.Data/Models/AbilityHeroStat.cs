@@ -17,6 +17,10 @@ namespace HGV.Nullifier.Data
         [Index("IX_AbilityAndHero", 2)]
         public int hero { get; set; }
 
+        public string names { get; set; }
+
+        public bool is_same_hero { get; set; }
+
         public int picks { get; set; }
 
         public int wins { get; set; }
