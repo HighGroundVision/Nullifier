@@ -23,13 +23,14 @@ namespace HGV.Nullifier.Tools.Export
                     enabled = h.AbilityDraftEnabled,
                     name = h.Name,
                     img = h.ImageBanner,
-                    abilities = h.Abilities.Where(_ => _.Id == 6251).Select(a => new {
+                    abilities = h.Abilities.Where(_ => _.Id != Ability.GENERIC).Select(a => new {
                         id = a.Id,
-                        heroId = a.HeroId,
+                        hero_id = a.HeroId,
                         name = a.Name,
                         img = a.Image,
                         is_ultimate = a.IsUltimate,
-                        has_scepter_upgrade = a.HasScepterUpgrade,
+                        has_upgrade = a.HasScepterUpgrade,
+                        enabled = a.AbilityDraftEnabled,
                     }).ToList(),
                 })
                 .OrderBy(_ => _.name)
