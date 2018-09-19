@@ -24,7 +24,7 @@ namespace HGV.Nullifier.Tools.Export
                 }
             };
 
-            string outputDirectory = "./Output";
+            string outputDirectory = "./output";
 
             if (Directory.Exists(outputDirectory))
             {
@@ -45,7 +45,7 @@ namespace HGV.Nullifier.Tools.Export
 
             var abilities = client.GetAbilities()
                 .Where(_ => _.AbilityDraftEnabled == true)
-                .Where(_ => _.OnCastbar == true)
+                .Where(_ => _.AbilityBehaviors.Contains("DOTA_ABILITY_BEHAVIOR_HIDDEN") == false)
                 .ToList();
 
             var draft_pool = heroes
@@ -56,21 +56,24 @@ namespace HGV.Nullifier.Tools.Export
                     Enabled = h.AbilityDraftEnabled,
                     Name = h.Name,
                     Img = h.ImageBanner,
-                    Abilities = h.Abilities.Where(_ => _.Id != Ability.GENERIC).Select(a => new {
-                        Id = a.Id,
-                        HeroId = a.HeroId,
-                        Name = a.Name,
-                        Img = a.Image,
-                        IsUltimate = a.IsUltimate,
-                        HasUpgrade = a.HasScepterUpgrade,
-                        Enabled = a.AbilityDraftEnabled,
-                    }).ToList(),
+                    Abilities = h.Abilities
+                        .Where(_ => _.AbilityBehaviors.Contains("DOTA_ABILITY_BEHAVIOR_HIDDEN") == false)
+                        .Where(_ => _.Id != Ability.GENERIC)
+                        .Select(a => new {
+                            Id = a.Id,
+                            HeroId = a.HeroId,
+                            Name = a.Name,
+                            Img = a.Image,
+                            IsUltimate = a.IsUltimate,
+                            HasUpgrade = a.HasScepterUpgrade,
+                            Enabled = a.AbilityDraftEnabled,
+                        }).ToList(),
                 })
                 .OrderBy(_ => _.Name)
                 .ToList();
 
             var json_draft_pool = JsonConvert.SerializeObject(draft_pool, jsonSettings);
-            File.WriteAllText("./Output/DraftPool.json", json_draft_pool);
+            File.WriteAllText("./output/pool.json", json_draft_pool);
 
             var context = new DataContext();
 
@@ -83,18 +86,18 @@ namespace HGV.Nullifier.Tools.Export
                 WinRate = lhs.win_rate
             }).ToList();
 
-            Directory.CreateDirectory(outputDirectory + "/Heroes");
+            Directory.CreateDirectory(outputDirectory + "/heroes");
 
             var json_heroes = JsonConvert.SerializeObject(draft_pool, jsonSettings);
-            File.WriteAllText("./Output/Heroes/Collection.json", json_heroes);
+            File.WriteAllText("./output/heroes/collection.json", json_heroes);
 
             foreach (var hero in pool)
             {
-                string dir = outputDirectory + "/Heroes/" + hero.Id.ToString();
+                string dir = outputDirectory + "/heroes/" + hero.Id.ToString();
                 Directory.CreateDirectory(dir);
 
                 var json_hero =JsonConvert.SerializeObject(hero, jsonSettings);
-                File.WriteAllText(dir + "/Hero.json", json_hero);
+                File.WriteAllText(dir + "/hero.json", json_hero);
 
                 // Top Abilities
                 var top10Abilities = context.AbilityHeroStats
@@ -106,7 +109,7 @@ namespace HGV.Nullifier.Tools.Export
                     .ToList();
 
                 var json_top_abilities = JsonConvert.SerializeObject(top10Abilities, jsonSettings);
-                File.WriteAllText(dir + "/Abilities.json", json_top_abilities);
+                File.WriteAllText(dir + "/abilities.json", json_top_abilities);
             }
 
             var abilitiesCollection = context.AbilityStats.ToList().Join(abilities, a => a.id, a => a.Id, (lhs, rhs) => new {
@@ -121,18 +124,18 @@ namespace HGV.Nullifier.Tools.Export
                 WinRate = lhs.win_rate
             }).ToList();
 
-            Directory.CreateDirectory(outputDirectory + "/Abilities");
+            Directory.CreateDirectory(outputDirectory + "/abilities");
 
             var json_abilities = JsonConvert.SerializeObject(draft_pool, jsonSettings);
-            File.WriteAllText("./Output/Abilities/Collection.json", json_abilities);
+            File.WriteAllText("./output/abilities/collection.json", json_abilities);
 
             foreach (var ability in abilities)
             {
-                string dir = outputDirectory + "/Abilities/" + ability.Id.ToString();
+                string dir = outputDirectory + "/abilities/" + ability.Id.ToString();
                 Directory.CreateDirectory(dir);
 
                 var json_ability = JsonConvert.SerializeObject(ability, jsonSettings);
-                File.WriteAllText(dir + "/Ability.json", json_ability);
+                File.WriteAllText(dir + "/ability.json", json_ability);
 
                 // Top Heroes
                 var top10heroes = context.AbilityHeroStats
@@ -151,7 +154,7 @@ namespace HGV.Nullifier.Tools.Export
                     .ToList();
 
                 var json_top_heroes = JsonConvert.SerializeObject(top10heroes, jsonSettings);
-                File.WriteAllText(dir + "/Heroes.json", json_top_heroes);
+                File.WriteAllText(dir + "/heroes.json", json_top_heroes);
 
                 // Top Combos
                 var top10Combos = context.AbilityComboStats
@@ -173,7 +176,7 @@ namespace HGV.Nullifier.Tools.Export
                     .ToList();
 
                 var json_top_combos = JsonConvert.SerializeObject(top10Combos, jsonSettings);
-                File.WriteAllText(dir + "/Combos.json", json_top_combos);
+                File.WriteAllText(dir + "/combos.json", json_top_combos);
 
                 var top10Drafts = context.DraftStat
                     .Where(_ => _.key.Contains(ability.Id.ToString()))
@@ -182,7 +185,7 @@ namespace HGV.Nullifier.Tools.Export
                     .ToList();
 
                 var json_top_drafts = JsonConvert.SerializeObject(top10Drafts, jsonSettings);
-                File.WriteAllText(dir + "/Drafts.json", json_top_drafts);
+                File.WriteAllText(dir + "/drafts.json", json_top_drafts);
             }
         }
     }
