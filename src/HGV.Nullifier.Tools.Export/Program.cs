@@ -101,6 +101,7 @@ namespace HGV.Nullifier.Tools.Export
                     .Where(_ => _.hero == hero.Id)
                     .OrderByDescending(_ => _.win_rate)
                     .Take(10)
+                    .ToList()
                     .Join(abilities, a => a.id, a => a.Id, (lhs, rhs) => new { })
                     .ToList();
 
@@ -138,6 +139,7 @@ namespace HGV.Nullifier.Tools.Export
                     .Where(_ => _.ability == ability.Id)
                     .OrderByDescending(_ => _.win_rate)
                     .Take(10)
+                    .ToList()
                     .Join(pool, h => h.id, h => h.Id, (lhs, rhs) => new {
                         Id = rhs.Id,
                         Name = rhs.Name,
@@ -156,6 +158,7 @@ namespace HGV.Nullifier.Tools.Export
                     .Where(_ => _.ability1 == ability.Id || _.ability2 == ability.Id)
                     .OrderByDescending(_ => _.win_rate)
                     .Take(10)
+                    .ToList()
                     .Join(abilities, a => a.id, a => a.Id, (lhs, rhs) => new {
                         Id = rhs.Id,
                         Name = rhs.Name,
