@@ -45,7 +45,6 @@ namespace HGV.Nullifier.Tools.Export
 
             var abilities = client.GetAbilities()
                 .Where(_ => _.AbilityDraftEnabled == true)
-                .Where(_ => _.AbilityBehaviors.Contains("DOTA_ABILITY_BEHAVIOR_HIDDEN") == false)
                 .ToList();
 
             var draft_pool = heroes
@@ -57,7 +56,7 @@ namespace HGV.Nullifier.Tools.Export
                     Name = h.Name,
                     Img = h.ImageBanner,
                     Abilities = h.Abilities
-                        .Where(_ => _.AbilityBehaviors.Contains("DOTA_ABILITY_BEHAVIOR_HIDDEN") == false)
+                        .Where(_ => _.AbilityBehaviors.Contains("DOTA_ABILITY_BEHAVIOR_HIDDEN") == false || _.HasScepterUpgrade == true)
                         .Where(_ => _.Id != Ability.GENERIC)
                         .Select(a => new {
                             Id = a.Id,
