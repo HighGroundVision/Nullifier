@@ -250,13 +250,14 @@ namespace HGV.Nullifier
                 var a2 = abilities.Where(_ => _.Id == item2).FirstOrDefault();
                 var names = string.Format("{0} | {1}", a1.Name, a2.Name);
                 var is_same_hero = a1.HeroId == a2.HeroId;
-                entity = new AbilityComboStat() { ability1 = item1, ability2 = item2, names = names, is_same_hero = is_same_hero, picks = 1, wins = result ? 1 : 0 };
+                entity = new AbilityComboStat() { ability1 = item1, ability2 = item2, names = names, is_same_hero = is_same_hero, picks = 1, wins = result ? 1 : 0, win_rate = 0 };
                 context.AbilityComboStats.Add(entity);
             }
             else
             {
                 entity.picks++;
                 entity.wins += result ? 1 : 0;
+                entity.win_rate = (float)entity.wins / (float)entity.picks;
             }
         }
 
@@ -266,13 +267,14 @@ namespace HGV.Nullifier
             if (entity == null)
             {
                 var name = abilities.Where(_ => _.Id == ability).Select(_ => _.Name).FirstOrDefault();
-                entity = new AbilityStat() { ability = ability, name=name, picks = 1, wins = result ? 1 : 0 };
+                entity = new AbilityStat() { ability = ability, name=name, picks = 1, wins = result ? 1 : 0, win_rate = 0 };
                 context.AbilityStats.Add(entity);
             }
             else
             {
                 entity.picks++;
                 entity.wins += result ? 1 : 0;
+                entity.win_rate = (float)entity.wins / (float)entity.picks;
             }
         }
 
@@ -285,13 +287,14 @@ namespace HGV.Nullifier
                 var h1 = heroes.Where(_ => _.Id == hero).FirstOrDefault();
                 var names = string.Format("{0} | {1}", h1.Name, a1.Name);
                 var is_same_hero = a1.HeroId == h1.Id;
-                entity = new AbilityHeroStat() { ability = ability, hero = hero, names = names, is_same_hero = is_same_hero, picks = 1, wins = result ? 1 : 0 };
+                entity = new AbilityHeroStat() { ability = ability, hero = hero, names = names, is_same_hero = is_same_hero, picks = 1, wins = result ? 1 : 0, win_rate = 0 };
                 context.AbilityHeroStats.Add(entity);
             }
             else
             {
                 entity.picks++;
                 entity.wins += result ? 1 : 0;
+                entity.win_rate = (float)entity.wins / (float)entity.picks;
             }
         }
 
@@ -301,13 +304,14 @@ namespace HGV.Nullifier
             if (entity == null)
             {
                 var name = heroes.Where(_ => _.Id == hero).Select(_ => _.Name).FirstOrDefault();
-                entity = new HeroStat() { hero = hero, name=name, picks = 1, wins = result ? 1 : 0 };
+                entity = new HeroStat() { hero = hero, name=name, picks = 1, wins = result ? 1 : 0, win_rate = 0 };
                 context.HeroStats.Add(entity);
             }
             else
             {
                 entity.picks++;
                 entity.wins += result ? 1 : 0;
+                entity.win_rate = (float)entity.wins / (float)entity.picks;
             }
         }
 
@@ -320,13 +324,14 @@ namespace HGV.Nullifier
                 var collectionNames = collection.Select(_ => _.Name).ToArray();
                 var names = string.Join(" | ", collectionNames);
                 var is_same_hero = collection.GroupBy(_ => _.HeroId).Count() < 2;
-                entity = new DraftStat() { key = key, names=names, is_same_hero = is_same_hero, picks = 1, wins = result ? 1 : 0 };
+                entity = new DraftStat() { key = key, names=names, is_same_hero = is_same_hero, picks = 1, wins = result ? 1 : 0, win_rate = 0 };
                 context.DraftStat.Add(entity);
             }
             else
             {
                 entity.picks++;
                 entity.wins += result ? 1 : 0;
+                entity.win_rate = (float)entity.wins / (float)entity.picks;
             }
         }
     }

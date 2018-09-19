@@ -74,7 +74,7 @@ namespace HGV.Nullifier.Tools.Export
 
             var context = new DataContext();
 
-            var heroesCollection = context.HeroStats.Join(pool, h => h.id, h => h.Id, (lhs, rhs) => new {
+            var heroesCollection = context.HeroStats.ToList().Join(pool, h => h.id, h => h.Id, (lhs, rhs) => new {
                 Id = rhs.Id,
                 Name = rhs.Name,
                 Img = rhs.ImageBanner,
@@ -101,13 +101,14 @@ namespace HGV.Nullifier.Tools.Export
                     .Where(_ => _.hero == hero.Id)
                     .OrderByDescending(_ => _.win_rate)
                     .Take(10)
+                    .Join(abilities, a => a.id, a => a.Id, (lhs, rhs) => new { })
                     .ToList();
 
                 var json_top_abilities = JsonConvert.SerializeObject(top10Abilities, jsonSettings);
                 File.WriteAllText(dir + "/Abilities.json", json_top_abilities);
             }
 
-            var abilitiesCollection = context.AbilityStats.Join(abilities, a => a.id, a => a.Id, (lhs, rhs) => new {
+            var abilitiesCollection = context.AbilityStats.ToList().Join(abilities, a => a.id, a => a.Id, (lhs, rhs) => new {
                 Id = rhs.Id, 
                 Name = rhs.Name,
                 Desc = rhs.Description,
@@ -137,6 +138,14 @@ namespace HGV.Nullifier.Tools.Export
                     .Where(_ => _.ability == ability.Id)
                     .OrderByDescending(_ => _.win_rate)
                     .Take(10)
+                    .Join(pool, h => h.id, h => h.Id, (lhs, rhs) => new {
+                        Id = rhs.Id,
+                        Name = rhs.Name,
+                        Img = rhs.ImageBanner,
+                        Picks = lhs.picks,
+                        Wins = lhs.wins,
+                        WinRate = lhs.win_rate
+                    })
                     .ToList();
 
                 var json_top_heroes = JsonConvert.SerializeObject(top10heroes, jsonSettings);
@@ -147,10 +156,30 @@ namespace HGV.Nullifier.Tools.Export
                     .Where(_ => _.ability1 == ability.Id || _.ability2 == ability.Id)
                     .OrderByDescending(_ => _.win_rate)
                     .Take(10)
+                    .Join(abilities, a => a.id, a => a.Id, (lhs, rhs) => new {
+                        Id = rhs.Id,
+                        Name = rhs.Name,
+                        Desc = rhs.Description,
+                        Img = rhs.Image,
+                        IsUltimate = rhs.IsUltimate,
+                        HasUpgrade = rhs.HasScepterUpgrade,
+                        Picks = lhs.picks,
+                        Wins = lhs.wins,
+                        WinRate = lhs.win_rate
+                    })
                     .ToList();
 
                 var json_top_combos = JsonConvert.SerializeObject(top10Combos, jsonSettings);
                 File.WriteAllText(dir + "/Combos.json", json_top_combos);
+
+                var top10Drafts = context.DraftStat
+                    .Where(_ => _.key.Contains(ability.Id.ToString()))
+                    .OrderByDescending(_ => _.win_rate)
+                    .Take(10)
+                    .ToList();
+
+                var json_top_drafts = JsonConvert.SerializeObject(top10Drafts, jsonSettings);
+                File.WriteAllText(dir + "/Drafts.json", json_top_drafts);
             }
         }
     }

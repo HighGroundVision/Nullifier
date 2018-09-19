@@ -18,6 +18,7 @@ namespace HGV.Nullifier.Data.Migrations
                         is_same_hero = c.Boolean(nullable: false),
                         picks = c.Int(nullable: false),
                         wins = c.Int(nullable: false),
+                        win_rate = c.Single(nullable: false),
                     })
                 .PrimaryKey(t => t.id)
                 .Index(t => new { t.ability1, t.ability2 }, name: "IX_AbilityCombo");
@@ -33,6 +34,7 @@ namespace HGV.Nullifier.Data.Migrations
                         is_same_hero = c.Boolean(nullable: false),
                         picks = c.Int(nullable: false),
                         wins = c.Int(nullable: false),
+                        win_rate = c.Single(nullable: false),
                     })
                 .PrimaryKey(t => t.id)
                 .Index(t => new { t.ability, t.hero }, name: "IX_AbilityAndHero");
@@ -46,6 +48,7 @@ namespace HGV.Nullifier.Data.Migrations
                         name = c.String(),
                         picks = c.Int(nullable: false),
                         wins = c.Int(nullable: false),
+                        win_rate = c.Single(nullable: false),
                     })
                 .PrimaryKey(t => t.id)
                 .Index(t => t.ability, unique: true);
@@ -60,6 +63,7 @@ namespace HGV.Nullifier.Data.Migrations
                         names = c.String(),
                         picks = c.Int(nullable: false),
                         wins = c.Int(nullable: false),
+                        win_rate = c.Single(nullable: false),
                     })
                 .PrimaryKey(t => t.id)
                 .Index(t => t.key, unique: true);
@@ -85,6 +89,7 @@ namespace HGV.Nullifier.Data.Migrations
                         name = c.String(),
                         picks = c.Int(nullable: false),
                         wins = c.Int(nullable: false),
+                        win_rate = c.Single(nullable: false),
                     })
                 .PrimaryKey(t => t.id)
                 .Index(t => t.hero, unique: true);

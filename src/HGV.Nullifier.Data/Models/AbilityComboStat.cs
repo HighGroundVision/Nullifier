@@ -25,7 +25,6 @@ namespace HGV.Nullifier.Data
 
         public int wins { get; set; }
 
-        [NotMapped]
-        public float win_rate { get { return this.wins / (this.picks * 1.0f); } }
+        public float win_rate { get; set; }
     }
 }

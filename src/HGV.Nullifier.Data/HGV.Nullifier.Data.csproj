@@ -60,9 +60,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Migrations\201809160412216_ImportProject.cs" />
-    <Compile Include="Migrations\201809160412216_ImportProject.Designer.cs">
-      <DependentUpon>201809160412216_ImportProject.cs</DependentUpon>
+    <Compile Include="Migrations\201809190605178_ImportProject.cs" />
+    <Compile Include="Migrations\201809190605178_ImportProject.Designer.cs">
+      <DependentUpon>201809190605178_ImportProject.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\DraftStat.cs" />
@@ -80,8 +80,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201809160412216_ImportProject.resx">
-      <DependentUpon>201809160412216_ImportProject.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201809190605178_ImportProject.resx">
+      <DependentUpon>201809190605178_ImportProject.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
