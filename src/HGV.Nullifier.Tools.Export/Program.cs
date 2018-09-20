@@ -74,7 +74,7 @@ namespace HGV.Nullifier.Tools.Export
                 .ToList();
 
             var json_draft_pool = JsonConvert.SerializeObject(draft_pool, jsonSettings);
-            //File.WriteAllText("./output/pool.json", json_draft_pool);
+            File.WriteAllText("./output/pool.json", json_draft_pool);
 
             var context = new DataContext();
 
@@ -92,7 +92,7 @@ namespace HGV.Nullifier.Tools.Export
             Directory.CreateDirectory(outputDirectory + "/heroes");
 
             var json_heroes = JsonConvert.SerializeObject(heroesCollection, jsonSettings);
-            //File.WriteAllText("./output/heroes/collection.json", json_heroes);
+            File.WriteAllText("./output/heroes/collection.json", json_heroes);
 
             var groupsAttributeBaseStrength = pool.GroupBy(_ => _.AttributeBaseStrength).Select(_ => _.Key).OrderBy(_ => _).ToList();
             var groupsAttributeStrengthGain = pool.GroupBy(_ => _.AttributeStrengthGain).Select(_ => _.Key).OrderBy(_ => _).ToList();
@@ -125,7 +125,7 @@ namespace HGV.Nullifier.Tools.Export
                 Directory.CreateDirectory(dir);
 
                 var json_hero =JsonConvert.SerializeObject(hero, jsonSettings);
-                //File.WriteAllText(dir + "/hero.json", json_hero);
+                File.WriteAllText(dir + "/hero.json", json_hero);
 
                 // Attributes...
                 var attributes = new HeroAttributes();
@@ -182,7 +182,7 @@ namespace HGV.Nullifier.Tools.Export
 
                 var stats = heroesCollection.Where(_ => _.Id == hero.Id).FirstOrDefault();
                 var json_stats = JsonConvert.SerializeObject(stats, jsonSettings);
-                //File.WriteAllText(dir + "/stats.json", json_stats);
+                File.WriteAllText(dir + "/stats.json", json_stats);
 
                 // Top Abilities
                 var top10Abilities = context.AbilityHeroStats
@@ -204,7 +204,7 @@ namespace HGV.Nullifier.Tools.Export
                     .ToList();
 
                 var json_top_abilities = JsonConvert.SerializeObject(top10Abilities, jsonSettings);
-                //File.WriteAllText(dir + "/abilities.json", json_top_abilities);
+                File.WriteAllText(dir + "/abilities.json", json_top_abilities);
             }
 
             Console.WriteLine("Exporting Abilities Data");
@@ -224,7 +224,7 @@ namespace HGV.Nullifier.Tools.Export
             Directory.CreateDirectory(outputDirectory + "/abilities");
 
             var json_abilities = JsonConvert.SerializeObject(abilitiesCollection, jsonSettings);
-            //File.WriteAllText("./output/abilities/collection.json", json_abilities);
+            File.WriteAllText("./output/abilities/collection.json", json_abilities);
 
             foreach (var ability in abilities)
             {
@@ -232,11 +232,11 @@ namespace HGV.Nullifier.Tools.Export
                 Directory.CreateDirectory(dir);
 
                 var json_ability = JsonConvert.SerializeObject(ability, jsonSettings);
-                //File.WriteAllText(dir + "/ability.json", json_ability);
+                File.WriteAllText(dir + "/ability.json", json_ability);
 
                 var stats = abilitiesCollection.Where(_ => _.Id == ability.Id).FirstOrDefault();
                 var json_stats = JsonConvert.SerializeObject(stats, jsonSettings);
-                //File.WriteAllText(dir + "/stats.json", json_stats);
+                File.WriteAllText(dir + "/stats.json", json_stats);
 
                 // Top Heroes
                 var top10heroes = context.AbilityHeroStats
@@ -255,7 +255,7 @@ namespace HGV.Nullifier.Tools.Export
                     .ToList();
 
                 var json_top_heroes = JsonConvert.SerializeObject(top10heroes, jsonSettings);
-                //File.WriteAllText(dir + "/heroes.json", json_top_heroes);
+                File.WriteAllText(dir + "/heroes.json", json_top_heroes);
 
                 // Top Combos
                 var combos = context.AbilityComboStats
@@ -280,7 +280,7 @@ namespace HGV.Nullifier.Tools.Export
                 }).ToList();
 
                 var json_top_combos = JsonConvert.SerializeObject(top10Combos, jsonSettings);
-                //File.WriteAllText(dir + "/combos.json", json_top_combos);
+                File.WriteAllText(dir + "/combos.json", json_top_combos);
 
                var top10Drafts = context.DraftStat
                     .Where(_ => _.key.Contains(ability.Id.ToString()))
@@ -297,7 +297,7 @@ namespace HGV.Nullifier.Tools.Export
                     
 
                 var json_top_drafs = JsonConvert.SerializeObject(top10Drafts, jsonSettings);
-                //File.WriteAllText(dir + "/drafts.json", json_top_drafs);
+                File.WriteAllText(dir + "/drafts.json", json_top_drafs);
             }
         }
     }
