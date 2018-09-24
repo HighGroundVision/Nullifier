@@ -12,16 +12,15 @@ namespace HGV.Nullifier.Tools.Collection
         static void Main(string[] args)
         {
             var handler = new StatCollectionHandler();
-            var index = Task.WaitAny(handler.Report(), handler.Collect(), handler.Count(), handler.Process());
+            var index = Task.WaitAny(handler.Collect(), handler.Count(), handler.Process(), handler.Report());
 
             var collection = new Dictionary<int, string>() {
-                { 0, "Error in Report()" },
-                { 1, "Error in Collect()" },
-                { 2, "Error in Count()" },
-                { 3, "Error in Process()" }
+                { 0, "Error in Collect()" },
+                { 1, "Error in Count()" },
+                { 2, "Error in Process()" },
+                { 3,"Error in Report()" },
             };
-            System.Diagnostics.Debug.WriteLine(collection[index]);
-
+            Console.WriteLine(collection[index]);
             Console.ReadKey();
         }
     }
