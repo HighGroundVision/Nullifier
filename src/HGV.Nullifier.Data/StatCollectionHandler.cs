@@ -173,7 +173,7 @@ namespace HGV.Nullifier
         {
             var client = new MetaClient();
             var heroes = client.GetHeroes();
-            var abilities = client.GetAbilities();
+            var abilities = client.GetAbilities().Where(_ => _.AbilityDraftEnabled == true).ToList();
             var skills = abilities.Select(_ => _.Id).ToList();
 
             while (true)
