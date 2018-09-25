@@ -297,9 +297,10 @@ namespace HGV.Nullifier.Tools.Export
                 var json_top_combos = JsonConvert.SerializeObject(combosCollection, jsonSettings);
                 File.WriteAllText(dir + "/combos.json", json_top_combos);
 
-               var top10Drafts = context.DraftStat
+                var draftsCollection = context.DraftStat
+                    .Where(_ => _.win_rate > 0)
                     .Where(_ => _.key.Contains(ability.Id.ToString()))
-                    .OrderByDescending(_ => _.wins)
+                    .OrderByDescending(_ => _.picks)
                     .Take(10)
                     .ToList()
                     .Select(_ => new {
@@ -312,7 +313,7 @@ namespace HGV.Nullifier.Tools.Export
                     })
                     .ToList();
 
-                var json_top_drafs = JsonConvert.SerializeObject(top10Drafts, jsonSettings);
+                var json_top_drafs = JsonConvert.SerializeObject(draftsCollection, jsonSettings);
                 File.WriteAllText(dir + "/drafts.json", json_top_drafs);
             }
         }
