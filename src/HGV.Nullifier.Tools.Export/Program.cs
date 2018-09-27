@@ -83,7 +83,9 @@ namespace HGV.Nullifier.Tools.Export
             var heroesCollection = context.HeroStats.ToList().Join(pool, h => h.hero, h => h.Id, (lhs, rhs) => new {
                 Id = rhs.Id,
                 Name = rhs.Name,
-                Img = rhs.ImageBanner,
+                ImageBanner = rhs.ImageBanner,
+                ImageIcon = rhs.ImageIcon,
+                ImageProfile = rhs.ImageProfile,
                 Picks = lhs.picks,
                 Wins = lhs.wins,
                 WinRate = lhs.win_rate
@@ -258,7 +260,11 @@ namespace HGV.Nullifier.Tools.Export
                     .Join(pool, h => h.hero, h => h.Id, (lhs, rhs) => new {
                         Id = rhs.Id,
                         Name = rhs.Name,
-                        Img = rhs.ImageBanner,
+                        ImageBanner = rhs.ImageBanner,
+                        ImageIcon = rhs.ImageIcon,
+                        ImageProfile = rhs.ImageProfile,
+                        AttributePrimary = rhs.AttributePrimary,
+                        AttackCapabilities = rhs.AttackCapabilities,
                         Picks = lhs.picks / totalHeroPicks,
                         Wins = lhs.wins / totalHeroWins,
                         WinRate = lhs.win_rate
