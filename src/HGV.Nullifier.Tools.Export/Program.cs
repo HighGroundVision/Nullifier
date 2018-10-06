@@ -86,6 +86,8 @@ namespace HGV.Nullifier.Tools.Export
                 ImageBanner = rhs.ImageBanner,
                 ImageIcon = rhs.ImageIcon,
                 ImageProfile = rhs.ImageProfile,
+                AttributePrimary = rhs.AttributePrimary,
+                AttackCapabilities = rhs.AttackCapabilities,
                 Picks = lhs.picks,
                 Wins = lhs.wins,
                 WinRate = lhs.win_rate
