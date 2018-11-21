@@ -18,7 +18,7 @@ namespace HGV.Nullifier.Tools.Collection
                 { 0, "Error in Collect()" },
                 { 1, "Error in Count()" },
                 { 2, "Error in Process()" },
-                { 3,"Error in Report()" },
+                { 3, "Error in Report()" },
             };
             Console.WriteLine(collection[index]);
             Console.ReadKey();

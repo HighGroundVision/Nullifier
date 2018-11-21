@@ -80,7 +80,11 @@ namespace HGV.Nullifier.Tools.Export
 
             Console.WriteLine("Exporting Heroes Data");
 
-            var heroesCollection = context.HeroStats.ToList().Join(pool, h => h.hero, h => h.Id, (lhs, rhs) => new {
+            var heroesStatsCollection = context.HeroStats.ToList();
+            var heroStatsCollectionPicks = (float)heroesStatsCollection.Max(_ => _.picks);
+            var heroStatsCollectionWins = (float)heroesStatsCollection.Max(_ => _.wins);
+
+            var heroesCollection = heroesStatsCollection.Join(pool, h => h.hero, h => h.Id, (lhs, rhs) => new {
                 Id = rhs.Id,
                 Name = rhs.Name,
                 ImageBanner = rhs.ImageBanner,
@@ -88,10 +92,12 @@ namespace HGV.Nullifier.Tools.Export
                 ImageProfile = rhs.ImageProfile,
                 AttributePrimary = rhs.AttributePrimary,
                 AttackCapabilities = rhs.AttackCapabilities,
-                Picks = lhs.picks,
-                Wins = lhs.wins,
+                Picks = lhs.picks / heroStatsCollectionPicks,
+                Wins = lhs.wins / heroStatsCollectionWins,
                 WinRate = lhs.win_rate
             }).ToList();
+
+            var talentHeroStatsCollection = context.TalentHeroStats.ToList();
 
             Directory.CreateDirectory(outputDirectory + "/heroes");
 
@@ -188,6 +194,23 @@ namespace HGV.Nullifier.Tools.Export
                 var json_stats = JsonConvert.SerializeObject(stats, jsonSettings);
                 File.WriteAllText(dir + "/stats.json", json_stats);
 
+                var talentHeroStats = talentHeroStatsCollection.Where(_ => _.hero == hero.Id).Take(4).ToList();
+                var talents = (from t in hero.Talents
+                               join s in talentHeroStats
+                               on t.Id equals s.talent into joined
+                               from j in joined.DefaultIfEmpty()
+                               select new
+                               {
+                                   Id = t.Id,
+                                   Key = t.Key,
+                                   Name = t.Name,
+                                   Description = t.Description,
+                                   WinRate = (j?.win_rate ?? 0)
+                               }).ToList();
+
+                var json_talents = JsonConvert.SerializeObject(talents, jsonSettings);
+                File.WriteAllText(dir + "/talents.json", json_talents);
+
                 // Top Abilities
                 var heroAbilities = context.AbilityHeroStats
                     .Where(_ => _.hero == hero.Id)
@@ -217,15 +240,19 @@ namespace HGV.Nullifier.Tools.Export
 
             Console.WriteLine("Exporting Abilities Data");
 
-            var abilitiesCollection = context.AbilityStats.ToList().Join(abilities, a => a.ability, a => a.Id, (lhs, rhs) => new {
+            var abilityStatsCollection = context.AbilityStats.ToList();
+            var abilityStatsCollectionPicks = (float)abilityStatsCollection.Max(_ => _.picks);
+            var abilityStatsCollectionWins = (float)abilityStatsCollection.Max(_ => _.wins);
+
+            var abilitiesCollection = abilityStatsCollection.Join(abilities, a => a.ability, a => a.Id, (lhs, rhs) => new {
                 Id = rhs.Id, 
                 Name = rhs.Name,
                 Desc = rhs.Description,
                 Img = rhs.Image,
                 IsUltimate = rhs.IsUltimate,
                 HasUpgrade = rhs.HasScepterUpgrade,
-                Picks = lhs.picks,
-                Wins = lhs.wins,
+                Picks = lhs.picks / abilityStatsCollectionPicks,
+                Wins = lhs.wins / abilityStatsCollectionWins,
                 WinRate = lhs.win_rate
             }).ToList();
 
@@ -305,6 +332,7 @@ namespace HGV.Nullifier.Tools.Export
                 var json_top_combos = JsonConvert.SerializeObject(combosCollection, jsonSettings);
                 File.WriteAllText(dir + "/combos.json", json_top_combos);
 
+                /*
                 var draftsCollection = context.DraftStat
                     .Where(_ => _.win_rate > 0)
                     .Where(_ => _.key.Contains(ability.Id.ToString()))
@@ -323,6 +351,7 @@ namespace HGV.Nullifier.Tools.Export
 
                 var json_top_drafs = JsonConvert.SerializeObject(draftsCollection, jsonSettings);
                 File.WriteAllText(dir + "/drafts.json", json_top_drafs);
+                */
             }
         }
 

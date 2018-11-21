@@ -37,8 +37,8 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="HGV.Basilius, Version=2.0.20.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\HGV.Basilius.2.0.20\lib\netstandard2.0\HGV.Basilius.dll</HintPath>
+    <Reference Include="HGV.Basilius, Version=2.0.22.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HGV.Basilius.2.0.22\lib\netstandard2.0\HGV.Basilius.dll</HintPath>
     </Reference>
     <Reference Include="HGV.Daedalus, Version=1.1.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\HGV.Daedalus.1.1.4\lib\netstandard2.0\HGV.Daedalus.dll</HintPath>
@@ -64,8 +64,16 @@
     <Compile Include="Migrations\201809190605178_ImportProject.Designer.cs">
       <DependentUpon>201809190605178_ImportProject.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201811202349316_TalentHeroStats.cs" />
+    <Compile Include="Migrations\201811202349316_TalentHeroStats.Designer.cs">
+      <DependentUpon>201811202349316_TalentHeroStats.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811210016126_RemovedDrafts.cs" />
+    <Compile Include="Migrations\201811210016126_RemovedDrafts.Designer.cs">
+      <DependentUpon>201811210016126_RemovedDrafts.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\DraftStat.cs" />
+    <Compile Include="Models\TalentHeroStat.cs" />
     <Compile Include="Models\AbilityStat.cs" />
     <Compile Include="Models\AbilityComboStat.cs" />
     <Compile Include="DataContext.cs" />
@@ -82,6 +90,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201809190605178_ImportProject.resx">
       <DependentUpon>201809190605178_ImportProject.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811202349316_TalentHeroStats.resx">
+      <DependentUpon>201811202349316_TalentHeroStats.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811210016126_RemovedDrafts.resx">
+      <DependentUpon>201811210016126_RemovedDrafts.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

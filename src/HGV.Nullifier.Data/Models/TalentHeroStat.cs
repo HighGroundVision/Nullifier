@@ -6,16 +6,16 @@ namespace HGV.Nullifier.Data
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class DraftStat
+    public partial class TalentHeroStat
     {
         [Key]
         public int id { get; set; }
 
-        [Index(IsUnique = true)]
-        [StringLength(16)]
-        public string key { get; set; }
+        [Index("IX_TalentAndHero", 1)]
+        public int talent { get; set; }
 
-        public bool is_same_hero { get; set; }
+        [Index("IX_TalentAndHero", 2)]
+        public int hero { get; set; }
 
         public string names { get; set; }
 

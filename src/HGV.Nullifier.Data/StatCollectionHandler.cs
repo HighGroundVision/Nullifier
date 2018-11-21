@@ -17,7 +17,7 @@ namespace HGV.Nullifier
         readonly ConcurrentQueue<Match> qAll;
         readonly ConcurrentQueue<Match> qAD;
         readonly ConcurrentStack<Exception> exceptions;
- 
+
         public StatCollectionHandler()
         {
             this.qAll = new ConcurrentQueue<Match>();
@@ -37,23 +37,19 @@ namespace HGV.Nullifier
                 var countAD = this.qAD.Count;
                 var matchesAD = context.GameModeStats.Where(_ => _.mode == 18).Select(_ => _.picks).FirstOrDefault();
 
-                var exceptionCount = this.exceptions.Count;
-
                 Console.Clear();
 
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine("Last Updated on: {0}", DateTime.Now.ToString("HH:mm"));
+                // Console.WriteLine("Last Updated on: {0}", DateTime.Now.ToString("HH:mm"));
+                Console.WriteLine("Summary");
+                Console.WriteLine("Queue[All]:{0}, Matches:{1}", countAll, matchesTotal);
+                Console.WriteLine("Queue[AD]:{0}, Matches:{1}", countAD, matchesAD);
+                Console.WriteLine("Errors: {0}", this.exceptions.Count);
 
-                Console.ForegroundColor = (countAll > 0) ? ConsoleColor.Red  : ConsoleColor.Green;
-                Console.WriteLine("[All] Queue:{0}, Matches:{1}", countAll, matchesTotal);
-
-                Console.ForegroundColor = (countAD > 0) ? ConsoleColor.Red : ConsoleColor.Green;
-                Console.WriteLine("[AD] Queue:{0}, Matches:{1}", countAD, matchesAD);
-
-                Console.ForegroundColor = (exceptionCount > 0) ? ConsoleColor.Red : ConsoleColor.Green;
-                Console.WriteLine("Exceptions: {0}", exceptionCount);
-
-                Console.ResetColor();
+                Exception error;
+                if (this.exceptions.TryPeek(out error))
+                {
+                    Console.WriteLine("Last Error: {0}", error.Message);
+                }
 
                 await Task.Delay(TimeSpan.FromMinutes(1));
             }
@@ -103,7 +99,7 @@ namespace HGV.Nullifier
                     var matches = await client.GetMatchesInSequence(match_number);
                     if(matches.Count == 0)
                     {
-                        await Task.Delay(TimeSpan.FromSeconds(5));
+                        await Task.Delay(TimeSpan.FromSeconds(10));
                         continue;
                     }
 
@@ -114,13 +110,13 @@ namespace HGV.Nullifier
                         this.qAll.Enqueue(match);
                     }
 
-                    await Task.Delay(TimeSpan.FromSeconds(1));
+                    await Task.Delay(TimeSpan.FromSeconds(2));
                 }
                 catch (Exception ex)
                 {
                     this.exceptions.Push(ex);
 
-                    await Task.Delay(TimeSpan.FromSeconds(30));
+                    await Task.Delay(TimeSpan.FromSeconds(60));
                 }
 
             }
@@ -174,7 +170,9 @@ namespace HGV.Nullifier
             var client = new MetaClient();
             var heroes = client.GetHeroes();
             var abilities = client.GetAbilities().Where(_ => _.AbilityDraftEnabled == true).ToList();
-            var skills = abilities.Select(_ => _.Id).ToList();
+            var ability_keys = abilities.Select(_ => _.Id).ToList();
+            var talents = heroes.SelectMany(_ => _.Talents).ToList();
+            var talent_keys = talents.Select(_ => _.Id).ToList();
 
             while (true)
             {
@@ -195,21 +193,16 @@ namespace HGV.Nullifier
                         var upgrades = player.ability_upgrades
                            .Select(_ => _.ability)
                            .Distinct()
-                           .Intersect(skills)
-                           .OrderBy(_ => _)
-                           .ToArray();
+                           .ToList();
 
-                        if (upgrades.Count() != 4)
+                        var upgrades_abilities = upgrades.Intersect(ability_keys).OrderBy(_ => _).ToArray();
+                        if (upgrades_abilities.Count() != 4)
                             break;
-
-                        // Draft
-                        var draft = string.Join("", upgrades);
-                        this.UpdateDraftCount(context, abilities, draft, upgrades, result);
 
                         // Hero
                         this.UpdateHeroCount(context, heroes, player.hero_id, result);
 
-                        foreach (var id in upgrades)
+                        foreach (var id in upgrades_abilities)
                         {
                             // Ability
                             this.UpdateAbilityCount(context, abilities, id, result);
@@ -220,8 +213,8 @@ namespace HGV.Nullifier
 
                         // Abilities Combos
                         var pairs =
-                           from a in upgrades
-                           from b in upgrades
+                           from a in upgrades_abilities
+                           from b in upgrades_abilities
                            where a.CompareTo(b) < 0
                            orderby a, b
                            select Tuple.Create(a, b);
@@ -229,6 +222,13 @@ namespace HGV.Nullifier
                         foreach (var p in pairs)
                         {
                             this.UpdateAbilityComboCount(context, abilities, p.Item1, p.Item2, result);
+                        }
+
+                        var upgrades_talents = upgrades.Intersect(talent_keys).OrderBy(_ => _).ToArray();
+                        foreach (var id in upgrades_talents)
+                        {
+                            // Talent Hero
+                            this.UpdateTalentHeroCount(context, heroes, talents, id, player.hero_id, result);
                         }
                     }
 
@@ -250,7 +250,8 @@ namespace HGV.Nullifier
                 var a2 = abilities.Where(_ => _.Id == item2).FirstOrDefault();
                 var names = string.Format("{0} | {1}", a1.Name, a2.Name);
                 var is_same_hero = a1.HeroId == a2.HeroId;
-                entity = new AbilityComboStat() { ability1 = item1, ability2 = item2, names = names, is_same_hero = is_same_hero, picks = 1, wins = result ? 1 : 0, win_rate = 0 };
+                var wins = result ? 1 : 0;
+                entity = new AbilityComboStat() { ability1 = item1, ability2 = item2, names = names, is_same_hero = is_same_hero, picks = 1, wins = wins, win_rate = wins };
                 context.AbilityComboStats.Add(entity);
             }
             else
@@ -261,13 +262,14 @@ namespace HGV.Nullifier
             }
         }
 
-        private void UpdateAbilityCount(DataContext context, List<Ability> abilities, int ability, bool result)
+        private void UpdateAbilityCount(DataContext context, List<Ability> abilities, int abilityId, bool result)
         {
-            var entity = context.AbilityStats.Where(_ => _.ability == ability).FirstOrDefault();
+            var entity = context.AbilityStats.Where(_ => _.ability == abilityId).FirstOrDefault();
             if (entity == null)
             {
-                var name = abilities.Where(_ => _.Id == ability).Select(_ => _.Name).FirstOrDefault();
-                entity = new AbilityStat() { ability = ability, name=name, picks = 1, wins = result ? 1 : 0, win_rate = 0 };
+                var name = abilities.Where(_ => _.Id == abilityId).Select(_ => _.Name).FirstOrDefault();
+                var wins = result ? 1 : 0;
+                entity = new AbilityStat() { ability = abilityId, name=name, picks = 1, wins = wins, win_rate = wins };
                 context.AbilityStats.Add(entity);
             }
             else
@@ -278,16 +280,17 @@ namespace HGV.Nullifier
             }
         }
 
-        private void UpdateAbilityHeroCount(DataContext context, List<Hero> heroes, List<Ability> abilities, int ability, int hero, bool result)
+        private void UpdateAbilityHeroCount(DataContext context, List<Hero> heroes, List<Ability> abilities, int abilityId, int heroId, bool result)
         {
-            var entity = context.AbilityHeroStats.Where(_ => _.ability == ability && _.hero == hero).FirstOrDefault();
+            var entity = context.AbilityHeroStats.Where(_ => _.ability == abilityId && _.hero == heroId).FirstOrDefault();
             if (entity == null)
             {
-                var a1 = abilities.Where(_ => _.Id == ability).FirstOrDefault();
-                var h1 = heroes.Where(_ => _.Id == hero).FirstOrDefault();
-                var names = string.Format("{0} | {1}", h1.Name, a1.Name);
-                var is_same_hero = a1.HeroId == h1.Id;
-                entity = new AbilityHeroStat() { ability = ability, hero = hero, names = names, is_same_hero = is_same_hero, picks = 1, wins = result ? 1 : 0, win_rate = 0 };
+                var hero = heroes.Where(_ => _.Id == heroId).FirstOrDefault();
+                var ability = abilities.Where(_ => _.Id == abilityId).FirstOrDefault();
+                var names = string.Format("{0} | {1}", hero.Name, ability.Name);
+                var is_same_hero = ability.HeroId == hero.Id;
+                var wins = result ? 1 : 0;
+                entity = new AbilityHeroStat() { ability = abilityId, hero = heroId, names = names, is_same_hero = is_same_hero, picks = 1, wins = wins, win_rate = wins };
                 context.AbilityHeroStats.Add(entity);
             }
             else
@@ -298,14 +301,17 @@ namespace HGV.Nullifier
             }
         }
 
-        private void UpdateHeroCount(DataContext context, List<Hero> heroes, int hero, bool result)
+        private void UpdateTalentHeroCount(DataContext context, List<Hero> heroes, List<Talent> talents, int talentId, int heroId, bool result)
         {
-            var entity = context.HeroStats.Where(_ => _.hero == hero).FirstOrDefault();
+            var entity = context.TalentHeroStats.Where(_ => _.talent == talentId && _.hero == heroId).FirstOrDefault();
             if (entity == null)
             {
-                var name = heroes.Where(_ => _.Id == hero).Select(_ => _.Name).FirstOrDefault();
-                entity = new HeroStat() { hero = hero, name=name, picks = 1, wins = result ? 1 : 0, win_rate = 0 };
-                context.HeroStats.Add(entity);
+                var hero = heroes.Where(_ => _.Id == heroId).FirstOrDefault();
+                var talent = talents.Where(_ => _.Id == talentId).FirstOrDefault();
+                var names = string.Format("{0} | {1}", hero.Name, talent.Name);
+                var wins = result ? 1 : 0;
+                entity = new TalentHeroStat() { talent = talentId, hero = heroId, names = names, picks = 1, wins = wins, win_rate = wins };
+                context.TalentHeroStats.Add(entity);
             }
             else
             {
@@ -315,17 +321,15 @@ namespace HGV.Nullifier
             }
         }
 
-        private void UpdateDraftCount(DataContext context, List<Ability> abilities, string key, int[] upgrades, bool result)
+        private void UpdateHeroCount(DataContext context, List<Hero> heroes, int heroId, bool result)
         {
-            var entity = context.DraftStat.Where(_ => _.key == key).FirstOrDefault();
+            var entity = context.HeroStats.Where(_ => _.hero == heroId).FirstOrDefault();
             if (entity == null)
             {
-                var collection = abilities.Join(upgrades, _ => _.Id, _ => _, (lhs, rhs) => lhs).ToList();
-                var collectionNames = collection.Select(_ => _.Name).ToArray();
-                var names = string.Join(" | ", collectionNames);
-                var is_same_hero = collection.GroupBy(_ => _.HeroId).Count() < 2;
-                entity = new DraftStat() { key = key, names=names, is_same_hero = is_same_hero, picks = 1, wins = result ? 1 : 0, win_rate = 0 };
-                context.DraftStat.Add(entity);
+                var name = heroes.Where(_ => _.Id == heroId).Select(_ => _.Name).FirstOrDefault();
+                var wins = result ? 1 : 0;
+                entity = new HeroStat() { hero = heroId, name=name, picks = 1, wins = wins, win_rate = wins };
+                context.HeroStats.Add(entity);
             }
             else
             {
