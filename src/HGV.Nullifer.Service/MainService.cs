@@ -1,21 +1,15 @@
 ﻿using HGV.Nullifier;
+using HGV.Nullifier.Logger;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
-using System.Linq;
 using System.ServiceProcess;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace HGV.Nullifer.Service
 {
     public partial class MainService : ServiceBase
     {
         protected Thread mainThread;
-        CancellationToken cancelToken;
         CancellationTokenSource tokenSource;
 
         public MainService()
@@ -23,20 +17,20 @@ namespace HGV.Nullifer.Service
             InitializeComponent();
 
             // Event Log
-            this.MainEvenLog = new System.Diagnostics.EventLog();
-            if (System.Diagnostics.EventLog.SourceExists("HGV.Nullifer"))
+            this.MainEvenLog = new EventLog();
+
+            if (EventLog.SourceExists("HGV.Nullifer"))
             {
                 this.MainEvenLog.Source = "HGV.Nullifer";
                 this.MainEvenLog.Log = "Application";
             }
             else
             {
-                System.Diagnostics.EventLog.CreateEventSource("HGV.Nullifer", "Application");
+                EventLog.CreateEventSource("HGV.Nullifer", "Application");
             }
 
             //  Cancellation from OnStop()
             this.tokenSource = new CancellationTokenSource();
-            this.cancelToken = tokenSource.Token;
         }
 
         protected override void OnStart(string[] args)
@@ -70,9 +64,8 @@ namespace HGV.Nullifer.Service
         {
             try
             {
-                var handler = new StatCollectionHandler();
-                var tasks = new List<Task> { handler.Log(this.EventLog), handler.Collect(), handler.Count(), handler.Process() }.ToArray();
-                Task.WaitAny(tasks, this.cancelToken);
+                var eventLogger = new EventLogger(this.MainEvenLog);
+                StatCollectionHandler.Run(this.tokenSource.Token, eventLogger);
             }
             catch (OperationCanceledException)
             {
