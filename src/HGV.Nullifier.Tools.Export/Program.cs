@@ -17,12 +17,13 @@ namespace HGV.Nullifier.Tools.Export
             var defaultLogger = new DefaultLogger();
             var handler = new StatExportHandler(defaultLogger);
             handler.Initialize();
-            handler.ExportDraftPool();
-            handler.ExportHeroes();
-            handler.ExportAbilities();
-            handler.ExportUlimates();
-            handler.ExportTaltents();
 
+            handler.ExportSummary();
+            // handler.ExportDraftPool();
+            // handler.ExportHeroes();
+            // handler.ExportAbilities();
+            // handler.ExportUlimates();
+            // handler.ExportTaltents();
             // handler.ExportAccounts();
         }
     }

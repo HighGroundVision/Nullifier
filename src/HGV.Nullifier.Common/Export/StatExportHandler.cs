@@ -28,7 +28,7 @@ namespace HGV.Nullifier
         {
             this.logger = l;
 
-            this.apiKey = "4932A809199A74AB6833EDFD9BADC176"; // System.Configuration.ConfigurationManager.AppSettings["DotaApiKey"].ToString();
+            this.apiKey = System.Configuration.ConfigurationManager.AppSettings["DotaApiKey"].ToString();
 
             this.outputDirectory = Environment.CurrentDirectory + "\\output";
 
@@ -54,6 +54,38 @@ namespace HGV.Nullifier
                 Directory.Delete(this.outputDirectory, true);
 
             Directory.CreateDirectory(this.outputDirectory);
+
+        }
+
+        public void ExportSummary()
+        {
+            var context = new DataContext();
+            var client = new MetaClient();
+
+            var totalMatches = context.Matches.Count();
+            var minDate = context.Matches.Min(_ => _.date);
+            var maxDate = context.Matches.Max(_ => _.date);
+
+            var collection = context.Players.GroupBy(_ => _.match).Select(_ => new
+            {
+                Radiant = _.Where(__ => __.team == 0).Select(__ => __.match_result).FirstOrDefault(),
+                Dire = _.Where(__ => __.team == 1).Select(__ => __.match_result).FirstOrDefault(),
+            }).ToList();
+            var radiant = (float)collection.Sum(_ => _.Radiant);
+            var dire = (float)collection.Sum(_ => _.Dire);
+
+            var obj = new
+            {
+                MatchesProcessed = totalMatches,
+                StartOfRange = minDate,
+                EndOfRange = maxDate,
+                RadiantWinRate = radiant / totalMatches,
+                DireWinRate = dire / totalMatches,
+            };
+
+            var delta = (totalMatches) - (radiant + dire);
+
+            this.WriteResultsToFile("summary.json", obj);
         }
 
         public void ExportDraftPool()
