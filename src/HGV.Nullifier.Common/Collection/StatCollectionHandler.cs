@@ -21,10 +21,11 @@ namespace HGV.Nullifier
         private readonly string api_key;
         private long match_number;
 
-        public static void Run(CancellationToken t, ILogger l)
+        public static void Run(string apiKey, CancellationToken t, ILogger l)
         {
-            var handler = new StatCollectionHandler(l);
-            handler.Initialize().Wait(t);
+            var handler = new StatCollectionHandler(apiKey, l);
+            handler.Initialize();
+
             var tasks = new Task[2] { handler.Collecting(), handler.Processing() };
             var result = Task.WaitAny(tasks, t);
             switch (result)
@@ -38,21 +39,17 @@ namespace HGV.Nullifier
             }
         }
 
-        private StatCollectionHandler(ILogger l)
+        private StatCollectionHandler(string apiKey, ILogger l)
         {
             this.logger = l;
             this.qProcessing = new ConcurrentQueue<Match>();
-            this.api_key = System.Configuration.ConfigurationManager.AppSettings["DotaApiKey"].ToString();
+            this.api_key = apiKey; 
         }
 
-        public async Task Initialize()
+        public void Initialize()
         {
-            
-            var client = new DotaApiClient(this.api_key);
             var context = new DataContext();
-
-            var latest = await client.GetLastestMatches();
-            this.match_number = latest.Max(_ => _.match_seq_num);
+            this.match_number = context.Matches.Max(_ => _.match_number) + 1;
         }
 
         private async Task Collecting()

@@ -64,8 +64,9 @@ namespace HGV.Nullifer.Service
         {
             try
             {
+                var apiKey = System.Configuration.ConfigurationManager.AppSettings["DotaApiKey"].ToString();
                 var eventLogger = new EventLogger(this.MainEvenLog);
-                StatCollectionHandler.Run(this.tokenSource.Token, eventLogger);
+                StatCollectionHandler.Run(apiKey, this.tokenSource.Token, eventLogger);
             }
             catch (OperationCanceledException)
             {

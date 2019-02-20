@@ -9,22 +9,12 @@ namespace HGV.Nullifier.Tools.Export
     {
         static void Main(string[] args)
         {
-            //var defaultLogger = new DefaultLogger();
-            //var cancellationSource = new CancellationTokenSource();
-            //Console.CancelKeyPress += (object sender, ConsoleCancelEventArgs e) => { cancellationSource.Cancel(); };
-            //StatExportHandler.Run(cancellationSource.Token, defaultLogger);
-
+            var apiKey = System.Configuration.ConfigurationManager.AppSettings["DotaApiKey"].ToString();
             var defaultLogger = new DefaultLogger();
-            var handler = new StatExportHandler(defaultLogger);
-            handler.Initialize();
+            var cancellationSource = new CancellationTokenSource();
+            Console.CancelKeyPress += (object sender, ConsoleCancelEventArgs e) => { cancellationSource.Cancel(); };
 
-            handler.ExportSummary();
-            // handler.ExportDraftPool();
-            // handler.ExportHeroes();
-            // handler.ExportAbilities();
-            // handler.ExportUlimates();
-            // handler.ExportTaltents();
-            // handler.ExportAccounts();
+            StatExportHandler.Run(apiKey, cancellationSource.Token, defaultLogger);
         }
     }
 }

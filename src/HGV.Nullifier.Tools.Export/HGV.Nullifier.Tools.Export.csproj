@@ -60,8 +60,9 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-    <None Include="program.cs.bck" />
-    <None Include="User.App.config" />
+    <None Include="User.App.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HGV.Nullifier.Common\HGV.Nullifier.Common.csproj">

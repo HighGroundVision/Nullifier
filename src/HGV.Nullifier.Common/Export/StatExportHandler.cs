@@ -22,13 +22,31 @@ namespace HGV.Nullifier
         private string outputDirectory;
         private readonly string apiKey;
 
-        const long CATCH_ALL_ACCOUNT_ID = 4294967295;
+        
+        public static void Run(string apiKey, CancellationToken t, ILogger l)
+        {
+            var handler = new StatExportHandler(apiKey, l);
+            handler.Initialize();
 
-        public StatExportHandler(ILogger l)
+            var tasks = new Task[1] {
+                /*
+                handler.ExportSummary(),
+                handler.ExportDraftPool(),
+                handler.ExportHeroes(),
+                handler.ExportAbilities(),
+                handler.ExportUlimates(),
+                handler.ExportTaltents(),
+                */
+                handler.ExportAccounts()
+            };
+            Task.WaitAll(tasks, t);
+        }
+
+        public StatExportHandler(string apiKey, ILogger l)
         {
             this.logger = l;
 
-            this.apiKey = System.Configuration.ConfigurationManager.AppSettings["DotaApiKey"].ToString();
+            this.apiKey = apiKey;
 
             this.outputDirectory = Environment.CurrentDirectory + "\\output";
 
@@ -55,22 +73,26 @@ namespace HGV.Nullifier
 
             Directory.CreateDirectory(this.outputDirectory);
 
+            if (Directory.Exists(this.outputDirectory) == false)
+                throw new DirectoryNotFoundException(this.outputDirectory);
+
         }
 
-        public void ExportSummary()
+        public async Task ExportSummary()
         {
             var context = new DataContext();
             var client = new MetaClient();
 
-            var totalMatches = context.Matches.Count();
-            var minDate = context.Matches.Min(_ => _.date);
-            var maxDate = context.Matches.Max(_ => _.date);
+            var totalMatches = await context.Matches.CountAsync();
+            var minDate = await context.Matches.MinAsync(_ => _.date);
+            var maxDate = await context.Matches.MaxAsync(_ => _.date);
 
-            var collection = context.Players.GroupBy(_ => _.match).Select(_ => new
+            var collection = await context.Players.GroupBy(_ => _.match).Select(_ => new
             {
                 Radiant = _.Where(__ => __.team == 0).Select(__ => __.match_result).FirstOrDefault(),
                 Dire = _.Where(__ => __.team == 1).Select(__ => __.match_result).FirstOrDefault(),
-            }).ToList();
+            }).ToListAsync();
+
             var radiant = (float)collection.Sum(_ => _.Radiant);
             var dire = (float)collection.Sum(_ => _.Dire);
 
@@ -83,17 +105,15 @@ namespace HGV.Nullifier
                 DireWinRate = dire / totalMatches,
             };
 
-            var delta = (totalMatches) - (radiant + dire);
-
             this.WriteResultsToFile("summary.json", obj);
         }
 
-        public void ExportDraftPool()
+        public async Task ExportDraftPool()
         {
             var context = new DataContext();
             var client = new MetaClient();
 
-            var abilitiesCaptured = context.Skills.GroupBy(_ => _.ability_id).Select(_ => _.Key).ToList();
+            var abilitiesCaptured = await context.Skills.GroupBy(_ => _.ability_id).Select(_ => _.Key).ToListAsync();
 
             var draftPool = client.GetHeroes()
                 .Select(_ => new
@@ -120,20 +140,20 @@ namespace HGV.Nullifier
             this.WriteResultsToFile("pool.json", draftPool);
         }
 
-        public void ExportHeroes()
+        public async Task ExportHeroes()
         {
             var context = new DataContext();
             var client = new MetaClient();
 
             var heroes = client.GetHeroes();
 
-            var players = context.Players.GroupBy(_ => _.hero_id).Select(_ => new
+            var players = await context.Players.GroupBy(_ => _.hero_id).Select(_ => new
             {
                 Id = _.Key,
                 Wins = (float)_.Sum(__ => __.match_result),
                 Picks = (float)_.Count(),
             })
-            .ToList();
+            .ToListAsync();
 
             (double sdPicks, double meanPicks, double maxPicks, double minPicks) = players.Deviation(_ => _.Picks);
             (double sdWins, double meanWins, double maxWins, double minWins) = players.Deviation(_ => _.Wins);
@@ -157,7 +177,7 @@ namespace HGV.Nullifier
             this.WriteResultsToFile("heroes.json", collection);
         }
 
-        public void ExportAbilities()
+        public async Task ExportAbilities()
         {
             var context = new DataContext();
             var client = new MetaClient();
@@ -165,13 +185,13 @@ namespace HGV.Nullifier
             var abilities = client.GetAbilities();
 
             var query = context.Skills.Where(_ => _.is_skill == 1).GroupBy(_ => _.ability_id);
-            var skills = query.Select(_ => new
+            var skills = await query.Select(_ => new
             {
                 Id = _.Key,
                 Wins = (float)_.Sum(__ => __.match_result),
                 Picks = (float)_.Count(),
             })
-            .ToList();
+            .ToListAsync();
 
             (double sdPicks, double meanPicks, double maxPicks, double minPicks) = skills.Deviation(_ => _.Picks);
             (double sdWins, double meanWins, double maxWins, double minWins) = skills.Deviation(_ => _.Wins);
@@ -197,7 +217,7 @@ namespace HGV.Nullifier
             this.WriteResultsToFile("abilities.json", collection);
         }
 
-        public void ExportUlimates()
+        public async Task ExportUlimates()
         {
             var context = new DataContext();
             var client = new MetaClient();
@@ -205,13 +225,13 @@ namespace HGV.Nullifier
             var abilities = client.GetUltimates();
 
             var query = context.Skills.Where(_ => _.is_ulimate == 1).GroupBy(_ => _.ability_id);
-            var skills = query.Select(_ => new
+            var skills = await query.Select(_ => new
             {
                 Id = _.Key,
                 Wins = (float)_.Sum(__ => __.match_result),
                 Picks = (float)_.Count(),
             })
-            .ToList();
+            .ToListAsync();
 
             (double sdPicks, double meanPicks, double maxPicks, double minPicks) = skills.Deviation(_ => _.Picks);
             (double sdWins, double meanWins, double maxWins, double minWins) = skills.Deviation(_ => _.Wins);
@@ -237,7 +257,7 @@ namespace HGV.Nullifier
             this.WriteResultsToFile("ulimates.json", collection);
         }
 
-        public void ExportTaltents()
+        public async Task ExportTaltents()
         {
             var context = new DataContext();
             var client = new MetaClient();
@@ -245,13 +265,13 @@ namespace HGV.Nullifier
             var abilities = client.GetTalents();
 
             var query = context.Skills.Where(_ => _.is_taltent == 1).GroupBy(_ => _.ability_id);
-            var skills = query.Select(_ => new
+            var skills = await query.Select(_ => new
             {
                 Id = _.Key,
                 Wins = (float)_.Sum(__ => __.match_result),
                 Picks = (float)_.Count(),
             })
-            .ToList();
+            .ToListAsync();
 
             (double sdPicks, double meanPicks, double maxPicks, double minPicks) = skills.Deviation(_ => _.Picks);
             (double sdWins, double meanWins, double maxWins, double minWins) = skills.Deviation(_ => _.Wins);
@@ -276,24 +296,26 @@ namespace HGV.Nullifier
             this.WriteResultsToFile("taltents.json", collection);
         }
 
-        public void ExportAccounts()
+        public async Task ExportAccounts()
         {
+            const long CATCH_ALL_ACCOUNT_ID = 4294967295;
+
             var context = new DataContext();
             var metaClient = new MetaClient();
             var apiClient = new DotaApiClient(this.apiKey);
 
-            var players = context.Players.Where(_ => _.account_id != CATCH_ALL_ACCOUNT_ID).GroupBy(_ => _.account_id).Select(_ => new
+            var players = await context.Players.Where(_ => _.account_id != CATCH_ALL_ACCOUNT_ID).GroupBy(_ => _.account_id).Select(_ => new
             {
                 AccountId = _.Key,
                 Wins = (float)_.Sum(__ => __.match_result),
                 Matches = (float)_.Count(),
             })
-            .ToList();
+            .ToListAsync();
 
             (double sdMatches, double meanMatches, double maxMatches, double minMatches) = players.Deviation(_ => _.Matches);
             var high = meanMatches + sdMatches;
-
-            var collection = players   
+            
+            var collection = players
             .Where(_ => _.Matches > high)
             .Select(_ => new
             {
@@ -303,8 +325,9 @@ namespace HGV.Nullifier
                 Matches = _.Matches,
                 WinRate = _.Wins / _.Matches,
             })
-            .OrderByDescending(_ => _.Matches)
-            .ThenByDescending(_ => _.WinRate) 
+            .OrderByDescending(_ => _.WinRate)
+            .ThenByDescending(_ => _.Matches)
+            .Take(100)
             .Select(_ => new
             {
                 AccountId = _.AccountId,

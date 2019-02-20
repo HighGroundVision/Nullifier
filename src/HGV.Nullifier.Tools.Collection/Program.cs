@@ -13,12 +13,12 @@ namespace HGV.Nullifier.Tools.Collection
     {
         static void Main(string[] args)
         {
+            var apiKey = System.Configuration.ConfigurationManager.AppSettings["DotaApiKey"].ToString();
             var defaultLogger = new DefaultLogger();
             var cancellationSource = new CancellationTokenSource();
-
             Console.CancelKeyPress += (object sender, ConsoleCancelEventArgs e) => { cancellationSource.Cancel(); };
 
-            StatCollectionHandler.Run(cancellationSource.Token, defaultLogger);
+            StatCollectionHandler.Run(apiKey, cancellationSource.Token, defaultLogger);
         }
     }
 }
