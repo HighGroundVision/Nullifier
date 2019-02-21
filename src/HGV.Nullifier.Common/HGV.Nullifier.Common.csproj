@@ -61,6 +61,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Export\Ability.cs" />
+    <Compile Include="Export\Hero.cs" />
+    <Compile Include="Export\HeroAttribute.cs" />
+    <Compile Include="Export\HeroTalent.cs" />
     <Compile Include="Export\SteamID.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Logger\DefaultLogger.cs" />
