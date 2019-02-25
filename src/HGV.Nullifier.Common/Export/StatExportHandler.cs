@@ -354,26 +354,73 @@ namespace HGV.Nullifier
             return collection;
         }
 
-        public async Task ExportHeroDetails()
+        public List<Common.Export.HeroCombo> GetHeroCombos(int heroId, bool flag)
         {
             var context = new DataContext();
             var client = new MetaClient();
 
+            var abilities = client.GetSkills();
+
+            var start = flag == true ? context.Skills.Where(__ => __.is_ulimate == 1) : context.Skills.Where(__ => __.is_skill == 1);
+            var query = start
+                   .Where(__ => __.player.hero_id == heroId)
+                   .GroupBy(__ => __.ability_id)
+                   .Select(__ => new
+                   {
+                       AbilityId = __.Key,
+                       Wins = (float)__.Sum(___ => ___.match_result),
+                       Picks = (float)__.Count()
+                   })
+                   .ToList();
+
+            (double sd, double mean, double max, double min) = query.Deviation(__ => __.Picks);
+
+            var collection = query
+                .Where(__ => __.Picks > mean)
+                .Join(abilities, _ => _.AbilityId, _ => _.Id, (lhs, rhs) => new Common.Export.HeroCombo()
+                {
+                    AbilityId = lhs.AbilityId,
+                    HeroId = heroId,
+                    Image = string.Format("https://hgv-hyperstone.azurewebsites.net/abilities/{0}.png", rhs.Key),
+                    Key = rhs.Key,
+                    Name = rhs.Name,
+                    HasUpgrade = rhs.HasScepterUpgrade,
+                    Wins = (int)lhs.Wins,
+                    Picks = (int)lhs.Picks,
+                    WinRate = lhs.Wins / lhs.Picks
+                })
+                .OrderByDescending(_ => _.WinRate)
+                .Take(10)
+                .ToList();
+
+            return collection;
+        }
+
+        public async Task ExportHeroDetails()
+        {
             var heroes = await GetHeroes();
             var abilities = await GetAbilities();
             var ultimates = await GetUltimates();
             var talents = await GetTaltents();
             var attributes = GetHeroAttribute();
 
-            var collection = heroes.Select(_ => new
+            var collection = heroes.Select(_ => 
             {
-                Hero = _,
-                Attributes = attributes.Where(__ => __.HeroId == _.Id).FirstOrDefault(),
-                Abilities = abilities.Where(__ => __.HeroId == _.Id).ToList(),
-                Ultimates = ultimates.Where(__ => __.HeroId == _.Id).ToList(),
-                Talents = talents.Where(__ => __.HeroId == _.Id).ToList(),
-                Combos = new List<string>() // TOOD: Finsih this ....
+                return new
+                {
+                    Hero = _,
+                    Attributes = attributes.Where(__ => __.HeroId == _.Id).FirstOrDefault(),
+                    Abilities = abilities.Where(__ => __.HeroId == _.Id).ToList(),
+                    Ultimates = ultimates.Where(__ => __.HeroId == _.Id).ToList(),
+                    Talents = talents.Where(__ => __.HeroId == _.Id).ToList(),
+                    Combos = new
+                    {
+                        Abilities = GetHeroCombos(_.Id, false),
+                        Ultimates = GetHeroCombos(_.Id, true),
+                    }
+                };
             })
+            .OrderBy(_ => _.Hero.Id)
             .ToDictionary(_ => _.Hero.Id);
 
             this.WriteResultsToFile("hero-details.json", collection);
