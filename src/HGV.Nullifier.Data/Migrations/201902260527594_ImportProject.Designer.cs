@@ -7,13 +7,13 @@ namespace HGV.Nullifier.Data.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class ResetToBlankv2 : IMigrationMetadata
+    public sealed partial class ImportProject : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(ResetToBlankv2));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(ImportProject));
         
         string IMigrationMetadata.Id
         {
-            get { return "201902021756588_ResetToBlankv2"; }
+            get { return "201902260527594_ImportProject"; }
         }
         
         string IMigrationMetadata.Source

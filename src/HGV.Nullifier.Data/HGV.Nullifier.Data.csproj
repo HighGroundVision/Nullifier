@@ -57,65 +57,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Migrations\201809190605178_ImportProject.cs" />
-    <Compile Include="Migrations\201809190605178_ImportProject.Designer.cs">
-      <DependentUpon>201809190605178_ImportProject.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201811202349316_TalentHeroStats.cs" />
-    <Compile Include="Migrations\201811202349316_TalentHeroStats.Designer.cs">
-      <DependentUpon>201811202349316_TalentHeroStats.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201811210016126_RemovedDrafts.cs" />
-    <Compile Include="Migrations\201811210016126_RemovedDrafts.Designer.cs">
-      <DependentUpon>201811210016126_RemovedDrafts.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201902021756588_ResetToBlankv2.cs" />
-    <Compile Include="Migrations\201902021756588_ResetToBlankv2.Designer.cs">
-      <DependentUpon>201902021756588_ResetToBlankv2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201902040007006_AddNewTables.cs" />
-    <Compile Include="Migrations\201902040007006_AddNewTables.Designer.cs">
-      <DependentUpon>201902040007006_AddNewTables.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201902040010028_MissedSomeProperties.cs" />
-    <Compile Include="Migrations\201902040010028_MissedSomeProperties.Designer.cs">
-      <DependentUpon>201902040010028_MissedSomeProperties.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201902040030384_AddedIndexToMatchData.cs" />
-    <Compile Include="Migrations\201902040030384_AddedIndexToMatchData.Designer.cs">
-      <DependentUpon>201902040030384_AddedIndexToMatchData.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201902040250239_CleanUpAfterFristRun.cs" />
-    <Compile Include="Migrations\201902040250239_CleanUpAfterFristRun.Designer.cs">
-      <DependentUpon>201902040250239_CleanUpAfterFristRun.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201902040400214_FormatedDateTimes.cs" />
-    <Compile Include="Migrations\201902040400214_FormatedDateTimes.Designer.cs">
-      <DependentUpon>201902040400214_FormatedDateTimes.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201902040402535_RemovedName.cs" />
-    <Compile Include="Migrations\201902040402535_RemovedName.Designer.cs">
-      <DependentUpon>201902040402535_RemovedName.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201902090132599_ResetToBlankv3.cs" />
-    <Compile Include="Migrations\201902090132599_ResetToBlankv3.Designer.cs">
-      <DependentUpon>201902090132599_ResetToBlankv3.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201902090256097_NewDataModelV3.cs" />
-    <Compile Include="Migrations\201902090256097_NewDataModelV3.Designer.cs">
-      <DependentUpon>201902090256097_NewDataModelV3.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201902090300106_Cleanup.cs" />
-    <Compile Include="Migrations\201902090300106_Cleanup.Designer.cs">
-      <DependentUpon>201902090300106_Cleanup.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201902090336016_RemovedModeTable.cs" />
-    <Compile Include="Migrations\201902090336016_RemovedModeTable.Designer.cs">
-      <DependentUpon>201902090336016_RemovedModeTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201902101710132_AddHeroesAndSkill.cs" />
-    <Compile Include="Migrations\201902101710132_AddHeroesAndSkill.Designer.cs">
-      <DependentUpon>201902101710132_AddHeroesAndSkill.cs</DependentUpon>
+    <Compile Include="Migrations\201902260527594_ImportProject.cs" />
+    <Compile Include="Migrations\201902260527594_ImportProject.Designer.cs">
+      <DependentUpon>201902260527594_ImportProject.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="DataContext.cs" />
@@ -131,52 +75,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201809190605178_ImportProject.resx">
-      <DependentUpon>201809190605178_ImportProject.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201811202349316_TalentHeroStats.resx">
-      <DependentUpon>201811202349316_TalentHeroStats.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201811210016126_RemovedDrafts.resx">
-      <DependentUpon>201811210016126_RemovedDrafts.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902021756588_ResetToBlankv2.resx">
-      <DependentUpon>201902021756588_ResetToBlankv2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902040007006_AddNewTables.resx">
-      <DependentUpon>201902040007006_AddNewTables.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902040010028_MissedSomeProperties.resx">
-      <DependentUpon>201902040010028_MissedSomeProperties.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902040030384_AddedIndexToMatchData.resx">
-      <DependentUpon>201902040030384_AddedIndexToMatchData.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902040250239_CleanUpAfterFristRun.resx">
-      <DependentUpon>201902040250239_CleanUpAfterFristRun.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902040400214_FormatedDateTimes.resx">
-      <DependentUpon>201902040400214_FormatedDateTimes.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902040402535_RemovedName.resx">
-      <DependentUpon>201902040402535_RemovedName.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902090132599_ResetToBlankv3.resx">
-      <DependentUpon>201902090132599_ResetToBlankv3.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902090256097_NewDataModelV3.resx">
-      <DependentUpon>201902090256097_NewDataModelV3.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902090300106_Cleanup.resx">
-      <DependentUpon>201902090300106_Cleanup.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902090336016_RemovedModeTable.resx">
-      <DependentUpon>201902090336016_RemovedModeTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902101710132_AddHeroesAndSkill.resx">
-      <DependentUpon>201902101710132_AddHeroesAndSkill.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201902260527594_ImportProject.resx">
+      <DependentUpon>201902260527594_ImportProject.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

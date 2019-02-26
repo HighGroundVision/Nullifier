@@ -49,7 +49,18 @@ namespace HGV.Nullifier
         public void Initialize()
         {
             var context = new DataContext();
-            this.match_number = context.Matches.Max(_ => _.match_number) + 1;
+            var client = new DotaApiClient(this.api_key);
+
+            var count = context.Matches.Count();
+            if(count > 0)
+            {
+                this.match_number = context.Matches.Max(_ => _.match_number) + 1;
+            }
+            else
+            {       
+                var latest = client.GetLastestMatches().Result;
+                this.match_number = latest.Max(_ => _.match_seq_num);
+            }
         }
 
         private async Task Collecting()
@@ -75,7 +86,7 @@ namespace HGV.Nullifier
                             this.qProcessing.Enqueue(match);
                     }
 
-                    await Task.Delay(TimeSpan.FromSeconds(5));
+                    await Task.Delay(TimeSpan.FromSeconds(2));
                 }
                 catch (Exception)
                 {
@@ -88,6 +99,7 @@ namespace HGV.Nullifier
         public async Task Processing()
         {
             var client = new MetaClient();
+            var heroes = client.GetHeroes().Select(_ => new { Key = _.Id, Abilities = _.Abilities.Select(__ => -__.Id).ToList() }).ToDictionary(_ => _.Key, _ => _.Abilities);
             var abilities = client.GetAbilities().Select(_ => _.Id).ToList();
             var ultimates = client.GetUltimates().Select(_ => _.Id).ToList();
             var talents = client.GetTalents().Select(_ => _.Id).ToList();
@@ -114,26 +126,31 @@ namespace HGV.Nullifier
 
                     var match_summary = new MatchSummary()
                     {
-                        match_id = match.match_id,
+                        id = match.match_id,
                         match_number = match.match_seq_num,
                         duration = duration,
                         day_of_week = day_of_week,
                         date = date,
-                        players = new List<PlayerSummary>(),
-                        skills = new List<SkillSummary>(),
+                        victory_radiant = match.radiant_win ? 1 : 0,
+                        victory_dire = match.radiant_win ? 0 : 1,
                     };
+                    context.Matches.Add(match_summary);
 
                     foreach (var player in match.players)
                     {
                         var team = player.player_slot < 6 ? 0 : 1;
                         var order = this.ConvertPlayerSlotToDraftOrder(player.player_slot);
                         var result = team == 0 ? match.radiant_win : !match.radiant_win;
+                        var hero_id = player.hero_id;
+
+                        var heroes_abilities = new List<int>();
+                        heroes.TryGetValue(hero_id, out heroes_abilities);
 
                         var player_summary = new PlayerSummary()
                         {
                             match_result = result == true ? 1 : 0,
                             team = team,
-                            hero_id = player.hero_id,
+                            hero_id = hero_id,
                             player_slot = player.player_slot,
                             draft_order = order,
                             account_id = player.account_id,
@@ -150,9 +167,9 @@ namespace HGV.Nullifier
                             hero_damage = player.hero_damage,
                             tower_damage = player.tower_damage,
                             hero_healing = player.hero_healing,
-                            skills = new List<SkillSummary>(),
+                            match_id = match.match_id
                         };
-                        player_summary.match = match_summary;
+                        context.Players.Add(player_summary);
 
                         var collection = player.ability_upgrades.Select(_ => _.ability).Distinct().ToList();
                         foreach (var ability_id in collection)
@@ -160,24 +177,19 @@ namespace HGV.Nullifier
                             var skill_summary = new SkillSummary()
                             {
                                 ability_id = ability_id,
-                                match_result = result == true ? 1 : 0,
                                 is_skill = abilities.Contains(ability_id) ? 1 : 0,
                                 is_ulimate = ultimates.Contains(ability_id) ? 1 : 0,
                                 is_taltent = talents.Contains(ability_id) ? 1 : 0,
+                                is_self = heroes_abilities.Contains(ability_id) ? 1 : 0,
+                                match_result = result == true ? 1 : 0,
+                                hero_id = hero_id,
+                                account_id = player.account_id,
+                                draft_order = order,
+                                match_id = match.match_id,
                             };
-                            skill_summary.match = match_summary;
-                            skill_summary.player = player_summary;
-
-                            player_summary.skills.Add(skill_summary);
-                            match_summary.skills.Add(skill_summary);
-
                             context.Skills.Add(skill_summary);
                         }
-
-                        context.Players.Add(player_summary);
                     }
-
-                    context.Matches.Add(match_summary);
 
                     await context.SaveChangesAsync();
 

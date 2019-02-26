@@ -13,6 +13,9 @@ namespace HGV.Nullifier.Data.Models
         [Index]
         public int hero_id { get; set; }
 
+        [Index]
+        public long match_id { get; set; }
+
         public int match_result { get; set; }
         public int player_slot { get; set; }
         public int draft_order { get; set; }
@@ -31,8 +34,5 @@ namespace HGV.Nullifier.Data.Models
         public int hero_damage { get; set; }
         public int tower_damage { get; set; }
         public int hero_healing { get; set; }
-
-        public MatchSummary match { get; set; }
-        public ICollection<SkillSummary> skills { get; set; }
     }
 }

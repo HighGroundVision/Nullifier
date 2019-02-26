@@ -87,15 +87,8 @@ namespace HGV.Nullifier
             var totalMatches = await context.Matches.CountAsync();
             var minDate = await context.Matches.MinAsync(_ => _.date);
             var maxDate = await context.Matches.MaxAsync(_ => _.date);
-
-            var collection = await context.Players.GroupBy(_ => _.match).Select(_ => new
-            {
-                Radiant = _.Where(__ => __.team == 0).Select(__ => __.match_result).FirstOrDefault(),
-                Dire = _.Where(__ => __.team == 1).Select(__ => __.match_result).FirstOrDefault(),
-            }).ToListAsync();
-
-            var radiant = (float)collection.Sum(_ => _.Radiant);
-            var dire = (float)collection.Sum(_ => _.Dire);
+            var radiant = await context.Matches.SumAsync(_ => _.victory_radiant);
+            var dire = await context.Matches.SumAsync(_ => _.victory_dire);
 
             var dailyCounts = context.Matches
                 .GroupBy(_ => _.day_of_week)
@@ -118,8 +111,8 @@ namespace HGV.Nullifier
                 },
                 Team = new
                 {
-                    Radiant = radiant / totalMatches,
-                    Dire = dire / totalMatches,
+                    Radiant = radiant / (float)totalMatches,
+                    Dire = dire / (float)totalMatches,
                 },
                 Daily = new
                 {
@@ -363,7 +356,7 @@ namespace HGV.Nullifier
 
             var start = flag == true ? context.Skills.Where(__ => __.is_ulimate == 1) : context.Skills.Where(__ => __.is_skill == 1);
             var query = start
-                   .Where(__ => __.player.hero_id == heroId)
+                   .Where(__ => __.hero_id == heroId)
                    .GroupBy(__ => __.ability_id)
                    .Select(__ => new
                    {
