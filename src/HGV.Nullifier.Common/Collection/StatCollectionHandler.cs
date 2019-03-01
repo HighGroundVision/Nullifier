@@ -51,6 +51,7 @@ namespace HGV.Nullifier
             var context = new DataContext();
             var client = new DotaApiClient(this.api_key);
 
+
             var count = context.Matches.Count();
             if(count > 0)
             {
@@ -86,7 +87,7 @@ namespace HGV.Nullifier
                             this.qProcessing.Enqueue(match);
                     }
 
-                    await Task.Delay(TimeSpan.FromSeconds(2));
+                    await Task.Delay(TimeSpan.FromSeconds(3));
                 }
                 catch (Exception)
                 {
@@ -171,23 +172,26 @@ namespace HGV.Nullifier
                         };
                         context.Players.Add(player_summary);
 
-                        var collection = player.ability_upgrades.Select(_ => _.ability).Distinct().ToList();
-                        foreach (var ability_id in collection)
+                        if(player.ability_upgrades != null)
                         {
-                            var skill_summary = new SkillSummary()
+                            var collection = player.ability_upgrades.Select(_ => _.ability).Distinct().ToList();
+                            foreach (var ability_id in collection)
                             {
-                                ability_id = ability_id,
-                                is_skill = abilities.Contains(ability_id) ? 1 : 0,
-                                is_ulimate = ultimates.Contains(ability_id) ? 1 : 0,
-                                is_taltent = talents.Contains(ability_id) ? 1 : 0,
-                                is_self = heroes_abilities.Contains(ability_id) ? 1 : 0,
-                                match_result = result == true ? 1 : 0,
-                                hero_id = hero_id,
-                                account_id = player.account_id,
-                                draft_order = order,
-                                match_id = match.match_id,
-                            };
-                            context.Skills.Add(skill_summary);
+                                var skill_summary = new SkillSummary()
+                                {
+                                    ability_id = ability_id,
+                                    is_skill = abilities.Contains(ability_id) ? 1 : 0,
+                                    is_ulimate = ultimates.Contains(ability_id) ? 1 : 0,
+                                    is_taltent = talents.Contains(ability_id) ? 1 : 0,
+                                    is_self = heroes_abilities.Contains(ability_id) ? 1 : 0,
+                                    match_result = result == true ? 1 : 0,
+                                    hero_id = hero_id,
+                                    account_id = player.account_id,
+                                    draft_order = order,
+                                    match_id = match.match_id,
+                                };
+                                context.Skills.Add(skill_summary);
+                            }
                         }
                     }
 

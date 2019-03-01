@@ -6,13 +6,12 @@ using System.Threading.Tasks;
 
 namespace HGV.Nullifier.Common.Export
 {
-    public class HeroCombo
+    public class AbilityHero
     {
-        public int AbilityId { get; set; }
         public string Name { get; set; }
         public string Key { get; set; }
         public string Image { get; set; }
-        public bool HasUpgrade { get; set; }
+        public int HeroId { get; set; }
         public double Picks { get; set; }
         public double Wins { get; set; }
         public double WinRate { get; set; }

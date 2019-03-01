@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -29,6 +30,7 @@ namespace HGV.Nullifier
             handler.Initialize();
 
             var tasks = new Task[] {
+                /*
                 handler.ExportSummary(),
                 handler.ExportDraftPool(),
                 handler.ExportHeroesSummary(),
@@ -37,8 +39,9 @@ namespace HGV.Nullifier
                 handler.ExportAbilities(),
                 handler.ExportUltimates(),
                 handler.ExportTaltents(),
+                */
                 handler.ExportAbilityDetails(),
-                handler.ExportAccounts()
+                // handler.ExportAccounts()
             };
             Task.WaitAll(tasks, t);
         }
@@ -116,13 +119,13 @@ namespace HGV.Nullifier
                 },
                 Daily = new
                 {
-                    Sunday = dailyCounts[0],
-                    Monday = dailyCounts[1],
-                    Tuesday = dailyCounts[2],
-                    Wednesday = dailyCounts[3],
-                    Thursday = dailyCounts[4],
-                    Friday = dailyCounts[5],
-                    Saturday = dailyCounts[6],
+                    Sunday = dailyCounts.ElementAtOrDefault(0),
+                    Monday = dailyCounts.ElementAtOrDefault(1),
+                    Tuesday = dailyCounts.ElementAtOrDefault(2),
+                    Wednesday = dailyCounts.ElementAtOrDefault(3),
+                    Thursday = dailyCounts.ElementAtOrDefault(4),
+                    Friday = dailyCounts.ElementAtOrDefault(5),
+                    Saturday = dailyCounts.ElementAtOrDefault(6),
                 }
             };
 
@@ -373,7 +376,6 @@ namespace HGV.Nullifier
                 .Join(abilities, _ => _.AbilityId, _ => _.Id, (lhs, rhs) => new Common.Export.HeroCombo()
                 {
                     AbilityId = lhs.AbilityId,
-                    HeroId = heroId,
                     Image = string.Format("https://hgv-hyperstone.azurewebsites.net/abilities/{0}.png", rhs.Key),
                     Key = rhs.Key,
                     Name = rhs.Name,
@@ -391,6 +393,9 @@ namespace HGV.Nullifier
 
         public async Task ExportHeroDetails()
         {
+            var client = new MetaClient();
+            var details = client.GetHeroes();
+
             var heroes = await GetHeroes();
             var abilities = await GetAbilities();
             var ultimates = await GetUltimates();
@@ -401,7 +406,8 @@ namespace HGV.Nullifier
             {
                 return new
                 {
-                    Hero = _,
+                    Summary = _,
+                    Hero = details.Find(__ => __.Id == _.Id),
                     Attributes = attributes.Where(__ => __.HeroId == _.Id).FirstOrDefault(),
                     Abilities = abilities.Where(__ => __.HeroId == _.Id).ToList(),
                     Ultimates = ultimates.Where(__ => __.HeroId == _.Id).ToList(),
@@ -648,17 +654,109 @@ namespace HGV.Nullifier
             this.WriteResultsToFile("taltents-collection.json", collection);
         }
 
-        public async Task ExportAbilityDetails()
+        public List<Common.Export.AbilityHero> GetAbilityHeroes(int abilityId)
         {
             var context = new DataContext();
             var client = new MetaClient();
 
-            // Summmary
-            // Attributes
-            // Ability Pairs
-            // Hero Pairs
+            var heroes = client.GetHeroes();
 
-            var collection = new List<string>();
+            var query = context.Skills
+                .Where(_ => _.ability_id == abilityId)
+                .GroupBy(_ => new { _.ability_id, _.hero_id }).Select(_ => new
+                {
+                    AbilityId = _.Key.ability_id,
+                    HeroId = _.Key.hero_id,
+                    Wins = (float)_.Sum(__ => __.match_result),
+                    Picks = (float)_.Count()
+                })
+                .ToList();
+
+            (double sd, double mean, double max, double min) = query.Deviation(__ => __.Picks);
+
+            var collection = query
+                .Where(__ => __.Picks > mean)
+                .Join(heroes, _ => _.HeroId, _ => _.Id, (lhs, rhs) => new Common.Export.AbilityHero()
+                {
+                    HeroId = rhs.Id,
+                    Image = string.Format("https://hgv-hyperstone.azurewebsites.net/heroes/banner/{0}.png", rhs.Key),
+                    Key = rhs.Key,
+                    Name = rhs.Name,
+                    Wins = (int)lhs.Wins,
+                    Picks = (int)lhs.Picks,
+                    WinRate = lhs.Wins / lhs.Picks,
+                })
+                .OrderByDescending(_ => _.WinRate)
+                .Take(10)
+                .ToList();
+
+            return collection;
+        }
+
+        public List<Common.Export.HeroCombo> GetAbilityCombos(int abilityId, bool flag)
+        {
+            var context = new DataContext();
+            var client = new MetaClient();
+
+            var skills = client.GetSkills();
+
+            var query = (
+                from lhs in context.Skills
+                from rhs in context.Skills
+                where lhs.ability_id == abilityId && lhs.ability_id != rhs.ability_id &&
+                lhs.match_id == rhs.match_id && lhs.hero_id == rhs.hero_id &&
+                ((flag == true && rhs.is_ulimate == 1) || (flag == false && rhs.is_skill == 1))
+                group rhs by rhs.ability_id into combo
+                select new { AbilityId = combo.Key, Picks = (float)combo.Count(), Wins = (float)combo.Sum(_ => _.match_result) } into c
+                select new { c.AbilityId, c.Picks, c.Wins, WinRate = c.Wins / c.Picks }
+            ).ToList();
+
+            (double sd, double mean, double max, double min) = query.Deviation(__ => __.Picks);
+
+            var collection = query
+               .Where(__ => __.Picks > mean)
+               .Join(skills, _ => _.AbilityId, _ => _.Id, (lhs, rhs) => new Common.Export.HeroCombo()
+               {
+                   AbilityId = lhs.AbilityId,
+                   Image = string.Format("https://hgv-hyperstone.azurewebsites.net/abilities/{0}.png", rhs.Key),
+                   Key = rhs.Key,
+                   Name = rhs.Name,
+                   Wins = (int)lhs.Wins,
+                   Picks = (int)lhs.Picks,
+                   WinRate = lhs.Wins / lhs.Picks,
+               })
+               .OrderByDescending(_ => _.WinRate)
+               .Take(10)
+               .ToList();
+
+            return collection;
+        }
+
+        public async Task ExportAbilityDetails()
+        {
+            var client = new MetaClient();
+
+            var abilities = await GetAbilities();
+            var ultimates = await GetUltimates();
+            var details = client.GetSkills();
+
+            var collection = abilities.Union(ultimates).Select(_ =>
+            {
+                return new
+                {
+                    Summary = _,
+                    Ability = details.Find(__ => __.Id == _.Id),
+                    Heroes = GetAbilityHeroes(_.Id),
+                    Combos = new
+                    {
+                        Abilities = GetAbilityCombos(_.Id, false),
+                        Ultimates = GetAbilityCombos(_.Id, true),
+                    }
+                };
+            })
+            .OrderBy(_ => _.Ability.Id)
+            .ToDictionary(_ => _.Ability.Id);
+
             this.WriteResultsToFile("ability-details.json", collection);
 
             await Task.Delay(TimeSpan.FromSeconds(1));
