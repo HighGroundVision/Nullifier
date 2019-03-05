@@ -121,92 +121,111 @@ namespace HGV.Nullifier
                     if (count > 0)
                         continue;
 
+                    var valid = 1;
                     var date = DateTimeOffset.FromUnixTimeSeconds(match.start_time).UtcDateTime;
                     var duration = DateTimeOffset.FromUnixTimeSeconds(match.duration).TimeOfDay.TotalMinutes;
                     var day_of_week = (int)date.DayOfWeek;
+
+                    var time_limit = 10;
+                    if (duration < time_limit)
+                    {
+                        valid = 0;
+                        this.logger.Warning($"Match {match.match_id} is invalid as it is less then {time_limit} mins.");
+                    }
+                    else
+                    {
+                        ProcessPlayer(heroes, abilities, ultimates, talents, match, context, ref valid);
+                    }
 
                     var match_summary = new MatchSummary()
                     {
                         id = match.match_id,
                         match_number = match.match_seq_num,
+                        league_id = match.leagueid,
                         duration = duration,
                         day_of_week = day_of_week,
                         date = date,
                         victory_radiant = match.radiant_win ? 1 : 0,
                         victory_dire = match.radiant_win ? 0 : 1,
+                        valid = valid,
                     };
                     context.Matches.Add(match_summary);
 
-                    foreach (var player in match.players)
-                    {
-                        var team = player.player_slot < 6 ? 0 : 1;
-                        var order = this.ConvertPlayerSlotToDraftOrder(player.player_slot);
-                        var result = team == 0 ? match.radiant_win : !match.radiant_win;
-                        var hero_id = player.hero_id;
-
-                        var heroes_abilities = new List<int>();
-                        heroes.TryGetValue(hero_id, out heroes_abilities);
-
-                        var player_summary = new PlayerSummary()
-                        {
-                            match_result = result == true ? 1 : 0,
-                            team = team,
-                            hero_id = hero_id,
-                            player_slot = player.player_slot,
-                            draft_order = order,
-                            account_id = player.account_id,
-                            kills = player.kills,
-                            deaths = player.deaths,
-                            assists = player.assists,
-                            last_hits = player.last_hits,
-                            denies = player.denies,
-                            gold = player.gold,
-                            level = player.level,
-                            gold_per_min = player.gold_per_min,
-                            xp_per_min = player.xp_per_min,
-                            gold_spent = player.gold_spent,
-                            hero_damage = player.hero_damage,
-                            tower_damage = player.tower_damage,
-                            hero_healing = player.hero_healing,
-                            match_id = match.match_id
-                        };
-                        context.Players.Add(player_summary);
-
-                        if(player.ability_upgrades != null)
-                        {
-                            var collection = player.ability_upgrades.Select(_ => _.ability).Distinct().ToList();
-                            foreach (var ability_id in collection)
-                            {
-                                var skill_summary = new SkillSummary()
-                                {
-                                    ability_id = ability_id,
-                                    is_skill = abilities.Contains(ability_id) ? 1 : 0,
-                                    is_ulimate = ultimates.Contains(ability_id) ? 1 : 0,
-                                    is_taltent = talents.Contains(ability_id) ? 1 : 0,
-                                    is_self = heroes_abilities.Contains(ability_id) ? 1 : 0,
-                                    match_result = result == true ? 1 : 0,
-                                    hero_id = hero_id,
-                                    account_id = player.account_id,
-                                    draft_order = order,
-                                    match_id = match.match_id,
-                                };
-                                context.Skills.Add(skill_summary);
-                            }
-                        }
-                    }
-
                     await context.SaveChangesAsync();
 
-                    var now = DateTime.Now;
-                    var processing_delta = now - then;
-                    var match_delta = now - match_summary.date.ToLocalTime().AddMinutes(match_summary.duration);
-
-                    this.logger.Info(string.Format("Processing took {1:0.00} secs on Match[{0}] which ended {2:0.00} mins ago", match.match_id, processing_delta.TotalSeconds, match_delta.TotalMinutes));
+                    LogResults(then, match, match_summary);
                 }
                 catch (Exception ex)
                 {
                     this.logger.Error(ex);
                 }
+            }
+        }
+
+        private void LogResults(DateTime then, Match match, MatchSummary match_summary)
+        {
+            var now = DateTime.Now;
+            var processing_delta = now - then;
+            var match_delta = now - match_summary.date.ToLocalTime().AddMinutes(match_summary.duration);
+            var end_time = Math.Round(match_delta.TotalMinutes, 2);
+            var processing_time = Math.Round(processing_delta.TotalSeconds, 2);
+
+            this.logger.Info($"Match {match.match_id} took {processing_time} secs to process which ended {end_time} mins ago");
+        }
+
+        private void ProcessPlayer(Dictionary<int, List<int>> heroes, List<int> abilities, List<int> ultimates, List<int> talents, Match match, DataContext context, ref int valid)
+        {
+            foreach (var player in match.players)
+            {
+                var team = player.player_slot < 6 ? 0 : 1;
+                var order = this.ConvertPlayerSlotToDraftOrder(player.player_slot);
+                var result = team == 0 ? match.radiant_win : !match.radiant_win;
+                var hero_id = player.hero_id;
+
+                var heroes_abilities = new List<int>();
+                heroes.TryGetValue(hero_id, out heroes_abilities);
+
+                if (player.ability_upgrades == null)
+                {
+                    valid = 0;
+                    this.logger.Warning($"Match {match.match_id} is invalid as player {order} has no abilities, no players and abilities will be logged.");
+                    continue;
+                }
+
+                var collection = player.ability_upgrades.Select(_ => _.ability).Distinct().ToList();
+                foreach (var ability_id in collection)
+                {
+                    var skill_summary = new SkillSummary()
+                    {
+                        ability_id = ability_id,
+
+                        is_skill = abilities.Contains(ability_id) ? 1 : 0,
+                        is_ulimate = ultimates.Contains(ability_id) ? 1 : 0,
+                        is_taltent = talents.Contains(ability_id) ? 1 : 0,
+                        is_self = heroes_abilities.Contains(ability_id) ? 1 : 0,
+
+                        match_result = result == true ? 1 : 0,
+                        team = team,
+                        hero_id = hero_id,
+                        draft_order = order,
+                        account_id = player.account_id,
+                        match_id = match.match_id,
+                        league_id = match.leagueid
+                    };
+                    context.Skills.Add(skill_summary);
+                }
+
+                var player_summary = new PlayerSummary()
+                {
+                    match_result = result == true ? 1 : 0,
+                    team = team,
+                    hero_id = hero_id,
+                    draft_order = order,
+                    account_id = player.account_id,
+                    match_id = match.match_id,
+                    league_id = match.leagueid
+                };
+                context.Players.Add(player_summary);
             }
         }
 

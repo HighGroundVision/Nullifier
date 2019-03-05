@@ -10,7 +10,16 @@ namespace HGV.Nullifier.Logger
     {
         public void Error(Exception ex)
         {
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine(ex.Message);
+            Console.ResetColor();
+        }
+
+        public void Warning(string msg)
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine(msg);
+            Console.ResetColor();
         }
 
         public void Info(string msg)

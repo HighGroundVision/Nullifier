@@ -13,6 +13,7 @@ namespace HGV.Nullifier.Data.Models
 
         [Index]
         public long match_number { get; set; }
+        public int league_id { get; set; }
 
         public double duration { get; set; }
         public int day_of_week { get; set; }
@@ -20,5 +21,7 @@ namespace HGV.Nullifier.Data.Models
 
         public int victory_dire { get; set; }
         public int victory_radiant { get; set; }
+
+        public int valid { get; set; }
     }
 }

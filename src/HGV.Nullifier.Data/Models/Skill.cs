@@ -18,9 +18,11 @@ namespace HGV.Nullifier.Data.Models
 
         [Index]
         public long match_id { get; set; }
+        public int league_id { get; set; }
 
         public long account_id { get; set; }
         public int draft_order { get; set; }
+        public int team { get; set; }
 
         public int match_result { get; set; }
         public int is_skill { get; set; }

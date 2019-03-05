@@ -22,8 +22,15 @@ namespace HGV.Nullifer.Service
         public void Error(Exception ex)
         {
             this.Flush();
-
+            
             this.events.WriteEntry(ex.Message, EventLogEntryType.Error);
+        }
+
+        public void Warning(string msg)
+        {
+            this.Flush();
+
+            this.events.WriteEntry(msg, EventLogEntryType.Warning);
         }
 
         public void Info(string msg)
@@ -32,12 +39,15 @@ namespace HGV.Nullifer.Service
 
             if (this.messages.Count >= 10) { this.Flush(); }
         }
-
+     
         private void Flush()
         {
-            var entry = string.Join(Environment.NewLine, this.messages.ToArray());
-            this.events.WriteEntry(entry);
-            this.messages.Clear();
+            if(this.messages.Count() > 0)
+            {
+                var entry = string.Join(Environment.NewLine, this.messages.ToArray());
+                this.events.WriteEntry(entry);
+                this.messages.Clear();
+            }
         }
     }
 }

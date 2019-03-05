@@ -22,15 +22,13 @@ namespace HGV.Nullifier
         private JsonSerializerSettings jsonSettings;
         private string outputDirectory;
         private readonly string apiKey;
-
-        
+  
         public static void Run(string apiKey, CancellationToken t, ILogger l)
         {
             var handler = new StatExportHandler(apiKey, l);
             handler.Initialize();
 
             var tasks = new Task[] {
-                /*
                 handler.ExportSummary(),
                 handler.ExportDraftPool(),
                 handler.ExportHeroesSummary(),
@@ -39,9 +37,8 @@ namespace HGV.Nullifier
                 handler.ExportAbilities(),
                 handler.ExportUltimates(),
                 handler.ExportTaltents(),
-                */
                 handler.ExportAbilityDetails(),
-                // handler.ExportAccounts()
+                handler.ExportAccounts()
             };
             Task.WaitAll(tasks, t);
         }
@@ -762,6 +759,13 @@ namespace HGV.Nullifier
             await Task.Delay(TimeSpan.FromSeconds(1));
         }
 
+        private long GetSteamId(long accountId)
+        {
+            var account_id = (uint)accountId;
+            var id = new SteamID(account_id, EUniverse.Public, EAccountType.Individual);
+            return (long)id.ConvertToUInt64();
+        }
+
         public async Task ExportAccounts()
         {
             const long CATCH_ALL_ACCOUNT_ID = 4294967295;
@@ -770,40 +774,43 @@ namespace HGV.Nullifier
             var metaClient = new MetaClient();
             var apiClient = new DotaApiClient(this.apiKey);
 
-            var players = await context.Players.Where(_ => _.account_id != CATCH_ALL_ACCOUNT_ID).GroupBy(_ => _.account_id).Select(_ => new
-            {
-                AccountId = _.Key,
-                Wins = (float)_.Sum(__ => __.match_result),
-                Matches = (float)_.Count(),
-            })
-            .ToListAsync();
+            var players = await context.Players
+                .Where(_ => _.account_id != CATCH_ALL_ACCOUNT_ID)
+                .GroupBy(_ => _.account_id)
+                .Select(_ => new
+                {
+                    AccountId = _.Key,
+                    Wins = (float)_.Sum(__ => __.match_result),
+                    Matches = (float)_.Count(),
+                })
+                .ToListAsync();
 
             (double sdMatches, double meanMatches, double maxMatches, double minMatches) = players.Deviation(_ => _.Matches);
             var high = meanMatches + sdMatches;
             
             var collection = players
-            .Where(_ => _.Matches > high)
-            .Select(_ => new
-            {
-                AccountId = _.AccountId,
-                ProfileId = (long)(new SteamID((uint)_.AccountId, EUniverse.Public, EAccountType.Individual).ConvertToUInt64()),
-                Wins = _.Wins,
-                Matches = _.Matches,
-                WinRate = _.Wins / _.Matches,
-            })
-            .OrderByDescending(_ => _.WinRate)
-            .ThenByDescending(_ => _.Matches)
-            .Take(100)
-            .Select(_ => new
-            {
-                AccountId = _.AccountId,
-                ProfileId = _.ProfileId,
-                Wins = _.Wins,
-                Matches = _.Matches,
-                WinRate = _.Wins / _.Matches,
-                // Profile = apiClient.GetPlayerSummaries(_.ProfileId).Result,
-            })
-            .ToList();
+                .Where(_ => _.Matches > high)
+                .Select(_ => new
+                {
+                    AccountId = _.AccountId,
+                    ProfileId = GetSteamId(_.AccountId),
+                    Wins = _.Wins,
+                    Matches = _.Matches,
+                    WinRate = _.Wins / _.Matches,
+                })
+                .OrderByDescending(_ => _.WinRate)
+                .ThenByDescending(_ => _.Matches)
+                .Take(100)
+                .Select(_ => new
+                {
+                    AccountId = _.AccountId,
+                    ProfileId = _.ProfileId,
+                    Wins = _.Wins,
+                    Matches = _.Matches,
+                    WinRate = _.Wins / _.Matches,
+                    Profile = apiClient.GetPlayerSummaries(_.ProfileId).Result,
+                })
+                .ToList();
 
             var count = collection.Count();
 

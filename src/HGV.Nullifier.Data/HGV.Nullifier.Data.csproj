@@ -61,6 +61,14 @@
     <Compile Include="Migrations\201902260527594_ImportProject.Designer.cs">
       <DependentUpon>201902260527594_ImportProject.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201903021631002_EqualizeTables.cs" />
+    <Compile Include="Migrations\201903021631002_EqualizeTables.Designer.cs">
+      <DependentUpon>201903021631002_EqualizeTables.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903021633213_RemoveUnusedColumnsFromPlayer.cs" />
+    <Compile Include="Migrations\201903021633213_RemoveUnusedColumnsFromPlayer.Designer.cs">
+      <DependentUpon>201903021633213_RemoveUnusedColumnsFromPlayer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="DataContext.cs" />
     <Compile Include="Models\Ability.cs" />
@@ -77,6 +85,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201902260527594_ImportProject.resx">
       <DependentUpon>201902260527594_ImportProject.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903021631002_EqualizeTables.resx">
+      <DependentUpon>201903021631002_EqualizeTables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903021633213_RemoveUnusedColumnsFromPlayer.resx">
+      <DependentUpon>201903021633213_RemoveUnusedColumnsFromPlayer.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
