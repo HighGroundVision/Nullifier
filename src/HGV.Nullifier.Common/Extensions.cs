@@ -30,5 +30,18 @@ namespace HGV.Nullifier
 
             return (stdDev, mean, max, min);
         }
+
+        public static V GetValueOrDefault<T, V>(this IDictionary<T, V> map, T key)
+        {
+            V value;
+            if (map.TryGetValue(key, out value))
+            {
+                return value;
+            }
+            else
+            {
+                return default(V);
+            }
+        }
     }
 }

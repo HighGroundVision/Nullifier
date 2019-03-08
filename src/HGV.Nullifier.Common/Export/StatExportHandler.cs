@@ -92,14 +92,7 @@ namespace HGV.Nullifier
 
             var dailyCounts = context.Matches
                 .GroupBy(_ => _.day_of_week)
-                .Select(_ => new
-                {
-                    Day = _.Key,
-                    Count = _.Count()
-                })
-                .OrderBy(_ => _.Day)
-                .Select(_ => _.Count / (float)totalMatches)
-                .ToList();
+                .ToDictionary(_ => _.Key, _ => _.Count() / (float)totalMatches);
 
             var summary = new
             {
@@ -116,13 +109,13 @@ namespace HGV.Nullifier
                 },
                 Daily = new
                 {
-                    Sunday = dailyCounts.ElementAtOrDefault(0),
-                    Monday = dailyCounts.ElementAtOrDefault(1),
-                    Tuesday = dailyCounts.ElementAtOrDefault(2),
-                    Wednesday = dailyCounts.ElementAtOrDefault(3),
-                    Thursday = dailyCounts.ElementAtOrDefault(4),
-                    Friday = dailyCounts.ElementAtOrDefault(5),
-                    Saturday = dailyCounts.ElementAtOrDefault(6),
+                    Sunday = dailyCounts.GetValueOrDefault(0),
+                    Monday = dailyCounts.GetValueOrDefault(1),
+                    Tuesday = dailyCounts.GetValueOrDefault(2),
+                    Wednesday = dailyCounts.GetValueOrDefault(3),
+                    Thursday = dailyCounts.GetValueOrDefault(4),
+                    Friday = dailyCounts.GetValueOrDefault(5),
+                    Saturday = dailyCounts.GetValueOrDefault(6),
                 }
             };
 
