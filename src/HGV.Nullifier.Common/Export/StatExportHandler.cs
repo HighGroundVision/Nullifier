@@ -79,43 +79,119 @@ namespace HGV.Nullifier
 
         }
 
+        private int ConvertHODtoCycle(int hour)
+        {
+            if (hour > 0 && hour <= 6)
+                return 1; // Night
+            else if (hour > 6 && hour <= 12)
+                return 2; // Morning
+            else if (hour > 12 && hour <= 18)
+                return 3; // Afternoon
+            else if (hour > 18 && hour <= 24)
+                return 4; // Evening
+            else
+                return 1; // Unknown
+        }
+
         public async Task ExportSummary()
         {
             var context = new DataContext();
             var client = new MetaClient();
+            var apiClient = new DotaApiClient(this.apiKey);
 
-            var totalMatches = await context.Matches.CountAsync();
-            var minDate = await context.Matches.MinAsync(_ => _.date);
-            var maxDate = await context.Matches.MaxAsync(_ => _.date);
-            var radiant = await context.Matches.SumAsync(_ => _.victory_radiant);
-            var dire = await context.Matches.SumAsync(_ => _.victory_dire);
+            var matchesCollection = await context.Matches.ToListAsync();
 
-            var dailyCounts = context.Matches
-                .GroupBy(_ => _.day_of_week)
-                .ToDictionary(_ => _.Key, _ => _.Count() / (float)totalMatches);
+            var totalMatches = (float)matchesCollection.Count();
+            var abandonedMatches = matchesCollection.Where(_ => _.valid == 0).Count();
+            var minDate = matchesCollection.Min(_ => _.date);
+            var maxDate = matchesCollection.Max(_ => _.date);
+            var radiant = matchesCollection.Sum(_ => _.victory_radiant);
+            var dire = matchesCollection.Sum(_ => _.victory_dire);
+
+            var dailyCounts = matchesCollection.GroupBy(_ => _.day_of_week).ToDictionary(_ => _.Key, _ => _.Count());
+            var dailyCycleCounts = matchesCollection.GroupBy(_ => new { day = _.day_of_week, cycle = ConvertHODtoCycle(_.date.Hour) }).ToList();
+
+            var heroes = await GetHeroes();
+            var h1 = heroes.OrderByDescending(_ => _.WinRate).FirstOrDefault();
+
+            var abilities = await GetAbilities();
+            var a1 = abilities.OrderByDescending(_ => _.Wins).FirstOrDefault();
+            var a2 = abilities.OrderByDescending(_ => _.WinRate).FirstOrDefault();
+
+            var acounts = await GetAccounts();
+            var p1 = acounts.OrderByDescending(_ => _.Wins).Take(1).Select(_ => new { Stats = _, Profile = apiClient.GetPlayerSummaries(_.ProfileId).Result }).FirstOrDefault();
+            var p2 = acounts.OrderByDescending(_ => _.WinRate).Take(1).Select(_ => new { Stats = _, Profile = apiClient.GetPlayerSummaries(_.ProfileId).Result }).FirstOrDefault();
+            var p3 = acounts.OrderByDescending(_ => _.Matches).Take(1).Select(_ => new { Stats = _, Profile = apiClient.GetPlayerSummaries(_.ProfileId).Result }).FirstOrDefault();
 
             var summary = new
             {
+                Leaders = new
+                {
+                    Hero = new
+                    {
+                        BestWinRate = h1,
+                    },
+                    Ability = new 
+                    {
+                        MostWins = a1,
+                        BestWinRate = a2,
+                    },
+                    Players = new
+                    {
+                        MostWins = p1,
+                        BestWinRate = p2,
+                        MostMatches = p3,
+                    }
+                },
                 Range = new
                 {
                     Start = minDate,
                     End = maxDate,
-                    Matches = totalMatches,
+                    Matches = (int)totalMatches,
+                    Abandoned = Math.Round(abandonedMatches / totalMatches * 100, 2)
                 },
                 Team = new
                 {
-                    Radiant = radiant / (float)totalMatches,
-                    Dire = dire / (float)totalMatches,
+                    Radiant = radiant / totalMatches,
+                    Dire = dire / totalMatches,
                 },
                 Daily = new
                 {
-                    Sunday = dailyCounts.GetValueOrDefault(0),
-                    Monday = dailyCounts.GetValueOrDefault(1),
-                    Tuesday = dailyCounts.GetValueOrDefault(2),
-                    Wednesday = dailyCounts.GetValueOrDefault(3),
-                    Thursday = dailyCounts.GetValueOrDefault(4),
-                    Friday = dailyCounts.GetValueOrDefault(5),
-                    Saturday = dailyCounts.GetValueOrDefault(6),
+                    Sunday = new
+                    {
+                        total = (int)Math.Round(dailyCounts.GetValueOrDefault(0) / totalMatches * 100),
+                        hours = dailyCycleCounts.Where(_ => _.Key.day == 0).ToDictionary(_ => _.Key.cycle, _ => (int)Math.Round(_.Count() / (float)dailyCounts.GetValueOrDefault(0) * 100)),
+                    },
+                    Monday = new
+                    {
+                        total = (int)Math.Round(dailyCounts.GetValueOrDefault(1) / totalMatches * 100),
+                        hours = dailyCycleCounts.Where(_ => _.Key.day == 1).ToDictionary(_ => _.Key.cycle, _ => (int)Math.Round(_.Count() / (float)dailyCounts.GetValueOrDefault(1) * 100)),
+                    },
+                    Tuesday = new
+                    {
+                        total = (int)Math.Round(dailyCounts.GetValueOrDefault(2) / totalMatches * 100),
+                        hours = dailyCycleCounts.Where(_ => _.Key.day == 2).ToDictionary(_ => _.Key.cycle, _ => (int)Math.Round(_.Count() / (float)dailyCounts.GetValueOrDefault(2) * 100)),
+                    },
+                    Wednesday = new
+                    {
+                        total = (int)Math.Round(dailyCounts.GetValueOrDefault(3) /totalMatches * 100),
+                        hours = dailyCycleCounts.Where(_ => _.Key.day == 3).ToDictionary(_ => _.Key.cycle, _ => (int)Math.Round(_.Count() / (float)dailyCounts.GetValueOrDefault(3) * 100)),
+                    },
+                    Thursday = new
+                    {
+                        total = (int)Math.Round(dailyCounts.GetValueOrDefault(4) / totalMatches * 100),
+                        hours = dailyCycleCounts.Where(_ => _.Key.day == 4).ToDictionary(_ => _.Key.cycle, _ => (int)Math.Round(_.Count() / (float)dailyCounts.GetValueOrDefault(4) * 100)),
+                    },
+                    Friday = new
+                    {
+                        total = (int)Math.Round(dailyCounts.GetValueOrDefault(5) / totalMatches * 100),
+                        hours = dailyCycleCounts.Where(_ => _.Key.day == 5).ToDictionary(_ => _.Key.cycle, _ => (int)Math.Round(_.Count() / (float)dailyCounts.GetValueOrDefault(5) * 100)),
+                    },
+                    Saturday = new
+                    {
+                        total = (int)Math.Round(dailyCounts.GetValueOrDefault(6) / totalMatches * 100),
+                        hours = dailyCycleCounts.Where(_ => _.Key.day == 6).ToDictionary(_ => _.Key.cycle, _ => (int)Math.Round(_.Count() / (float)dailyCounts.GetValueOrDefault(6) * 100)),
+                    }
                 }
             };
 
@@ -137,18 +213,21 @@ namespace HGV.Nullifier
                     Name = _.Name,
                     Key = _.Key,
                     Image = string.Format("https://hgv-hyperstone.azurewebsites.net/heroes/banner/{0}.png", _.Key),
-                    Abilities = _.Abilities.Where(__ => __.Id != Ability.GENERIC).Select(__ => new
-                    {
-                        Id = __.Id,
-                        HeroId = _.Id,
-                        Name = __.Name,
-                        Key = __.Key,
-                        Image = string.Format("https://hgv-hyperstone.azurewebsites.net/abilities/{0}.png", __.Key),
-                        IsUltimate = __.IsUltimate,
-                        HasUpgrade = __.HasScepterUpgrade,
-                        Enabled = __.AbilityDraftEnabled,
-                        HasData = abilitiesCaptured.Contains(__.Id),
-                    }).ToList()
+                    Abilities = _.Abilities
+                        .Where(__ => __.AbilityBehaviors.Contains("DOTA_ABILITY_BEHAVIOR_HIDDEN") == false || __.HasScepterUpgrade == true)
+                        .Where(__ => __.AbilityBehaviors.Contains("DOTA_ABILITY_BEHAVIOR_NOT_LEARNABLE") == false || __.HasScepterUpgrade == true)
+                        .Select(__ => new
+                        {
+                            Id = __.Id,
+                            HeroId = _.Id,
+                            Name = __.Name,
+                            Key = __.Key,
+                            Image = string.Format("https://hgv-hyperstone.azurewebsites.net/abilities/{0}.png", __.Key),
+                            IsUltimate = __.IsUltimate,
+                            HasUpgrade = __.HasScepterUpgrade,
+                            Enabled = __.AbilityDraftEnabled,
+                            HasData = abilitiesCaptured.Contains(__.Id),
+                        }).ToList()
                 })
                 .OrderBy(_ => _.Name)
                 .ToList();
@@ -397,7 +476,7 @@ namespace HGV.Nullifier
                 return new
                 {
                     Summary = _,
-                    Hero = details.Find(__ => __.Id == _.Id),
+                    // Hero = details.Find(__ => __.Id == _.Id),
                     Attributes = attributes.Where(__ => __.HeroId == _.Id).FirstOrDefault(),
                     Abilities = abilities.Where(__ => __.HeroId == _.Id).ToList(),
                     Ultimates = ultimates.Where(__ => __.HeroId == _.Id).ToList(),
@@ -409,8 +488,8 @@ namespace HGV.Nullifier
                     }
                 };
             })
-            .OrderBy(_ => _.Hero.Id)
-            .ToDictionary(_ => _.Hero.Id);
+            .OrderBy(_ => _.Summary.Id)
+            .ToDictionary(_ => _.Summary.Id);
 
             this.WriteResultsToFile("hero-details.json", collection);
         }
@@ -759,13 +838,13 @@ namespace HGV.Nullifier
             return (long)id.ConvertToUInt64();
         }
 
-        public async Task ExportAccounts()
+        public async Task<List<Common.Export.Player>> GetAccounts()
         {
             const long CATCH_ALL_ACCOUNT_ID = 4294967295;
 
             var context = new DataContext();
             var metaClient = new MetaClient();
-            var apiClient = new DotaApiClient(this.apiKey);
+           
 
             var players = await context.Players
                 .Where(_ => _.account_id != CATCH_ALL_ACCOUNT_ID)
@@ -780,10 +859,10 @@ namespace HGV.Nullifier
 
             (double sdMatches, double meanMatches, double maxMatches, double minMatches) = players.Deviation(_ => _.Matches);
             var high = meanMatches + sdMatches;
-            
+
             var collection = players
                 .Where(_ => _.Matches > high)
-                .Select(_ => new
+                .Select(_ => new Common.Export.Player
                 {
                     AccountId = _.AccountId,
                     ProfileId = GetSteamId(_.AccountId),
@@ -793,6 +872,18 @@ namespace HGV.Nullifier
                 })
                 .OrderByDescending(_ => _.WinRate)
                 .ThenByDescending(_ => _.Matches)
+                .ToList();
+
+            return collection;
+        }
+
+        public async Task ExportAccounts()
+        {
+            var apiClient = new DotaApiClient(this.apiKey);
+
+            var acounts = await GetAccounts();
+
+            var collection = acounts
                 .Take(100)
                 .Select(_ => new
                 {
@@ -800,7 +891,7 @@ namespace HGV.Nullifier
                     ProfileId = _.ProfileId,
                     Wins = _.Wins,
                     Matches = _.Matches,
-                    WinRate = _.Wins / _.Matches,
+                    WinRate = _.WinRate,
                     Profile = apiClient.GetPlayerSummaries(_.ProfileId).Result,
                 })
                 .ToList();
