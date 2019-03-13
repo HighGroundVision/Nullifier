@@ -7,13 +7,13 @@ namespace HGV.Nullifier.Data.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class RemovedDrafts : IMigrationMetadata
+    public sealed partial class EqualizeTables : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(RemovedDrafts));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(EqualizeTables));
         
         string IMigrationMetadata.Id
         {
-            get { return "201811210016126_RemovedDrafts"; }
+            get { return "201903021631002_EqualizeTables"; }
         }
         
         string IMigrationMetadata.Source

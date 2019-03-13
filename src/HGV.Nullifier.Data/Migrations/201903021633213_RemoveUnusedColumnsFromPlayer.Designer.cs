@@ -7,13 +7,13 @@ namespace HGV.Nullifier.Data.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class ImportProject : IMigrationMetadata
+    public sealed partial class RemoveUnusedColumnsFromPlayer : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(ImportProject));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(RemoveUnusedColumnsFromPlayer));
         
         string IMigrationMetadata.Id
         {
-            get { return "201809190605178_ImportProject"; }
+            get { return "201903021633213_RemoveUnusedColumnsFromPlayer"; }
         }
         
         string IMigrationMetadata.Source

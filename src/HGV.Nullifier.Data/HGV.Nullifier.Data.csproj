@@ -37,14 +37,11 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="HGV.Basilius, Version=2.0.22.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\HGV.Basilius.2.0.22\lib\netstandard2.0\HGV.Basilius.dll</HintPath>
+    <Reference Include="HGV.Basilius, Version=2.0.31.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HGV.Basilius.2.0.31\lib\netstandard2.0\HGV.Basilius.dll</HintPath>
     </Reference>
-    <Reference Include="HGV.Daedalus, Version=1.1.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\HGV.Daedalus.1.1.4\lib\netstandard2.0\HGV.Daedalus.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -60,42 +57,40 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Migrations\201809190605178_ImportProject.cs" />
-    <Compile Include="Migrations\201809190605178_ImportProject.Designer.cs">
-      <DependentUpon>201809190605178_ImportProject.cs</DependentUpon>
+    <Compile Include="Migrations\201902260527594_ImportProject.cs" />
+    <Compile Include="Migrations\201902260527594_ImportProject.Designer.cs">
+      <DependentUpon>201902260527594_ImportProject.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201811202349316_TalentHeroStats.cs" />
-    <Compile Include="Migrations\201811202349316_TalentHeroStats.Designer.cs">
-      <DependentUpon>201811202349316_TalentHeroStats.cs</DependentUpon>
+    <Compile Include="Migrations\201903021631002_EqualizeTables.cs" />
+    <Compile Include="Migrations\201903021631002_EqualizeTables.Designer.cs">
+      <DependentUpon>201903021631002_EqualizeTables.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201811210016126_RemovedDrafts.cs" />
-    <Compile Include="Migrations\201811210016126_RemovedDrafts.Designer.cs">
-      <DependentUpon>201811210016126_RemovedDrafts.cs</DependentUpon>
+    <Compile Include="Migrations\201903021633213_RemoveUnusedColumnsFromPlayer.cs" />
+    <Compile Include="Migrations\201903021633213_RemoveUnusedColumnsFromPlayer.Designer.cs">
+      <DependentUpon>201903021633213_RemoveUnusedColumnsFromPlayer.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\TalentHeroStat.cs" />
-    <Compile Include="Models\AbilityStat.cs" />
-    <Compile Include="Models\AbilityComboStat.cs" />
     <Compile Include="DataContext.cs" />
-    <Compile Include="Models\GameModeStat.cs" />
-    <Compile Include="Models\AbilityHeroStat.cs" />
-    <Compile Include="Models\HeroStat.cs" />
+    <Compile Include="Models\Ability.cs" />
+    <Compile Include="Models\Hero.cs" />
+    <Compile Include="Models\Match.cs" />
+    <Compile Include="Models\Player.cs" />
+    <Compile Include="Models\Skill.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StatCollectionHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201809190605178_ImportProject.resx">
-      <DependentUpon>201809190605178_ImportProject.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201902260527594_ImportProject.resx">
+      <DependentUpon>201902260527594_ImportProject.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201811202349316_TalentHeroStats.resx">
-      <DependentUpon>201811202349316_TalentHeroStats.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201903021631002_EqualizeTables.resx">
+      <DependentUpon>201903021631002_EqualizeTables.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201811210016126_RemovedDrafts.resx">
-      <DependentUpon>201811210016126_RemovedDrafts.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201903021633213_RemoveUnusedColumnsFromPlayer.resx">
+      <DependentUpon>201903021633213_RemoveUnusedColumnsFromPlayer.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -4,17 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{AA585E88-2EC8-4B1F-B21C-6E3991238550}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>HGV.Nullifier.Tools.Export</RootNamespace>
-    <AssemblyName>HGV.Nullifier.Tools.Export</AssemblyName>
+    <ProjectGuid>{26404A5E-0CE4-4A34-884F-065DC016B82B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>HGV.Nullifier.Common</RootNamespace>
+    <AssemblyName>HGV.Nullifier.Common</AssemblyName>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,7 +23,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -39,6 +37,12 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="HGV.Basilius, Version=2.0.31.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HGV.Basilius.2.0.31\lib\netstandard2.0\HGV.Basilius.dll</HintPath>
+    </Reference>
+    <Reference Include="HGV.Daedalus, Version=1.1.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HGV.Daedalus.1.1.6\lib\netstandard2.0\HGV.Daedalus.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -46,6 +50,9 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -54,21 +61,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="Export\Ability.cs" />
+    <Compile Include="Export\AbilityCombo.cs" />
+    <Compile Include="Export\AbilityHero.cs" />
+    <Compile Include="Export\Hero.cs" />
+    <Compile Include="Export\HeroAttribute.cs" />
+    <Compile Include="Export\HeroCombo.cs" />
+    <Compile Include="Export\HeroTalent.cs" />
+    <Compile Include="Export\Player.cs" />
+    <Compile Include="Export\SteamID.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="Logger\DefaultLogger.cs" />
+    <Compile Include="Logger\ILogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Collection\StatCollectionHandler.cs" />
+    <Compile Include="Export\StatExportHandler.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-    <None Include="packages.config" />
-    <None Include="User.App.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\HGV.Nullifier.Common\HGV.Nullifier.Common.csproj">
-      <Project>{26404a5e-0ce4-4a34-884f-065dc016b82b}</Project>
-      <Name>HGV.Nullifier.Common</Name>
+    <ProjectReference Include="..\HGV.Nullifier.Data\HGV.Nullifier.Data.csproj">
+      <Project>{df406c39-1b5b-4413-af4d-8f83d781adc8}</Project>
+      <Name>HGV.Nullifier.Data</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
