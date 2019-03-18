@@ -14,10 +14,8 @@ namespace HGV.Nullifier.Common.Export
         public string Image { get; set; }
         public string AttributePrimary { get; set; }
         public string AttackCapabilities { get; set; }
-        public double Picks { get; set; }
-        public int PicksDeviation { get; set; }
-        public double Wins { get; set; }
-        public int WinsDeviation { get; set; }
         public double WinRate { get; set; }
+        public double WinRateDelta { get; set; }
+        public string Color { get; set; }
     }
 }

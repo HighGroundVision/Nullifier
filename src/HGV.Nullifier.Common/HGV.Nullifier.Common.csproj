@@ -37,11 +37,11 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="HGV.Basilius, Version=2.0.31.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\HGV.Basilius.2.0.31\lib\netstandard2.0\HGV.Basilius.dll</HintPath>
+    <Reference Include="HGV.Basilius, Version=2.0.32.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HGV.Basilius.2.0.32\lib\netstandard2.0\HGV.Basilius.dll</HintPath>
     </Reference>
-    <Reference Include="HGV.Daedalus, Version=1.1.6.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\HGV.Daedalus.1.1.6\lib\netstandard2.0\HGV.Daedalus.dll</HintPath>
+    <Reference Include="HGV.Daedalus, Version=1.1.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HGV.Daedalus.1.1.7\lib\netstandard2.0\HGV.Daedalus.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>

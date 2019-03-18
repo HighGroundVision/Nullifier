@@ -11,8 +11,13 @@ namespace HGV.Nullifier.Common.Export
         public long AccountId { get; set; }
         public long ProfileId { get; set; }
 
+        public int Rank { get; set; }
         public double Matches { get; set; }
         public double Wins { get; set; }
         public double WinRate { get; set; }
+
+        public string Avatar { get; set; }
+        public string Name { get; set; }
+        public string ProfileUrl { get; set; }
     }
 }

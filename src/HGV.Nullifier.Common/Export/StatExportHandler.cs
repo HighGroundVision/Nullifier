@@ -9,8 +9,6 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -30,15 +28,15 @@ namespace HGV.Nullifier
 
             var tasks = new Task[] {
                 // handler.ExportSummary(),
-                //handler.ExportDraftPool(),
-                //handler.ExportHeroesSummary(),
-                //handler.ExportHeroes(),
-                //handler.ExportHeroDetails(),
-                //handler.ExportAbilities(),
-                //handler.ExportUltimates(),
-                //handler.ExportTaltents(),
-                //handler.ExportAbilityDetails(),
-                //handler.ExportAccounts()
+                // handler.ExportDraftPool(),
+                // handler.ExportHeroesSummary(),
+                handler.ExportHeroes(),
+                // handler.ExportHeroDetails(),
+                // handler.ExportAbilities(),
+                // handler.ExportUltimates(),
+                // handler.ExportTaltents(),
+                // handler.ExportAbilityDetails(),
+                // handler.ExportAccounts()
             };
             Task.WaitAll(tasks, t);
         }
@@ -118,30 +116,16 @@ namespace HGV.Nullifier
             var a1 = abilities.OrderByDescending(_ => _.Wins).FirstOrDefault();
             var a2 = abilities.OrderByDescending(_ => _.WinRate).FirstOrDefault();
 
-            var acounts = await GetAccounts();
-            var p1 = acounts.OrderByDescending(_ => _.Wins).Take(1).Select(_ => new { Stats = _, Profile = apiClient.GetPlayerSummaries(_.ProfileId).Result }).FirstOrDefault();
-            var p2 = acounts.OrderByDescending(_ => _.WinRate).Take(1).Select(_ => new { Stats = _, Profile = apiClient.GetPlayerSummaries(_.ProfileId).Result }).FirstOrDefault();
-            var p3 = acounts.OrderByDescending(_ => _.Matches).Take(1).Select(_ => new { Stats = _, Profile = apiClient.GetPlayerSummaries(_.ProfileId).Result }).FirstOrDefault();
-
             var summary = new
             {
-                Leaders = new
+                Hero = new
                 {
-                    Hero = new
-                    {
-                        BestWinRate = h1,
-                    },
-                    Ability = new 
-                    {
-                        MostWins = a1,
-                        BestWinRate = a2,
-                    },
-                    Players = new
-                    {
-                        MostWins = p1,
-                        BestWinRate = p2,
-                        MostMatches = p3,
-                    }
+                    BestWinRate = h1,
+                },
+                Ability = new
+                {
+                    MostWins = a1,
+                    BestWinRate = a2,
                 },
                 Range = new
                 {
@@ -316,14 +300,12 @@ namespace HGV.Nullifier
                 Id = rhs.Id,
                 Name = rhs.Name,
                 Key = rhs.Key,
-                Image = string.Format("https://hgv-hyperstone.azurewebsites.net/heroes/banner/{0}.png", rhs.Key),
+                Image = string.Format("https://hgv-hyperstone.azurewebsites.net/heroes/icons/{0}.png", rhs.Key),
                 AttributePrimary = rhs.AttributePrimary,
                 AttackCapabilities = rhs.AttackCapabilities,
-                Picks = lhs.Picks / maxPicks,
-                PicksDeviation = (meanPicks - sdPicks) > lhs.Picks ? -1 : (meanPicks + sdPicks) < lhs.Picks ? 1 : 0,
-                Wins = lhs.Wins / maxWins,
-                WinsDeviation = (meanWins - sdWins) > lhs.Wins ? -1 : (meanWins + sdWins) < lhs.Wins ? 1 : 0,
-                WinRate = lhs.Wins / lhs.Picks,
+                WinRateDelta = Math.Round((lhs.Wins / lhs.Picks) * 100, 2) - 50,
+                WinRate = Math.Round((lhs.Wins / lhs.Picks) * 100, 2),
+                Color = lhs.Picks > meanPicks ? "#67b7dc" : "#93c",
             })
             .OrderBy(_ => _.Name)
             .ToList();
@@ -333,8 +315,19 @@ namespace HGV.Nullifier
 
         public async Task ExportHeroes()
         {
+            // http://jsfiddle.net/5qho3kmL/15/
+
             var collection = await GetHeroes();
-            this.WriteResultsToFile("hero-collection.json", collection);
+
+            var strHeroes = collection.Where(_ => _.AttributePrimary == "DOTA_ATTRIBUTE_STRENGTH").ToList();
+            var agiHeroes = collection.Where(_ => _.AttributePrimary == "DOTA_ATTRIBUTE_AGILITY").ToList();
+            var intHeroes = collection.Where(_ => _.AttributePrimary == "DOTA_ATTRIBUTE_INTELLECT").ToList();
+
+            // this.WriteResultsToFile("hero-collection.json", collection);
+
+            this.WriteResultsToFile("hero-str.json", strHeroes);
+            this.WriteResultsToFile("hero-agi.json", agiHeroes);
+            this.WriteResultsToFile("hero-int.json", intHeroes);
         }
 
         public List<Common.Export.HeroAttribute> GetHeroAttribute()
@@ -838,13 +831,12 @@ namespace HGV.Nullifier
             return (long)id.ConvertToUInt64();
         }
 
-        public async Task<List<Common.Export.Player>> GetAccounts()
+        public async Task<(List<Common.Export.Player>, double)> GetAccounts()
         {
             const long CATCH_ALL_ACCOUNT_ID = 4294967295;
 
             var context = new DataContext();
             var metaClient = new MetaClient();
-           
 
             var players = await context.Players
                 .Where(_ => _.account_id != CATCH_ALL_ACCOUNT_ID)
@@ -858,12 +850,10 @@ namespace HGV.Nullifier
                 .ToListAsync();
 
             (double sdMatches, double meanMatches, double maxMatches, double minMatches) = players.Deviation(_ => _.Matches);
-            var high = meanMatches;
-            
-            System.Diagnostics.Debug.WriteLine("Leaderboard HI {0}", high);
-
+            var limit = meanMatches;
+  
             var collection = players
-                .Where(_ => _.Matches > high)
+                .Where(_ => _.Matches > limit)
                 .Select(_ => new Common.Export.Player
                 {
                     AccountId = _.AccountId,
@@ -876,31 +866,74 @@ namespace HGV.Nullifier
                 .ThenByDescending(_ => _.WinRate)
                 .ToList();
 
-            return collection;
+            return (collection, limit);
         }
 
         public async Task ExportAccounts()
         {
             var apiClient = new DotaApiClient(this.apiKey);
 
-            var acounts = await GetAccounts();
+            var data = await GetAccounts();
+            var players = data.Item1;
+            var limit = data.Item2;
+            var chunks = players.Split(100);
 
-            var collection = acounts
-                .Take(1000)
-                .Select(_ => new
+            var collection = new List<Common.Export.Player>();
+            foreach (var chunk in chunks)
+            {
+                var ids = chunk.Select(_ => _.ProfileId).ToList();
+                var profiles = await apiClient.GetPlayersSummary(ids);
+
+                var accounts = chunk.Join(profiles, _ => _.ProfileId, _ => _.steamid, (lhs, rhs) => new Common.Export.Player
+                {
+                    AccountId = lhs.AccountId,
+                    ProfileId = lhs.ProfileId,
+                    ProfileUrl = rhs.profileurl,
+                    Avatar = rhs.avatar,
+                    Name = rhs.personaname,
+                    Wins = lhs.Wins,
+                    Matches = lhs.Matches,
+                    WinRate = lhs.WinRate,
+                });
+
+                collection.AddRange(accounts);
+
+                await Task.Delay(TimeSpan.FromSeconds(2));
+            }
+
+            var ranking = 1;
+
+            var ranked = collection
+                .OrderByDescending(_ => _.WinRate)
+                .ThenByDescending(_ => _.Matches)
+                .Select(_ => new Common.Export.Player
                 {
                     AccountId = _.AccountId,
                     ProfileId = _.ProfileId,
+                    ProfileUrl = _.ProfileUrl,
+                    Avatar = _.Avatar,
+                    Name = _.Name,
                     Wins = _.Wins,
                     Matches = _.Matches,
                     WinRate = _.WinRate,
-                    Profile = apiClient.GetPlayerSummaries(_.ProfileId).Result,
+                    Rank = ranking++,
                 })
                 .ToList();
 
-            var count = collection.Count();
+            this.WriteResultsToFile("players-collection.json", ranked);
 
-            this.WriteResultsToFile("players-collection.json", collection);
+            var creators = new List<long>() { 13029812, 19560011 };
+
+            var leaderboard = new {
+                AverageMatches = limit,
+                Creators = collection.Where(_ => creators.Contains(_.AccountId)).ToList(),
+                Wins = collection.OrderByDescending(_ => _.Wins).Take(5).ToList(),
+                Matches = collection.OrderByDescending(_ => _.Matches).Take(5).ToList(),
+                WinRate = collection.OrderByDescending(_ => _.WinRate).Take(5).ToList(),
+            };
+
+            this.WriteResultsToFile("leaderboard.json", leaderboard);
+            
         }
     }
 }
