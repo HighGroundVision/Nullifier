@@ -29,16 +29,16 @@ namespace HGV.Nullifier
             handler.Initialize();
 
             var tasks = new Task[] {
-                handler.ExportSummary(),
-                handler.ExportDraftPool(),
-                handler.ExportHeroesSummary(),
-                handler.ExportHeroes(),
-                handler.ExportHeroDetails(),
-                handler.ExportAbilities(),
-                handler.ExportUltimates(),
-                handler.ExportTaltents(),
-                handler.ExportAbilityDetails(),
-                handler.ExportAccounts()
+                // handler.ExportSummary(),
+                //handler.ExportDraftPool(),
+                //handler.ExportHeroesSummary(),
+                //handler.ExportHeroes(),
+                //handler.ExportHeroDetails(),
+                //handler.ExportAbilities(),
+                //handler.ExportUltimates(),
+                //handler.ExportTaltents(),
+                //handler.ExportAbilityDetails(),
+                //handler.ExportAccounts()
             };
             Task.WaitAll(tasks, t);
         }
@@ -858,7 +858,9 @@ namespace HGV.Nullifier
                 .ToListAsync();
 
             (double sdMatches, double meanMatches, double maxMatches, double minMatches) = players.Deviation(_ => _.Matches);
-            var high = meanMatches + sdMatches;
+            var high = meanMatches;
+            
+            System.Diagnostics.Debug.WriteLine("Leaderboard HI {0}", high);
 
             var collection = players
                 .Where(_ => _.Matches > high)
@@ -870,8 +872,8 @@ namespace HGV.Nullifier
                     Matches = _.Matches,
                     WinRate = _.Wins / _.Matches,
                 })
-                .OrderByDescending(_ => _.WinRate)
-                .ThenByDescending(_ => _.Matches)
+                .OrderByDescending(_ => _.Matches)
+                .ThenByDescending(_ => _.WinRate)
                 .ToList();
 
             return collection;
@@ -884,7 +886,7 @@ namespace HGV.Nullifier
             var acounts = await GetAccounts();
 
             var collection = acounts
-                .Take(100)
+                .Take(1000)
                 .Select(_ => new
                 {
                     AccountId = _.AccountId,
