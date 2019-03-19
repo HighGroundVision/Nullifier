@@ -305,7 +305,7 @@ namespace HGV.Nullifier
                 AttackCapabilities = rhs.AttackCapabilities,
                 WinRateDelta = Math.Round((lhs.Wins / lhs.Picks) * 100, 2) - 50,
                 WinRate = Math.Round((lhs.Wins / lhs.Picks) * 100, 2),
-                Color = lhs.Picks > meanPicks ? "#67b7dc" : "#93c",
+                Color = lhs.Picks > meanPicks ? "#67b7dc" : "#FF8800", 
             })
             .OrderBy(_ => _.Name)
             .ToList();
