@@ -319,15 +319,7 @@ namespace HGV.Nullifier
 
             var collection = await GetHeroes();
 
-            var strHeroes = collection.Where(_ => _.AttributePrimary == "DOTA_ATTRIBUTE_STRENGTH").ToList();
-            var agiHeroes = collection.Where(_ => _.AttributePrimary == "DOTA_ATTRIBUTE_AGILITY").ToList();
-            var intHeroes = collection.Where(_ => _.AttributePrimary == "DOTA_ATTRIBUTE_INTELLECT").ToList();
-
-            // this.WriteResultsToFile("hero-collection.json", collection);
-
-            this.WriteResultsToFile("hero-str.json", strHeroes);
-            this.WriteResultsToFile("hero-agi.json", agiHeroes);
-            this.WriteResultsToFile("hero-int.json", intHeroes);
+            this.WriteResultsToFile("hero-collection.json", collection);
         }
 
         public List<Common.Export.HeroAttribute> GetHeroAttribute()
@@ -898,7 +890,7 @@ namespace HGV.Nullifier
 
                 collection.AddRange(accounts);
 
-                await Task.Delay(TimeSpan.FromSeconds(2));
+                await Task.Delay(TimeSpan.FromSeconds(1));
             }
 
             var ranking = 1;
@@ -922,14 +914,14 @@ namespace HGV.Nullifier
 
             this.WriteResultsToFile("players-collection.json", ranked);
 
-            var creators = new List<long>() { 13029812, 19560011 };
+            var creators = new List<long>() { 13029812 };
 
             var leaderboard = new {
-                AverageMatches = limit,
-                Creators = collection.Where(_ => creators.Contains(_.AccountId)).ToList(),
-                Wins = collection.OrderByDescending(_ => _.Wins).Take(5).ToList(),
-                Matches = collection.OrderByDescending(_ => _.Matches).Take(5).ToList(),
-                WinRate = collection.OrderByDescending(_ => _.WinRate).Take(5).ToList(),
+                AverageMatches = (int)limit,
+                Creators = ranked.Where(_ => creators.Contains(_.AccountId)).ToList(),
+                Wins = ranked.OrderByDescending(_ => _.Wins).Take(3).ToList(),
+                Matches = ranked.OrderByDescending(_ => _.Matches).Take(3).ToList(),
+                WinRate = ranked.OrderByDescending(_ => _.WinRate).Take(3).ToList(),
             };
 
             this.WriteResultsToFile("leaderboard.json", leaderboard);
