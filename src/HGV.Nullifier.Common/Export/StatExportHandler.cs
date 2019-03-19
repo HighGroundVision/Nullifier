@@ -20,7 +20,7 @@ namespace HGV.Nullifier
         private JsonSerializerSettings jsonSettings;
         private string outputDirectory;
         private readonly string apiKey;
-  
+
         public static void Run(string apiKey, CancellationToken t, ILogger l)
         {
             var handler = new StatExportHandler(apiKey, l);
@@ -30,13 +30,14 @@ namespace HGV.Nullifier
                 // handler.ExportSummary(),
                 // handler.ExportDraftPool(),
                 // handler.ExportHeroesSummary(),
-                handler.ExportHeroes(),
+                // handler.ExportHeroes(),
                 // handler.ExportHeroDetails(),
                 // handler.ExportAbilities(),
                 // handler.ExportUltimates(),
                 // handler.ExportTaltents(),
                 // handler.ExportAbilityDetails(),
-                // handler.ExportAccounts()
+                // handler.ExportAccounts(),
+                handler.SomthingAboutAbilities(),
             };
             Task.WaitAll(tasks, t);
         }
@@ -158,7 +159,7 @@ namespace HGV.Nullifier
                     },
                     Wednesday = new
                     {
-                        total = (int)Math.Round(dailyCounts.GetValueOrDefault(3) /totalMatches * 100),
+                        total = (int)Math.Round(dailyCounts.GetValueOrDefault(3) / totalMatches * 100),
                         hours = dailyCycleCounts.Where(_ => _.Key.day == 3).ToDictionary(_ => _.Key.cycle, _ => (int)Math.Round(_.Count() / (float)dailyCounts.GetValueOrDefault(3) * 100)),
                     },
                     Thursday = new
@@ -233,7 +234,7 @@ namespace HGV.Nullifier
                 Picks = (float)_.Count(),
             })
             .ToListAsync();
-    
+
             var collection = players.Join(heroes, _ => _.Id, _ => _.Id, (lhs, rhs) => new
             {
                 rhs.AttributePrimary,
@@ -305,7 +306,7 @@ namespace HGV.Nullifier
                 AttackCapabilities = rhs.AttackCapabilities,
                 WinRateDelta = Math.Round((lhs.Wins / lhs.Picks) * 100, 2) - 50,
                 WinRate = Math.Round((lhs.Wins / lhs.Picks) * 100, 2),
-                Color = lhs.Picks > meanPicks ? "#67b7dc" : "#FF8800", 
+                Color = lhs.Picks > meanPicks ? "#67b7dc" : "#FF8800",
             })
             .OrderBy(_ => _.Name)
             .ToList();
@@ -456,12 +457,11 @@ namespace HGV.Nullifier
             var talents = await GetTaltents();
             var attributes = GetHeroAttribute();
 
-            var collection = heroes.Select(_ => 
+            var collection = heroes.Select(_ =>
             {
                 return new
                 {
                     Summary = _,
-                    // Hero = details.Find(__ => __.Id == _.Id),
                     Attributes = attributes.Where(__ => __.HeroId == _.Id).FirstOrDefault(),
                     Abilities = abilities.Where(__ => __.HeroId == _.Id).ToList(),
                     Ultimates = ultimates.Where(__ => __.HeroId == _.Id).ToList(),
@@ -485,7 +485,6 @@ namespace HGV.Nullifier
             var client = new MetaClient();
 
             var abilities = client.GetAbilities();
-            var heroes = client.GetHeroes();
 
             var query = context.Skills.Where(_ => _.is_skill == 1).GroupBy(_ => _.ability_id);
             var skills = await query.Select(_ => new
@@ -496,8 +495,8 @@ namespace HGV.Nullifier
             })
             .ToListAsync();
 
-            (double sdPicks, double meanPicks, double maxPicks, double minPicks) = skills.Deviation(_ => _.Picks);
-            (double sdWins, double meanWins, double maxWins, double minWins) = skills.Deviation(_ => _.Wins);
+            //(double sdPicks, double meanPicks, double maxPicks, double minPicks) = skills.Deviation(_ => _.Picks);
+            //(double sdWins, double meanWins, double maxWins, double minWins) = skills.Deviation(_ => _.Wins);
 
             var collection = skills.Join(abilities, _ => _.Id, _ => _.Id, (lhs, rhs) => new Common.Export.Ability()
             {
@@ -508,11 +507,11 @@ namespace HGV.Nullifier
                 HeroId = rhs.HeroId,
                 HasUpgrade = rhs.HasScepterUpgrade,
                 Picks = lhs.Picks,
-                PicksPercentage = lhs.Picks / maxPicks,
-                PicksDeviation = (meanPicks - sdPicks) > lhs.Picks ? -1 : (meanPicks + sdPicks) < lhs.Picks ? 1 : 0,
+                // PicksPercentage = lhs.Picks / maxPicks,
+                // PicksDeviation = (meanPicks - sdPicks) > lhs.Picks ? -1 : (meanPicks + sdPicks) < lhs.Picks ? 1 : 0,
                 Wins = lhs.Wins,
-                WinsPercentage = lhs.Wins / maxWins,
-                WinsDeviation = (meanWins - sdWins) > lhs.Wins ? -1 : (meanWins + sdWins) < lhs.Wins ? 1 : 0,
+                // WinsPercentage = lhs.Wins / maxWins,
+                // WinsDeviation = (meanWins - sdWins) > lhs.Wins ? -1 : (meanWins + sdWins) < lhs.Wins ? 1 : 0,
                 WinRate = lhs.Wins / lhs.Picks,
             })
             .ToList();
@@ -522,39 +521,8 @@ namespace HGV.Nullifier
 
         public async Task ExportAbilities()
         {
-            var client = new MetaClient();
-            var heroes = client.GetHeroes();
-
             var abilties = await GetAbilities();
-
-            var collection = abilties.Join(heroes, _ => _.HeroId, _ => _.Id, (lhs, rhs) => new
-            {
-                lhs.Id,
-                lhs.Name,
-                lhs.Key,
-                lhs.Image,
-                lhs.HasUpgrade,
-                lhs.Picks,
-                lhs.PicksPercentage,
-                lhs.PicksDeviation,
-                lhs.Wins,
-                lhs.WinsPercentage,
-                lhs.WinsDeviation,
-                lhs.WinRate,
-                Hero = new
-                {
-                    Id = lhs.HeroId,
-                    rhs.Name,
-                    rhs.Key,
-                    Image = string.Format("https://hgv-hyperstone.azurewebsites.net/heroes/banner/{0}.png", rhs.Key),
-                    rhs.AttributePrimary,
-                    rhs.AttackCapabilities,
-                }
-            })
-            .OrderBy(_ => _.Name)
-            .ToList();
-
-            this.WriteResultsToFile("abilities-collection.json", collection);
+            this.WriteResultsToFile("abilities-collection.json", abilties);
         }
 
         private async Task<List<Common.Export.Ability>> GetUltimates()
@@ -563,7 +531,7 @@ namespace HGV.Nullifier
             var client = new MetaClient();
 
             var abilities = client.GetUltimates();
-            
+
 
             var query = context.Skills.Where(_ => _.is_ulimate == 1).GroupBy(_ => _.ability_id);
             var skills = await query.Select(_ => new
@@ -574,8 +542,8 @@ namespace HGV.Nullifier
             })
             .ToListAsync();
 
-            (double sdPicks, double meanPicks, double maxPicks, double minPicks) = skills.Deviation(_ => _.Picks);
-            (double sdWins, double meanWins, double maxWins, double minWins) = skills.Deviation(_ => _.Wins);
+            // (double sdPicks, double meanPicks, double maxPicks, double minPicks) = skills.Deviation(_ => _.Picks);
+            // (double sdWins, double meanWins, double maxWins, double minWins) = skills.Deviation(_ => _.Wins);
 
             var collection = skills.Join(abilities, _ => _.Id, _ => _.Id, (lhs, rhs) => new Common.Export.Ability()
             {
@@ -586,11 +554,11 @@ namespace HGV.Nullifier
                 HeroId = rhs.HeroId,
                 HasUpgrade = rhs.HasScepterUpgrade,
                 Picks = lhs.Picks,
-                PicksPercentage = lhs.Picks / maxPicks,
-                PicksDeviation = (meanPicks - sdPicks) > lhs.Picks ? -1 : (meanPicks + sdPicks) < lhs.Picks ? 1 : 0,
+                // PicksPercentage = lhs.Picks / maxPicks,
+                // PicksDeviation = (meanPicks - sdPicks) > lhs.Picks ? -1 : (meanPicks + sdPicks) < lhs.Picks ? 1 : 0,
                 Wins = lhs.Wins,
-                WinsPercentage = lhs.Wins / maxWins,
-                WinsDeviation = (meanWins - sdWins) > lhs.Wins ? -1 : (meanWins + sdWins) < lhs.Wins ? 1 : 0,
+                // WinsPercentage = lhs.Wins / maxWins,
+                // WinsDeviation = (meanWins - sdWins) > lhs.Wins ? -1 : (meanWins + sdWins) < lhs.Wins ? 1 : 0,
                 WinRate = lhs.Wins / lhs.Picks,
             })
             .ToList();
@@ -600,39 +568,8 @@ namespace HGV.Nullifier
 
         public async Task ExportUltimates()
         {
-            var client = new MetaClient();
-            var heroes = client.GetHeroes();
-
             var ulimates = await GetUltimates();
-
-            var collection = ulimates.Join(heroes, _ => _.HeroId, _ => _.Id, (lhs, rhs) => new
-            {
-                lhs.Id,
-                lhs.Name,
-                lhs.Key,
-                lhs.Image,
-                lhs.HasUpgrade,
-                lhs.Picks,
-                lhs.PicksPercentage,
-                lhs.PicksDeviation,
-                lhs.Wins,
-                lhs.WinsPercentage,
-                lhs.WinsDeviation,
-                lhs.WinRate,
-                Hero = new
-                {
-                    Id = lhs.HeroId,
-                    rhs.Name,
-                    rhs.Key,
-                    Image = string.Format("https://hgv-hyperstone.azurewebsites.net/heroes/banner/{0}.png", rhs.Key),
-                    rhs.AttributePrimary,
-                    rhs.AttackCapabilities,
-                }
-            })
-            .OrderBy(_ => _.Name)
-            .ToList();
-
-            this.WriteResultsToFile("ultimates-collection.json", collection);
+            this.WriteResultsToFile("ultimates-collection.json", ulimates);
         }
 
         public async Task<List<Common.Export.HeroTalent>> GetTaltents()
@@ -641,7 +578,7 @@ namespace HGV.Nullifier
             var client = new MetaClient();
 
             var abilities = client.GetTalents();
-            
+
             var query = context.Skills.Where(_ => _.is_taltent == 1).GroupBy(_ => _.ability_id);
             var skills = await query.Select(_ => new
             {
@@ -675,37 +612,14 @@ namespace HGV.Nullifier
 
         public async Task ExportTaltents()
         {
+            // MAYBE WE DO NOT NEED THIS EXPORT...?
+
             var client = new MetaClient();
             var heroes = client.GetHeroes();
 
             var talents = await GetTaltents();
 
-            var collection = talents.Join(heroes, _ => _.HeroId, _ => _.Id, (lhs, rhs) => new
-            {
-                lhs.Id,
-                lhs.Name,
-                lhs.Key,
-                lhs.Picks,
-                lhs.PicksPercentage,
-                lhs.PicksDeviation,
-                lhs.Wins,
-                lhs.WinsPercentage,
-                lhs.WinsDeviation,
-                lhs.WinRate,
-                Hero = new
-                {
-                    Id = lhs.HeroId,
-                    rhs.Name,
-                    rhs.Key,
-                    Image = string.Format("https://hgv-hyperstone.azurewebsites.net/heroes/banner/{0}.png", rhs.Key),
-                    rhs.AttributePrimary,
-                    rhs.AttackCapabilities,
-                }
-            })
-            .OrderBy(_ => _.Name)
-            .ToList();
-
-            this.WriteResultsToFile("taltents-collection.json", collection);
+            this.WriteResultsToFile("taltents-collection.json", talents);
         }
 
         public List<Common.Export.AbilityHero> GetAbilityHeroes(int abilityId)
@@ -843,7 +757,7 @@ namespace HGV.Nullifier
 
             (double sdMatches, double meanMatches, double maxMatches, double minMatches) = players.Deviation(_ => _.Matches);
             var limit = meanMatches;
-  
+
             var collection = players
                 .Where(_ => _.Matches > limit)
                 .Select(_ => new Common.Export.Player
@@ -916,7 +830,8 @@ namespace HGV.Nullifier
 
             var creators = new List<long>() { 13029812 };
 
-            var leaderboard = new {
+            var leaderboard = new
+            {
                 AverageMatches = (int)limit,
                 Creators = ranked.Where(_ => creators.Contains(_.AccountId)).ToList(),
                 Wins = ranked.OrderByDescending(_ => _.Wins).Take(3).ToList(),
@@ -925,7 +840,50 @@ namespace HGV.Nullifier
             };
 
             this.WriteResultsToFile("leaderboard.json", leaderboard);
-            
+
         }
+
+        public async Task SomthingAboutAbilities()
+        {
+            var client = new MetaClient();
+
+            var details = client.GetSkills();
+            var abilities = details.Where(_ => _.IsSkill == true || _.IsUltimate == true).ToList();
+
+            var jsonIN = System.IO.File.ReadAllText(@"C:\Users\Jamie Webster\Desktop\convertcsv.json");
+            var data = JsonConvert.DeserializeObject<List<AbiltiyKeyword>>(jsonIN);
+
+            var collection = new List<AbiltiyKeywords>();
+            foreach (var ability in abilities)
+            {
+                var item = data.Find(_ => _.Id == ability.Id);
+                if(item != null)
+                {
+                    collection.Add(new AbiltiyKeywords() { id = ability.Id, key = ability.Key, keywords = item.Keywords.Split(' ').ToList() });
+                }
+                else
+                {
+                    collection.Add(new AbiltiyKeywords() { id = ability.Id, key = ability.Key, keywords = new List<string>() });
+                }
+            }
+
+            var jsonOUT = JsonConvert.SerializeObject(collection, Formatting.Indented);
+            System.IO.File.WriteAllText(@"C:\Users\Jamie Webster\Desktop\ability-keywords.json", jsonOUT);
+
+            await Task.Delay(100);
+        }
+    }
+
+    public class AbiltiyKeyword
+    {
+        public int Id { get; set; }
+        public string Keywords { get; set; }
+    }
+
+    public class AbiltiyKeywords
+    {
+        public int id { get; set; }
+        public string key { get;  set; }
+        public List<string> keywords { get; set; }
     }
 }
