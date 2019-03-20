@@ -37,7 +37,7 @@ namespace HGV.Nullifier
                 // handler.ExportTaltents(),
                 // handler.ExportAbilityDetails(),
                 // handler.ExportAccounts(),
-                /handler.ProcessAbilities()
+                handler.ProcessAbilities()
             };
             Task.WaitAll(tasks, t);
         }
