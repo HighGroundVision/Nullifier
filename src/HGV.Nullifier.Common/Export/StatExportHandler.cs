@@ -33,11 +33,11 @@ namespace HGV.Nullifier
                 // handler.ExportHeroes(),
                 // handler.ExportHeroDetails(),
                 // handler.ExportAbilities(),
-                // handler.ExportUltimates(),
+                // handler.ExportUltimates(),s
                 // handler.ExportTaltents(),
                 // handler.ExportAbilityDetails(),
                 // handler.ExportAccounts(),
-                handler.SomthingAboutAbilities(),
+                /handler.ProcessAbilities()
             };
             Task.WaitAll(tasks, t);
         }
@@ -843,47 +843,59 @@ namespace HGV.Nullifier
 
         }
 
-        public async Task SomthingAboutAbilities()
+        public async Task ProcessAbilities()
         {
-            var client = new MetaClient();
+            var abilities = await GetAbilities();
+            var ultimates = await GetUltimates();
+            var jsonIN = File.ReadAllText(@"H:\Repos\HGV\Nullifier\ability-keywords.json");
+            var keywords = JsonConvert.DeserializeObject<List<AbiltiyKeywords>>(jsonIN);
 
-            var details = client.GetSkills();
-            var abilities = details.Where(_ => _.IsSkill == true || _.IsUltimate == true).ToList();
-
-            var jsonIN = System.IO.File.ReadAllText(@"C:\Users\Jamie Webster\Desktop\convertcsv.json");
-            var data = JsonConvert.DeserializeObject<List<AbiltiyKeyword>>(jsonIN);
-
-            var collection = new List<AbiltiyKeywords>();
-            foreach (var ability in abilities)
-            {
-                var item = data.Find(_ => _.Id == ability.Id);
-                if(item != null)
+            var collection = abilities
+                .Union(ultimates)
+                .Join(keywords, _ => _.Id, _ => _.id, (lhs, rhs) =>
                 {
-                    collection.Add(new AbiltiyKeywords() { id = ability.Id, key = ability.Key, keywords = item.Keywords.Split(' ').ToList() });
-                }
-                else
-                {
-                    collection.Add(new AbiltiyKeywords() { id = ability.Id, key = ability.Key, keywords = new List<string>() });
-                }
-            }
+                    return rhs.keywords.Select(k => new
+                    {
+                        lhs.Id,
+                        lhs.Name,
+                        lhs.Key,
+                        lhs.Image,
+                        lhs.HeroId,
+                        lhs.HasUpgrade,
+                        lhs.Picks,
+                        lhs.Wins,
+                        lhs.WinRate,
+                        Keyword = k
+                    }).ToList();
+                })
+                .SelectMany(_ => _)
+                .ToList();
 
-            var jsonOUT = JsonConvert.SerializeObject(collection, Formatting.Indented);
-            System.IO.File.WriteAllText(@"C:\Users\Jamie Webster\Desktop\ability-keywords.json", jsonOUT);
+            var groups = collection.GroupBy(_ => _.Keyword).ToList();
+
+            var query = groups
+                .Select(_ => new
+                {
+                    Keyword = _.Key,
+                    Count = _.Count(),
+                    WinRate = Math.Round(_.Sum(__ => __.Wins) / (float)_.Sum(__ => __.Picks) * 100, 2),
+                    // Wins = _.Sum(__ => __.Wins),
+                    // Picks = _.Sum(__ => __.Picks)
+                })
+                .OrderByDescending(_ => _.WinRate)
+                .ToList();
+
+            var jsonOUT = JsonConvert.SerializeObject(query, Formatting.Indented);
+            File.WriteAllText(@"C:\Users\Webstar\Desktop\ability-groups.json", jsonOUT);
 
             await Task.Delay(100);
         }
     }
 
-    public class AbiltiyKeyword
-    {
-        public int Id { get; set; }
-        public string Keywords { get; set; }
-    }
-
     public class AbiltiyKeywords
     {
         public int id { get; set; }
-        public string key { get;  set; }
+        public string key { get; set; }
         public List<string> keywords { get; set; }
     }
 }

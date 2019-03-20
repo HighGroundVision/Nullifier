@@ -1,3806 +1,4012 @@
 [
   {
-    "id": 5345,
-    "key": "ancient_apparition_cold_feet",
-    "keywords": [
-      "Stun",
-      "Nuke"
-    ]
-  },
-  {
-    "id": 5346,
-    "key": "ancient_apparition_ice_vortex",
-    "keywords": [
-      "Movement Reduction"
-    ]
-  },
-  {
-    "id": 5347,
-    "key": "ancient_apparition_chilling_touch",
-    "keywords": [
-      "Nuke",
-	  "Movement Reduction"
-    ]
-  },
-  {
-    "id": 5348,
-    "key": "ancient_apparition_ice_blast",
-    "keywords": [
-      "Upgrade",
-      "Nuke",
-	  "Vision"
-    ]
-  },
-  {
-    "id": 5003,
-    "key": "antimage_mana_break",
-    "keywords": [
-      "Passive",
-      "Bonus Damage"
-    ]
-  },
-  {
-    "id": 5004,
-    "key": "antimage_blink",
-    "keywords": [
-      "Escape",
-    ]
-  },
-  {
-    "id": 7314,
-    "key": "antimage_counterspell",
-    "keywords": [
-	  "Tank",
-	]
-  },
-  {
-    "id": 5006,
-    "key": "antimage_mana_void",
-    "keywords": [
-      "Stun",
-	  "Disable",
-      "Nuke"
-    ]
-  },
-  {
-    "id": 5007,
-    "key": "axe_berserkers_call",
-    "keywords": [
-      "Disable",
-      "Taunt"
-    ]
-  },
-  {
-    "id": 5008,
-    "key": "axe_battle_hunger",
-    "keywords": [
-      "Upgrade",
-      "Movement Increase",
-	  "Damage per Second"
-    ]
-  },
-  {
-    "id": 5009,
-    "key": "axe_counter_helix",
-    "keywords": [
-      "Passive",
-      "Tank"
-    ]
-  },
-  {
-    "id": 5010,
-    "key": "axe_culling_blade",
-    "keywords": [
-      "Movement Increase",
-	  "Nuke",
-    ]
-  },
-  {
-    "id": 5012,
-    "key": "bane_enfeeble",
-    "keywords": [
-      "Attack Speed Reduction"
-    ]
-  },
-  {
-    "id": 5011,
-    "key": "bane_brain_sap",
-    "keywords": [
-      "Upgrade",
-      "Nuke",
-      "Heal"
-    ]
-  },
-  {
-    "id": 5014,
-    "key": "bane_nightmare",
-    "keywords": [
-      "Disable"
-    ]
-  },
-  {
-    "id": 5013,
-    "key": "bane_fiends_grip",
-    "keywords": [
-      "Nuke",
-	  "Damage per Second",
-      "Disable"
-    ]
-  },
-  {
-    "id": 5168,
-    "key": "beastmaster_wild_axes",
-    "keywords": [
-	  "Nuke"
-	]
-  },
-  {
-    "id": 7230,
-    "key": "beastmaster_call_of_the_wild_boar",
-    "keywords": [
-      "Summons"
-	]
-  },
-  {
-    "id": 7231,
-    "key": "beastmaster_call_of_the_wild_hawk",
-    "keywords": [
-	   "Summons",
-	]
-  },
-  {
-    "id": 5172,
-    "key": "beastmaster_inner_beast",
-    "keywords": [
-		"Attack Speed Increase",
-	]
-  },
-  {
-    "id": 5177,
-    "key": "beastmaster_primal_roar",
-    "keywords": [
-		"Knockback",
-		"Nuke",
-		"Stun"
-		"Disable"
-	]
-  },
-  {
-    "id": 5015,
-    "key": "bloodseeker_bloodrage",
-    "keywords": [
-      "Attack Damage Increase",
-      "Heal"
-    ]
-  },
-  {
-    "id": 5016,
-    "key": "bloodseeker_blood_bath",
-    "keywords": [
-      "Silence",
-      "Nuke",
-	  "AoE",
-    ]
-  },
-  {
-    "id": 5017,
-    "key": "bloodseeker_thirst",
-    "keywords": [
-      "Passive",
-      "Attack Speed Increase",
-      "Movement Increase"
-    ]
-  },
-  {
-    "id": 5018,
-    "key": "bloodseeker_rupture",
-    "keywords": [
-      "Upgrade"
-    ]
-  },
-  {
-    "id": 5328,
-    "key": "chen_penitence",
-    "keywords": [
-	  "Movement Reduction",
-	  "Attack Speed Increase",
-	]
-  },
-  {
-    "id": 7306,
-    "key": "chen_divine_favor",
-    "keywords": [
-	  "Attack Damage Increase",
-	  "Heal"
-	]
-  },
-  {
-    "id": 5330,
-    "key": "chen_holy_persuasion",
-    "keywords": [
-	  "Summons"
-	]
-  },
-  {
-    "id": 5331,
-    "key": "chen_hand_of_god",
-    "keywords": [
-		"Heal"
-	]
-  },
-  {
-    "id": 5126,
-    "key": "crystal_maiden_crystal_nova",
-    "keywords": [
-      "Movement Reduction",
-	  "Attack Speed Reduction",
-      "Nuke",
-	  "Vision"
-    ]
-  },
-  {
-    "id": 5127,
-    "key": "crystal_maiden_frostbite",
-    "keywords": [
-      "Stun",
-	  "Disable",
-      "DPS"
-    ]
-  },
-  {
-    "id": 5128,
-    "key": "crystal_maiden_brilliance_aura",
-    "keywords": [
-      "Passive"
-    ]
-  },
-  {
-    "id": 5129,
-    "key": "crystal_maiden_freezing_field",
-    "keywords": [
-      "Upgrade",
-	  "Nuke",
-      "Movement Reduction",
-	  "Attack Speed Reduction",
-	  "Armor Increase"
-    ]
-  },
-  {
-    "id": 5255,
-    "key": "dark_seer_vacuum",
-    "keywords": [
-      "Nuke",
-      "Disable"
-    ]
-  },
-  {
-    "id": 5256,
-    "key": "dark_seer_ion_shell",
-    "keywords": [
-      "DPS"
-    ]
-  },
-  {
-    "id": 5257,
-    "key": "dark_seer_surge",
-    "keywords": [
-      "Movement Increase"
-    ]
-  },
-  {
-    "id": 5258,
-    "key": "dark_seer_wall_of_replica",
-    "keywords": [
-      "Upgrade",
-      "Movement Reduction",
-	  "Summons"
-    ]
-  },
-  {
-    "id": 5233,
-    "key": "dazzle_poison_touch",
-    "keywords": [
-      "Movement Reduction",
-      "DPS",
-    ]
-  },
-  {
-    "id": 5234,
-    "key": "dazzle_shallow_grave",
-    "keywords": [
-      "Upgrade",
-      "Tank"
-    ]
-  },
-  {
-    "id": 5235,
-    "key": "dazzle_shadow_wave",
-    "keywords": [
-      "Heal",
-      "Nuke"
-    ]
-  },
-  {
-    "id": 7304,
-    "key": "dazzle_bad_juju",
-    "keywords": [
-	  "Cooldown Reduction",
-	  "Armor Reduction"
-	]
-  },
-  {
-    "id": 5226,
-    "key": "dragon_knight_breathe_fire",
-    "keywords": [
-      "Nuke",
-      "Attack Damage Reduction"
-    ]
-  },
-  {
-    "id": 5227,
-    "key": "dragon_knight_dragon_tail",
-    "keywords": [
-      "Stun",
-      "Nuke"
-    ]
-  },
-  {
-    "id": 5228,
-    "key": "dragon_knight_dragon_blood",
-    "keywords": [
-      "Passive",
-      "Tank",
-	  "Heal"
-	  "Armor Increase"
-    ]
-  },
-  {
-    "id": 5229,
-    "key": "dragon_knight_elder_dragon_form",
-    "keywords": [
-      "Movement Increase",
-      "Attack Range Increase",
-    ]
-  },
-  {
-    "id": 5339,
-    "key": "doom_bringer_devour",
-    "keywords": [
-	  "Heal",
-	  "Gold Bonus"
-	]
-  },
-  {
-    "id": 5340,
-    "key": "doom_bringer_scorched_earth",
-    "keywords": [
-		"DPS",
-		"Movement Increase"
-	]
-  },
-  {
-    "id": 5341,
-    "key": "doom_bringer_infernal_blade",
-    "keywords": [
-		"DPS"
-		"Bash"
-	]
-  },
-  {
-    "id": 5342,
-    "key": "doom_bringer_doom",
-    "keywords": [
-		"Disable",
-		"DPS"
-	]
-  },
-  {
-    "id": 5019,
-    "key": "drow_ranger_frost_arrows",
-    "keywords": [
-      "Movement Speed Slow",
-	  "Autocast"
-    ]
-  },
-  {
-    "id": 5632,
-    "key": "drow_ranger_wave_of_silence",
-    "keywords": [
-      "Disable",
-	  "Knockback",
-	  "Silence",
-    ]
-  },
-  {
-    "id": 5021,
-    "key": "drow_ranger_trueshot",
-    "keywords": [
-      "Passive",
-      "Attack Speed Increase"
-    ]
-  },
-  {
-    "id": 5022,
-    "key": "drow_ranger_marksmanship",
-    "keywords": [
-      "Upgrade",
-      "Passive",
-      "Attack Damage Increase"
-    ]
-  },
-  {
-    "id": 5023,
-    "key": "earthshaker_fissure",
-    "keywords": [
-      "Stun",
-      "Nuke",
-      "Disable"
-    ]
-  },
-  {
-    "id": 5024,
-    "key": "earthshaker_enchant_totem",
-    "keywords": [
-      "Upgrade",
-      "Attack Damage Increase"
-    ]
-  },
-  {
-    "id": 5025,
-    "key": "earthshaker_aftershock",
-    "keywords": [
-      "Passive",
-      "Stun"
-    ]
-  },
-  {
-    "id": 5026,
-    "key": "earthshaker_echo_slam",
-    "keywords": [
-      "Nuke"
-    ]
-  },
-  {
-    "id": 5267,
-    "key": "enchantress_untouchable",
-    "keywords": [
-      "Passive",
-      "Tank",
-      "Attack Speed Reduction"
-    ]
-  },
-  {
-    "id": 5268,
-    "key": "enchantress_enchant",
-    "keywords": [
-      "Movement Reduction",
-	  "Summons"
-    ]
-  },
-  {
-    "id": 5269,
-    "key": "enchantress_natures_attendants",
-    "keywords": [
-      "Heal"
-    ]
-  },
-  {
-    "id": 5270,
-    "key": "enchantress_impetus",
-    "keywords": [
-      "Upgrade",
-      "Attack Damage Increase",
-    ]
-  },
-  {
-    "id": 5146,
-    "key": "enigma_malefice",
-    "keywords": [
-      "Stun",
-      "Nuke"
-    ]
-  },
-  {
-    "id": 5147,
-    "key": "enigma_demonic_conversion",
-    "keywords": [
-      "Summons"
-    ]
-  },
-  {
-    "id": 5148,
-    "key": "enigma_midnight_pulse",
-    "keywords": [
-      "DPS"
-    ]
-  },
-  {
-    "id": 5149,
-    "key": "enigma_black_hole",
-    "keywords": [
-      "Upgrade",
-      "DPS",
-      "Disable",
-	  "Silence",
-	  "Channeled"
-    ]
-  },
-  {
-    "id": 5182,
-    "key": "faceless_void_time_walk",
-    "keywords": [
-      "Tank",
-    ]
-  },
-  {
-    "id": 5691,
-    "key": "faceless_void_time_dilation",
-    "keywords": [
-      "Cooldown Increase"
-    ]
-  },
-  {
-    "id": 5184,
-    "key": "faceless_void_time_lock",
-    "keywords": [
-      "Passive",
-	  "Attack Damage Increase",
-      "Bash"
-    ]
-  },
-  {
-    "id": 5185,
-    "key": "faceless_void_chronosphere",
-    "keywords": [
-      "Upgrade",
-      "Disable",
-	  "Stun",
-    ]
-  },
-  {
-    "id": 5245,
-    "key": "furion_sprout",
-    "keywords": [
-      "Disable"
-    ]
-  },
-  {
-    "id": 5246,
-    "key": "furion_teleportation",
-    "keywords": [
-      "Escape"
-    ]
-  },
-  {
-    "id": 5247,
-    "key": "furion_force_of_nature",
-    "keywords": [
-      "Summons"
-    ]
-  },
-  {
-    "id": 5248,
-    "key": "furion_wrath_of_nature",
-    "keywords": [
-      "Upgrade",
-      "Nuke"
-    ]
-  },
-  {
-    "id": 5028,
-    "key": "juggernaut_blade_fury",
-    "keywords": [
-	  "DPS",
-    ]
-  },
-  {
-    "id": 5029,
-    "key": "juggernaut_healing_ward",
-    "keywords": [
-      "Heal"
-    ]
-  },
-  {
-    "id": 5027,
-    "key": "juggernaut_blade_dance",
-    "keywords": [
-      "Crit",
-	  "Attack Damage Increase",
-    ]
-  },
-  {
-    "id": 5030,
-    "key": "juggernaut_omni_slash",
-    "keywords": [
-      "Upgrade",
-      "Attack Damage Increase",
-    ]
-  },
-  {
-    "id": 5031,
-    "key": "kunkka_torrent",
-    "keywords": [
-      "Stun",
-      "Movement Reduction",
-      "Nuke"
-    ]
-  },
-  {
-    "id": 5032,
-    "key": "kunkka_tidebringer",
-    "keywords": [
-      "Cleave",
-      "Attack Damage Increase"
-    ]
-  },
-  {
-    "id": 5033,
-    "key": "kunkka_x_marks_the_spot",
-    "keywords": [
-      "Disable"
-    ]
-  },
-  {
-    "id": 5035,
-    "key": "kunkka_ghostship",
-    "keywords": [
-      "Upgrade",
-      "Stun",
-      "Nuke"
-    ]
-  },
-  {
-    "id": 5241,
-    "key": "leshrac_split_earth",
-    "keywords": [
-      "Stun",
-      "Nuke"
-    ]
-  },
-  {
-    "id": 5242,
-    "key": "leshrac_diabolic_edict",
-    "keywords": [
-      "DPS"
-    ]
-  },
-  {
-    "id": 5243,
-    "key": "leshrac_lightning_storm",
-    "keywords": [
-      "Movement Reduction",
-      "Nuke"
-    ]
-  },
-  {
-    "id": 5244,
-    "key": "leshrac_pulse_nova",
-    "keywords": [
-	  "Upgrade",
-      "DPS"
-    ]
-  },
-  {
-    "id": 5134,
-    "key": "lich_frost_nova",
-    "keywords": [
-      "Movement Reduction",
-	  "Attack Speed Reduction",
-      "Nuke"
-    ]
-  },
-  {
-    "id": 5136,
-    "key": "lich_frost_shield",
-    "keywords": [
-      "Nuke",
-	  "Attack Damage Reduction",
-	  "Move Speed Reduction"
-    ]
-  },
-  {
-    "id": 7325,
-    "key": "lich_sinister_gaze",
-    "keywords": [
-		"Taunt"
-	]
-  },
-  {
-    "id": 5137,
-    "key": "lich_chain_frost",
-    "keywords": [
-      "Upgrade",
-      "Movement Reduction",
-	  "Attack Speed Reduction",
-      "Nuke"
-    ]
-  },
-  {
-    "id": 5249,
-    "key": "life_stealer_rage",
-    "keywords": [
-      "Attack Speed Increase",
-      "Tank"
-    ]
-  },
-  {
-    "id": 5250,
-    "key": "life_stealer_feast",
-    "keywords": [
-      "Passive",
-	  "Heal",
-      "Tank"
-    ]
-  },
-  {
-    "id": 5251,
-    "key": "life_stealer_open_wounds",
-    "keywords": [
-      "Movement Reduction",
-    ]
-  },
-  {
-    "id": 5252,
-    "key": "life_stealer_infest",
-    "keywords": []
-  },
-  {
-    "id": 5040,
-    "key": "lina_dragon_slave",
-    "keywords": [
-      "Nuke"
-    ]
-  },
-  {
-    "id": 5041,
-    "key": "lina_light_strike_array",
-    "keywords": [
-	  "Disable",
-      "Stun",
-      "Nuke"
-    ]
-  },
-  {
-    "id": 5042,
-    "key": "lina_fiery_soul",
-    "keywords": [
-      "Passive",
-      "Movement Increase",
-      "Attack Speed Increase"
-    ]
-  },
-  {
-    "id": 5043,
-    "key": "lina_laguna_blade",
-    "keywords": [
-      "Upgrade",
-      "Nuke"
-    ]
-  },
-  {
-    "id": 5044,
-    "key": "lion_impale",
-    "keywords": [
-      "Stun",
-      "Nuke"
-    ]
-  },
-  {
-    "id": 5045,
-    "key": "lion_voodoo",
-    "keywords": [
-      "Disable"
-    ]
-  },
-  {
-    "id": 5046,
-    "key": "lion_mana_drain",
-    "keywords": [
-      "Movement Reduction",
-	  "Channeled"
-    ]
-  },
-  {
-    "id": 5047,
-    "key": "lion_finger_of_death",
-    "keywords": [
-      "Upgrade",
-      "Nuke"
-    ]
-  },
-  {
-    "id": 5051,
-    "key": "mirana_starfall",
-    "keywords": [
-      "Upgrade",
-      "Nuke"
-    ]
-  },
-  {
-    "id": 5048,
-    "key": "mirana_arrow",
-    "keywords": [
-		"Disable",
-		"Stun",
-		"Nuke"
-    ]
-  },
-  {
-    "id": 5050,
-    "key": "mirana_leap",
-    "keywords": [
-      "Attack Speed Increase",
-	  "Movement Increase"
-    ]
-  },
-  {
-    "id": 5049,
-    "key": "mirana_invis",
-    "keywords": [
-      "Vision"
-    ]
-  },
-  {
-    "id": 5052,
-    "key": "morphling_waveform",
-    "keywords": []
-  },
-  {
-    "id": 5053,
-    "key": "morphling_adaptive_strike_agi",
-    "keywords": []
-  },
-  {
-    "id": 7000,
-    "key": "morphling_adaptive_strike_str",
-    "keywords": []
-  },
-  {
-    "id": 5055,
-    "key": "morphling_morph_agi",
-    "keywords": []
-  },
-  {
-    "id": 5056,
-    "key": "morphling_morph_str",
-    "keywords": []
-  },
-  {
-    "id": 5057,
-    "key": "morphling_replicate",
-    "keywords": []
-  },
-  {
-    "id": 5158,
-    "key": "necrolyte_death_pulse",
-    "keywords": [
-      "Heal",
-      "Nuke"
-    ]
-  },
-  {
-    "id": 5160,
-    "key": "necrolyte_sadist",
-    "keywords": [
-      "Movement Reduction"
-    ]
-  },
-  {
-    "id": 5159,
-    "key": "necrolyte_heartstopper_aura",
-    "keywords": [
-      "Passive",
-	  "DPS"
-    ]
-  },
-  {
-    "id": 5161,
-    "key": "necrolyte_reapers_scythe",
-    "keywords": [
-      "Upgrade",
-	  "Disable",
-      "Stun",
-      "Nuke"
-    ]
-  },
-  {
-    "id": 5059,
-    "key": "nevermore_shadowraze1",
-    "keywords": [
-		"Nuke"
-	]
-  },
-  {
-    "id": 5060,
-    "key": "nevermore_shadowraze2",
-    "keywords": [
-		"Nuke"
-	]
-  },
-  {
-    "id": 5061,
-    "key": "nevermore_shadowraze3",
-    "keywords": [
-		"Nuke"
-	]
-  },
-  {
-    "id": 5062,
-    "key": "nevermore_necromastery",
-    "keywords": [
-		"Attack Damage Increase"
-	]
-  },
-  {
-    "id": 5063,
-    "key": "nevermore_dark_lord",
-    "keywords": [
-		"Armor Reduction"
-	]
-  },
-  {
-    "id": 5064,
-    "key": "nevermore_requiem",
-    "keywords": [
-		"Nuke",
-		"Movement Reduction",
-		"Attack Damage Reduction",
-	]
-  },
-  {
-    "id": 5275,
-    "key": "night_stalker_void",
-    "keywords": [
-      "Movement Reduction",
-	  "Attack Speed Reduction",
-      "Nuke",
-	  "AoE"
-    ]
-  },
-  {
-    "id": 5276,
-    "key": "night_stalker_crippling_fear",
-    "keywords": [
-      "Silence",
-	  "AoE"
-    ]
-  },
-  {
-    "id": 5277,
-    "key": "night_stalker_hunter_in_the_night",
-    "keywords": [
-      "Passive",
-      "Movement Increase",
-      "Attack Speed Increase",
-    ]
-  },
-  {
-    "id": 5278,
-    "key": "night_stalker_darkness",
-    "keywords": [
-      "Attack Damage Increase"
-    ]
-  },
-  {
-    "id": 5263,
-    "key": "omniknight_purification",
-    "keywords": [
-      "Nuke",
-      "Heal"
-    ]
-  },
-  {
-    "id": 5264,
-    "key": "omniknight_repel",
-    "keywords": [
-      "Tank"
-    ]
-  },
-  {
-    "id": 5265,
-    "key": "omniknight_degen_aura",
-    "keywords": [
-      "Passive",
-	  "Tank",
-      "Movement Reduction",
-	  "Attack Speed Reduction",
-    ]
-  },
-  {
-    "id": 5266,
-    "key": "omniknight_guardian_angel",
-    "keywords": [
-      "Upgrade",
-      "Tank"
-    ]
-  },
-  {
-    "id": 5069,
-    "key": "puck_illusory_orb",
-    "keywords": [
-		"Nuke",
-	]
-  },
-  {
-    "id": 5071,
-    "key": "puck_waning_rift",
-    "keywords": [
-		"Nuke"
-		"Silence"
-	]
-  },
-  {
-    "id": 5072,
-    "key": "puck_phase_shift",
-    "keywords": [
-		"Tank",
+     "id":5345,
+     "key":"ancient_apparition_cold_feet",
+     "keywords":[
+        "Stun",
+        "Nuke"
+     ]
+  },
+  {
+     "id":5346,
+     "key":"ancient_apparition_ice_vortex",
+     "keywords":[
+        "Movement Reduction",
+		"AoE"
+     ]
+  },
+  {
+     "id":5347,
+     "key":"ancient_apparition_chilling_touch",
+     "keywords":[
+        "Nuke",
+        "Movement Reduction",
+		"Autocast"
+     ]
+  },
+  {
+     "id":5348,
+     "key":"ancient_apparition_ice_blast",
+     "keywords":[
+        "Upgrade",
+        "Nuke",
+        "Vision",
+		"AoE"
+     ]
+  },
+  {
+     "id":5003,
+     "key":"antimage_mana_break",
+     "keywords":[
+        "Passive",
+        "Attack Damage Increase"
+     ]
+  },
+  {
+     "id":5004,
+     "key":"antimage_blink",
+     "keywords":[
+        "Escape"
+     ]
+  },
+  {
+     "id":7314,
+     "key":"antimage_counterspell",
+     "keywords":[
+        "Tank"
+     ]
+  },
+  {
+     "id":5006,
+     "key":"antimage_mana_void",
+     "keywords":[
+        "Stun",
+        "Disable",
+        "Nuke",
+		"AoE"
+     ]
+  },
+  {
+     "id":5007,
+     "key":"axe_berserkers_call",
+     "keywords":[
+        "Disable",
+		"AoE"
+     ]
+  },
+  {
+     "id":5008,
+     "key":"axe_battle_hunger",
+     "keywords":[
+        "Upgrade",
+        "Movement Increase",
+        "DPS"
+     ]
+  },
+  {
+     "id":5009,
+     "key":"axe_counter_helix",
+     "keywords":[
+        "Passive",
+        "Tank"
+     ]
+  },
+  {
+     "id":5010,
+     "key":"axe_culling_blade",
+     "keywords":[
+        "Movement Increase",
+        "Nuke"
+     ]
+  },
+  {
+     "id":5012,
+     "key":"bane_enfeeble",
+     "keywords":[
+        "Attack Speed Reduction"
+     ]
+  },
+  {
+     "id":5011,
+     "key":"bane_brain_sap",
+     "keywords":[
+        "Upgrade",
+        "Nuke",
+        "Heal"
+     ]
+  },
+  {
+     "id":5014,
+     "key":"bane_nightmare",
+     "keywords":[
+        "Disable"
+     ]
+  },
+  {
+     "id":5013,
+     "key":"bane_fiends_grip",
+     "keywords":[
+        "Nuke",
+        "DPS",
+        "Disable",
 		"Channeled"
-	]
+     ]
   },
   {
-    "id": 5070,
-    "key": "puck_ethereal_jaunt",
-    "keywords": []
+     "id":5168,
+     "key":"beastmaster_wild_axes",
+     "keywords":[
+        "Nuke",
+		"AoE"
+     ]
   },
   {
-    "id": 5073,
-    "key": "puck_dream_coil",
-    "keywords": [
-		"Disable",
-	]
+     "id":7230,
+     "key":"beastmaster_call_of_the_wild_boar",
+     "keywords":[
+        "Summons"
+     ]
   },
   {
-    "id": 5075,
-    "key": "pudge_meat_hook",
-    "keywords": [
-      "Upgrade",
-      "Nuke"
-    ]
-  },
-  {
-    "id": 5076,
-    "key": "pudge_rot",
-    "keywords": [
-      "Movement Reduction",
-      "DPS"
-    ]
-  },
-  {
-    "id": 5074,
-    "key": "pudge_flesh_heap",
-    "keywords": [
-      "Tank",
-      "Passive"
-    ]
-  },
-  {
-    "id": 5077,
-    "key": "pudge_dismember",
-    "keywords": [
-      "Disable",
-      "DPS",
-	  "Channeled",
-    ]
-  },
-  {
-    "id": 5186,
-    "key": "pugna_nether_blast",
-    "keywords": [
-      "Nuke"
-    ]
-  },
-  {
-    "id": 5187,
-    "key": "pugna_decrepify",
-    "keywords": [
-      "Movement Reduction",
-      "Disable"
-    ]
-  },
-  {
-    "id": 5188,
-    "key": "pugna_nether_ward",
-    "keywords": [
-      "Nuke"
-    ]
-  },
-  {
-    "id": 5189,
-    "key": "pugna_life_drain",
-    "keywords": [
-      "Upgrade",
-      "Nuke",
-      "Heal"
-    ]
-  },
-  {
-    "id": 5237,
-    "key": "rattletrap_battery_assault",
-    "keywords": [
-      "Stun"
-	  "DPS"
-    ]
-  },
-  {
-    "id": 5238,
-    "key": "rattletrap_power_cogs",
-    "keywords": [
-      "Disable",
-	  "Knockback",
-    ]
-  },
-  {
-    "id": 5239,
-    "key": "rattletrap_rocket_flare",
-    "keywords": [
-      "Nuke",
-	  "Vision",
-    ]
-  },
-  {
-    "id": 5240,
-    "key": "rattletrap_hookshot",
-    "keywords": [
-      "Upgrade",
-      "Stun",
-      "Nuke"
-    ]
-  },
-  {
-    "id": 5082,
-    "key": "razor_plasma_field",
-    "keywords": [
-      "Nuke",
-	  "Movement Reduction"
-    ]
-  },
-  {
-    "id": 5083,
-    "key": "razor_static_link",
-    "keywords": [
-      "Attack Damage Increase"
-    ]
-  },
-  {
-    "id": 5084,
-    "key": "razor_unstable_current",
-    "keywords": [
-      "Passive",
-      "Movement Increase",
-	  "Nuke",
-    ]
-  },
-  {
-    "id": 5085,
-    "key": "razor_eye_of_the_storm",
-    "keywords": [
-      "Upgrade",
-      "Nuke",
-      "Armor Reduction"
-    ]
-  },
-  {
-    "id": 5142,
-    "key": "riki_smoke_screen",
-    "keywords": [
-      "Silence",
-      "Movement Reduction"
-    ]
-  },
-  {
-    "id": 5143,
-    "key": "riki_blink_strike",
-    "keywords": [
-      "Nuke"
-    ]
-  },
-  {
-    "id": 5144,
-    "key": "riki_permanent_invisibility",
-    "keywords": [
-      "Passive",
-	  "Bonus Damage",
-	  "Vision",
-    ]
-  },
-  {
-    "id": 5145,
-    "key": "riki_tricks_of_the_trade",
-    "keywords": [
-      "Channeled",
-    ]
-  },
-  {
-    "id": 5102,
-    "key": "sandking_burrowstrike",
-    "keywords": [
-      "Upgrade",
-      "Stun",
-      "Nuke"
-    ]
-  },
-  {
-    "id": 5103,
-    "key": "sandking_sand_storm",
-    "keywords": [
-      "DPS",
-	  "Vision",
-	  "Channeled",
-      "Tank"
-    ]
-  },
-  {
-    "id": 5104,
-    "key": "sandking_caustic_finale",
-    "keywords": [
-      "Passive",
-      "Movement Reduction",
-      "Bonus Damage"
-    ]
-  },
-  {
-    "id": 5105,
-    "key": "sandking_epicenter",
-    "keywords": [
-      "Movement Reduction",
-	  "Attack Speed Reduction",
-	  "DPS",
-      "Channeled"
-    ]
-  },
-  {
-    "id": 5078,
-    "key": "shadow_shaman_ether_shock",
-    "keywords": [
-      "Nuke"
-    ]
-  },
-  {
-    "id": 5079,
-    "key": "shadow_shaman_voodoo",
-    "keywords": [
-      "Disable"
-    ]
-  },
-  {
-    "id": 5080,
-    "key": "shadow_shaman_shackles",
-    "keywords": [
-      "Nuke",
-      "Stun"
-    ]
-  },
-  {
-    "id": 5081,
-    "key": "shadow_shaman_mass_serpent_ward",
-    "keywords": [
-      "Upgrade",
-      "Nuke"
-    ]
-  },
-  {
-    "id": 5114,
-    "key": "slardar_sprint",
-    "keywords": [
-      "Movement Increase",
-    ]
-  },
-  {
-    "id": 5115,
-    "key": "slardar_slithereen_crush",
-    "keywords": [
-      "Stun",
-      "Movement Reduction",
-	  "Attack Speed Reduction",
-	  "AoE"
-    ]
-  },
-  {
-    "id": 5116,
-    "key": "slardar_bash",
-    "keywords": [
-      "Passive",
-      "Bash"
-    ]
-  },
-  {
-    "id": 5117,
-    "key": "slardar_amplify_damage",
-    "keywords": [
-      "Armor Reduction"
-    ]
-  },
-  {
-    "id": 5154,
-    "key": "sniper_shrapnel",
-    "keywords": [
-      "Movement Reduction",
-      "Nuke",
-	  "Vision"
-    ]
-  },
-  {
-    "id": 5155,
-    "key": "sniper_headshot",
-    "keywords": [
-      "Passive",
-      "Knockback",
-	  "Attack Damage Increase"
-    ]
-  },
-  {
-    "id": 5156,
-    "key": "sniper_take_aim",
-    "keywords": [
-      "Passive",
-    ]
-  },
-  {
-    "id": 5157,
-    "key": "sniper_assassinate",
-    "keywords": [
-      "Upgrade",
-      "Nuke",
-      "Stun"
-    ]
-  },
-  {
-    "id": 5334,
-    "key": "spectre_spectral_dagger",
-    "keywords": [
-		"Nuke",
-		"Move Speed Reduction"
-	]
-  },
-  {
-    "id": 5335,
-    "key": "spectre_desolate",
-    "keywords": [
-		"Attack Damage Increase",
-		"Vision",
-	]
-  },
-  {
-    "id": 5336,
-    "key": "spectre_dispersion",
-    "keywords": [
-		"Tank"
-	]
-  },
-  {
-    "id": 5338,
-    "key": "spectre_reality",
-    "keywords": []
-  },
-  {
-    "id": 5337,
-    "key": "spectre_haunt",
-    "keywords": [
-		"Summons"
-	]
-  },
-  {
-    "id": 5098,
-    "key": "storm_spirit_static_remnant",
-    "keywords": [
-      "Nuke"
-    ]
-  },
-  {
-    "id": 5099,
-    "key": "storm_spirit_electric_vortex",
-    "keywords": [
-      "Upgrade",
-      "Disable"
-    ]
-  },
-  {
-    "id": 5100,
-    "key": "storm_spirit_overload",
-    "keywords": [
-      "Passive",
-      "Movement Reduction",
-      "Attack Speed Reduction",
-	  "Attack Damage Increase"
-    ]
-  },
-  {
-    "id": 5101,
-    "key": "storm_spirit_ball_lightning",
-    "keywords": [
-      "Nuke"
-    ]
-  },
-  {
-    "id": 5094,
-    "key": "sven_storm_bolt",
-    "keywords": [
-      "Stun",
-      "Nuke",
-	  "AoE"
-    ]
-  },
-  {
-    "id": 5095,
-    "key": "sven_great_cleave",
-    "keywords": [
-      "Passive",
-      "Cleave",
-	  "Attack Damage Increase",
-    ]
-  },
-  {
-    "id": 5096,
-    "key": "sven_warcry",
-    "keywords": [
-      "Tank",
-      "Movement Increase",
-    ]
-  },
-  {
-    "id": 5097,
-    "key": "sven_gods_strength",
-    "keywords": [
-      "Upgrade",
-      "Attack Damage Increase"
-    ]
-  },
-  {
-    "id": 5118,
-    "key": "tidehunter_gush",
-    "keywords": [
-      "Upgrade",
-      "Movement Reduction",
-	  "Armor Reduction",
-      "Nuke"
-    ]
-  },
-  {
-    "id": 5119,
-    "key": "tidehunter_kraken_shell",
-    "keywords": [
-      "Tank",
-      "Passive"
-    ]
-  },
-  {
-    "id": 5120,
-    "key": "tidehunter_anchor_smash",
-    "keywords": [
-      "Nuke",
-      "Attack Damage Reduction"
-    ]
-  },
-  {
-    "id": 5121,
-    "key": "tidehunter_ravage",
-    "keywords": [
-      "Stun",
-      "Nuke"
-    ]
-  },
-  {
-    "id": 5150,
-    "key": "tinker_laser",
-    "keywords": [
-      "Upgrade",
-      "Nuke"
-    ]
-  },
-  {
-    "id": 5151,
-    "key": "tinker_heat_seeking_missile",
-    "keywords": [
-      "Upgrade",
-      "Nuke"
-    ]
-  },
-  {
-    "id": 5152,
-    "key": "tinker_march_of_the_machines",
-    "keywords": [
-      "DPS"
-    ]
-  },
-  {
-    "id": 5153,
-    "key": "tinker_rearm",
-    "keywords": [
-      "Cooldown Reduction"
-    ]
-  },
-  {
-    "id": 5106,
-    "key": "tiny_avalanche",
-    "keywords": [
-      "Stun",
-      "Nuke"
-    ]
-  },
-  {
-    "id": 5107,
-    "key": "tiny_toss",
-    "keywords": [
-      "Nuke",
-	  "Disable",
-    ]
-  },
-  {
-    "id": 5108,
-    "key": "tiny_craggy_exterior",
-    "keywords": []
-  },
-  {
-    "id": 5109,
-    "key": "tiny_grow",
-    "keywords": [
-      "Passive",
-      "Attack Damage Increase",
-      "Attack Speed Reduction",
-      "Armor Increase"
-    ]
-  },
-  {
-    "id": 5122,
-    "key": "vengefulspirit_magic_missile",
-    "keywords": [
-		"Stun",
-		"Nuke",
-	]
-  },
-  {
-    "id": 5124,
-    "key": "vengefulspirit_wave_of_terror",
-    "keywords": [
-		"Nuke",
-		"Armor Reduction"
-	]
-  },
-  {
-    "id": 5123,
-    "key": "vengefulspirit_command_aura",
-    "keywords": [
-		"Attack Damage Increase"
-	]
-  },
-  {
-    "id": 5125,
-    "key": "vengefulspirit_nether_swap",
-    "keywords": [
-		"Disable",
-	]
-  },
-  {
-    "id": 5178,
-    "key": "venomancer_venomous_gale",
-    "keywords": [
-      "Movement Reduction",
-      "Nuke"
-	  "DPS"
-    ]
-  },
-  {
-    "id": 5179,
-    "key": "venomancer_poison_sting",
-    "keywords": [
-      "Passive",
-      "DPS",
-	  "Movement Reduction"
-    ]
-  },
-  {
-    "id": 5180,
-    "key": "venomancer_plague_ward",
-    "keywords": [
-      "Summons"
-    ]
-  },
-  {
-    "id": 5181,
-    "key": "venomancer_poison_nova",
-    "keywords": [
-      "Upgrade",
-      "DPS",
-	  "AoE"
-    ]
-  },
-  {
-    "id": 5218,
-    "key": "viper_poison_attack",
-    "keywords": [
-      "Movement Speed Slow",
-	  "Attack Speed Slow",
-      "Attack Damage Increase",
-	  "Autocast",
-    ]
-  },
-  {
-    "id": 5219,
-    "key": "viper_nethertoxin",
-    "keywords": [
-      "DPS"
-    ]
-  },
-  {
-    "id": 5220,
-    "key": "viper_corrosive_skin",
-    "keywords": [
-      "Passive",
-      "Tank",
-      "Attack Speed Reduction"
-    ]
-  },
-  {
-    "id": 5221,
-    "key": "viper_viper_strike",
-    "keywords": [
-      "Movement Reduction"
-	  "Attack Speed Reduction"
-      "DPS"
-    ]
-  },
-  {
-    "id": 5289,
-    "key": "weaver_the_swarm",
-    "keywords": [
-      "Summons",
-	  "Armor Reduction",
-	  "DPS",
-    ]
-  },
-  {
-    "id": 5290,
-    "key": "weaver_shukuchi",
-    "keywords": [
-      "Nuke",
-	  "Movement Increase"
-	  "Vision"
-    ]
-  },
-  {
-    "id": 5291,
-    "key": "weaver_geminate_attack",
-    "keywords": [
-      "Passive",
-      "Attack Damage Increase"
-    ]
-  },
-  {
-    "id": 5292,
-    "key": "weaver_time_lapse",
-    "keywords": [
-      "Upgrade",
-      "Tank"
-    ]
-  },
-  {
-    "id": 5130,
-    "key": "windrunner_shackleshot",
-    "keywords": [
-      "Stun"
-    ]
-  },
-  {
-    "id": 5131,
-    "key": "windrunner_powershot",
-    "keywords": [
-      "Nuke"
-    ]
-  },
-  {
-    "id": 5132,
-    "key": "windrunner_windrun",
-    "keywords": [
-      "Tank",
-	  "Movement Increase",
-    ]
-  },
-  {
-    "id": 5133,
-    "key": "windrunner_focusfire",
-    "keywords": [
-      "Upgrade",
-      "Attack Speed Increase",
-    ]
-  },
-  {
-    "id": 5138,
-    "key": "witch_doctor_paralyzing_cask",
-    "keywords": [
-      "Stun",
-      "Nuke"
-    ]
-  },
-  {
-    "id": 5139,
-    "key": "witch_doctor_voodoo_restoration",
-    "keywords": [
-      "Heal"
-    ]
-  },
-  {
-    "id": 5140,
-    "key": "witch_doctor_maledict",
-    "keywords": [
-      "DPS"
-    ]
-  },
-  {
-    "id": 5141,
-    "key": "witch_doctor_death_ward",
-    "keywords": [
-      "Upgrade",
-      "Nuke"
-    ]
-  },
-  {
-    "id": 5110,
-    "key": "zuus_arc_lightning",
-    "keywords": [
-      "Nuke"
-    ]
-  },
-  {
-    "id": 5111,
-    "key": "zuus_lightning_bolt",
-    "keywords": [
-      "Nuke",
-      "Stun",
-	  "Vision",
-    ]
-  },
-  {
-    "id": 5112,
-    "key": "zuus_static_field",
-    "keywords": [
-      "Passive",
-      "Nuke"
-    ]
-  },
-  {
-    "id": 5113,
-    "key": "zuus_thundergods_wrath",
-    "keywords": [
-      "Nuke"
-    ]
-  },
-  {
-    "id": 5279,
-    "key": "broodmother_spawn_spiderlings",
-    "keywords": [
-      "Nuke",
-	  "Summons"
-    ]
-  },
-  {
-    "id": 5280,
-    "key": "broodmother_spin_web",
-    "keywords": [
-      "Tank",
-      "Movement Increase",
-    ]
-  },
-  {
-    "id": 5281,
-    "key": "broodmother_incapacitating_bite",
-    "keywords": [
-      "Passive",
-      "Movement Reduction",
-    ]
-  },
-  {
-    "id": 5282,
-    "key": "broodmother_insatiable_hunger",
-    "keywords": [
-      "Heal",
-      "Attack Damage Increase"
-    ]
-  },
-  {
-    "id": 5086,
-    "key": "skeleton_king_hellfire_blast",
-    "keywords": [
-	  "Movement Reduction",
-      "Stun",
-      "Nuke",
-	  "DPS"
-    ]
-  },
-  {
-    "id": 5087,
-    "key": "skeleton_king_vampiric_aura",
-    "keywords": [
-      "Heal"
-    ]
-  },
-  {
-    "id": 5088,
-    "key": "skeleton_king_mortal_strike",
-    "keywords": [
-      "Passive",
-	  "Summons"
-      "Crit"
-    ]
-  },
-  {
-    "id": 5089,
-    "key": "skeleton_king_reincarnation",
-    "keywords": [
-      "Upgrade",
-      "Passive",
-      "Attack Speed Reduction",
-      "Movement Reduction",
-      "Tank"
-    ]
-  },
-  {
-    "id": 5173,
-    "key": "queenofpain_shadow_strike",
-    "keywords": [
-      "Movement Reduction",
-      "Nuke",
-	  "DPS"
-    ]
-  },
-  {
-    "id": 5174,
-    "key": "queenofpain_blink",
-    "keywords": [
-      "Escape"
-    ]
-  },
-  {
-    "id": 5175,
-    "key": "queenofpain_scream_of_pain",
-    "keywords": [
-      "Nuke"
-    ]
-  },
-  {
-    "id": 5176,
-    "key": "queenofpain_sonic_wave",
-    "keywords": [
-      "Upgrade",
-      "Nuke",
-	  "Knockback"
-    ]
-  },
-  {
-    "id": 7300,
-    "key": "huskar_inner_fire",
-    "keywords": [
-		"Knockback",
-		"Nuke"
-	]
-  },
-  {
-    "id": 5272,
-    "key": "huskar_burning_spear",
-    "keywords": [
-      "DPS",
-      "Autocast"
-    ]
-  },
-  {
-    "id": 5273,
-    "key": "huskar_berserkers_blood",
-    "keywords": [
-      "Attack Speed Increase",
-    ]
-  },
-  {
-    "id": 5274,
-    "key": "huskar_life_break",
-    "keywords": [
-      "Upgrade",
-      "Movement Reduction",
-      "Nuke"
-    ]
-  },
-  {
-    "id": 5297,
-    "key": "jakiro_dual_breath",
-    "keywords": [
-      "Movement Reduction",
-	  "Attack Speed Reduction",
-      "DPS"
-    ]
-  },
-  {
-    "id": 5298,
-    "key": "jakiro_ice_path",
-    "keywords": [
-      "Stun",
-	  "Nuke",
-    ]
-  },
-  {
-    "id": 5299,
-    "key": "jakiro_liquid_fire",
-    "keywords": [
-      "Attack Speed Reduction",
-      "DPS"
-    ]
-  },
-  {
-    "id": 5300,
-    "key": "jakiro_macropyre",
-    "keywords": [
-      "Upgrade",
-      "DPS"
-    ]
-  },
-  {
-    "id": 5320,
-    "key": "batrider_sticky_napalm",
-    "keywords": [
-      "Movement Reduction"
-    ]
-  },
-  {
-    "id": 5321,
-    "key": "batrider_flamebreak",
-    "keywords": [
-      "Nuke",
-	  "Knockback"
-    ]
-  },
-  {
-    "id": 5322,
-    "key": "batrider_firefly",
-    "keywords": [
-		"Movement Increase"
-		"DPS"
-    ]
-  },
-  {
-    "id": 5323,
-    "key": "batrider_flaming_lasso",
-    "keywords": [
-		"Upgrade"
-		"Disable",
-		"DPS",
-    ]
-  },
-  {
-    "id": 5162,
-    "key": "warlock_fatal_bonds",
-    "keywords": [
-      "Nuke"
-    ]
-  },
-  {
-    "id": 5163,
-    "key": "warlock_shadow_word",
-    "keywords": [
-      "Nuke",
-      "Heal"
-    ]
-  },
-  {
-    "id": 5164,
-    "key": "warlock_upheaval",
-    "keywords": [
-      "Movement Reduction"
-    ]
-  },
-  {
-    "id": 5165,
-    "key": "warlock_rain_of_chaos",
-    "keywords": [
-      "Upgrade",
-      "Nuke",
-      "Stun",
-	  "Summons"
-    ]
-  },
-  {
-    "id": 5365,
-    "key": "alchemist_acid_spray",
-    "keywords": [
-      "DPS",
-	  "Armor Reduction",
-    ]
-  },
-  {
-    "id": 5366,
-    "key": "alchemist_unstable_concoction",
-    "keywords": [
-      "Stun",
-      "Nuke"
-    ]
-  },
-  {
-    "id": 5368,
-    "key": "alchemist_goblins_greed",
-    "keywords": [
-      "Passive"
-	  "Gold Bonus"
-    ]
-  },
-  {
-    "id": 5369,
-    "key": "alchemist_chemical_rage",
-    "keywords": [
-	  "Tank",
-      "Movement Increase",
-	  "Attack Speed Increase",
-    ]
-  },
-  {
-    "id": 5090,
-    "key": "death_prophet_carrion_swarm",
-    "keywords": [
-      "Nuke"
-    ]
-  },
-  {
-    "id": 5091,
-    "key": "death_prophet_silence",
-    "keywords": [
-	  "Silence"
-    ]
-  },
-  {
-    "id": 5685,
-    "key": "death_prophet_spirit_siphon",
-    "keywords": [
-      "Movement Increase",
-      "DPS"
-    ]
-  },
-  {
-    "id": 5093,
-    "key": "death_prophet_exorcism",
-    "keywords": [
-      "Heal",
-      "DPS"
-    ]
-  },
-  {
-    "id": 5357,
-    "key": "ursa_earthshock",
-    "keywords": [
-      "Movement Reduction",
-      "Nuke"
-    ]
-  },
-  {
-    "id": 5358,
-    "key": "ursa_overpower",
-    "keywords": [
-      "Attack Speed Increase"
-    ]
-  },
-  {
-    "id": 5359,
-    "key": "ursa_fury_swipes",
-    "keywords": [
-      "Passive",
-      "Attack Damage Increase"
-    ]
-  },
-  {
-    "id": 5360,
-    "key": "ursa_enrage",
-    "keywords": [
-      "Upgrade",
-      "Tank",
-    ]
-  },
-  {
-    "id": 5285,
-    "key": "bounty_hunter_shuriken_toss",
-    "keywords": [
-      "Upgrade",
-      "Nuke",
-      "Stun"
-    ]
-  },
-  {
-    "id": 5286,
-    "key": "bounty_hunter_jinada",
-    "keywords": [
-      "Passive",
-      "Gold Bonus",
-    ]
-  },
-  {
-    "id": 5287,
-    "key": "bounty_hunter_wind_walk",
-    "keywords": [
-		"Movement Increase",
-		"Vision",
-    ]
-  },
-  {
-    "id": 5288,
-    "key": "bounty_hunter_track",
-    "keywords": [
-		"Gold Bonus"
-		"Vision",
-    ]
-  },
-  {
-    "id": 5377,
-    "key": "silencer_curse_of_the_silent",
-    "keywords": [
-      "DPS",
-	  "Movement Reduction",
-    ]
-  },
-  {
-    "id": 5378,
-    "key": "silencer_glaives_of_wisdom",
-    "keywords": [
-      "Upgrade",
-      "Attack Damage Increase",
-    ]
-  },
-  {
-    "id": 5379,
-    "key": "silencer_last_word",
-    "keywords": [
-      "Silence",
-      "Nuke"
-    ]
-  },
-  {
-    "id": 5380,
-    "key": "silencer_global_silence",
-    "keywords": [
-      "Silence"
-    ]
-  },
-  {
-    "id": 5353,
-    "key": "spirit_breaker_charge_of_darkness",
-    "keywords": [
-      "Movement Increase",
-      "Bash"
-    ]
-  },
-  {
-    "id": 7301,
-    "key": "spirit_breaker_bulldoze",
-    "keywords": [
-		"Movement Increase"
-		"Tank"
-	]
-  },
-  {
-    "id": 5355,
-    "key": "spirit_breaker_greater_bash",
-    "keywords": [
-      "Passive",
-      "Bash",
-	  "Knockback"
-    ]
-  },
-  {
-    "id": 5356,
-    "key": "spirit_breaker_nether_strike",
-    "keywords": [
-      "Upgrade",
-      "Nuke"
-    ]
-  },
-  {
-    "id": 5370,
-    "key": "invoker_quas",
-    "keywords": []
-  },
-  {
-    "id": 5371,
-    "key": "invoker_wex",
-    "keywords": []
-  },
-  {
-    "id": 5372,
-    "key": "invoker_exort",
-    "keywords": []
-  },
-  {
-    "id": 5373,
-    "key": "invoker_empty1",
-    "keywords": []
-  },
-  {
-    "id": 5374,
-    "key": "invoker_empty2",
-    "keywords": []
-  },
-  {
-    "id": 5375,
-    "key": "invoker_invoke",
-    "keywords": []
-  },
-  {
-    "id": 5259,
-    "key": "clinkz_strafe",
-    "keywords": [
-      "Attack Speed Increase"
-    ]
-  },
-  {
-    "id": 5260,
-    "key": "clinkz_searing_arrows",
-    "keywords": [
-      "Attack Damage Increase"
-    ]
-  },
-  {
-    "id": 5261,
-    "key": "clinkz_wind_walk",
-    "keywords": [
-      "Movement Increase",
-	  "Vision",
-    ]
-  },
-  {
-    "id": 7319,
-    "key": "clinkz_burning_army",
-    "keywords": [
-		"Summons"
-	]
-  },
-  {
-    "id": 5391,
-    "key": "obsidian_destroyer_arcane_orb",
-    "keywords": [
-      "Attack Damage Increase",
-	  "Autocast",
-    ]
-  },
-  {
-    "id": 5392,
-    "key": "obsidian_destroyer_astral_imprisonment",
-    "keywords": [
-      "Upgrade",
-      "Nuke",
-      "Disable"
-    ]
-  },
-  {
-    "id": 5684,
-    "key": "obsidian_destroyer_equilibrium",
-    "keywords": [
-		"Movement Reduction"
-	]
-  },
-  {
-    "id": 5394,
-    "key": "obsidian_destroyer_sanity_eclipse",
-    "keywords": [
-      "Nuke"
-    ]
-  },
-  {
-    "id": 5421,
-    "key": "shadow_demon_disruption",
-    "keywords": [
-		"Disable",
-		"Summons",
-	]
-  },
-  {
-    "id": 5422,
-    "key": "shadow_demon_soul_catcher",
-    "keywords": [
-		"Nuke"
-	]
-  },
-  {
-    "id": 5423,
-    "key": "shadow_demon_shadow_poison",
-    "keywords": [
-		"Nuke"
-	]
-  },
-  {
-    "id": 5424,
-    "key": "shadow_demon_shadow_poison_release",
-    "keywords": []
-  },
-  {
-    "id": 5425,
-    "key": "shadow_demon_demonic_purge",
-    "keywords": [
-		"Movement Reduction"
-	]
-  },
-  {
-    "id": 5395,
-    "key": "lycan_summon_wolves",
-    "keywords": [
-      "Summons"
-    ]
-  },
-  {
-    "id": 5396,
-    "key": "lycan_howl",
-    "keywords": [
-		"Tank",
-		"Armor Increase",
-    ]
-  },
-  {
-    "id": 5397,
-    "key": "lycan_feral_impulse",
-    "keywords": [
-		"Passive",
-		"Tank",
-		"Attack Damage Increase"
-    ]
-  },
-  {
-    "id": 5398,
-    "key": "lycan_shapeshift",
-    "keywords": [
-      "Movement Increase",
-      "Crit",
-	  "Vision"
-    ]
-  },
-  {
-    "id": 5412,
-    "key": "lone_druid_spirit_bear",
-    "keywords": []
-  },
-  {
-    "id": 7309,
-    "key": "lone_druid_spirit_link",
-    "keywords": []
-  },
-  {
-    "id": 5414,
-    "key": "lone_druid_savage_roar",
-    "keywords": []
-  },
-  {
-    "id": 5415,
-    "key": "lone_druid_true_form",
-    "keywords": []
-  },
-  {
-    "id": 5400,
-    "key": "brewmaster_thunder_clap",
-    "keywords": [
-      "Movement Reduction",
-	  "Attack Speed Reduction",
-      "Nuke"
-    ]
-  },
-  {
-    "id": 7310,
-    "key": "brewmaster_cinder_brew",
-    "keywords": [
-		"Movement Reduction"
-		"DPS"
-	]
-  },
-  {
-    "id": 5402,
-    "key": "brewmaster_drunken_brawler",
-    "keywords": [
-      "Passive",
-      "Tank",
-      "Crit"
-    ]
-  },
-  {
-    "id": 5403,
-    "key": "brewmaster_primal_split",
-    "keywords": [
-      "Upgrade",
-      "Stun",
-	  "Disable",
-	  "Movement Reduction",
-	  "DPS",
-      "Tank"
-    ]
-  },
-  {
-    "id": 5065,
-    "key": "phantom_lancer_spirit_lance",
-    "keywords": [
-      "Summons",
-      "Movement Reduction",
-      "Nuke"
-    ]
-  },
-  {
-    "id": 5066,
-    "key": "phantom_lancer_doppelwalk",
-    "keywords": [
-      "Summons",
-	  "Escape"
-    ]
-  },
-  {
-    "id": 5068,
-    "key": "phantom_lancer_phantom_edge",
-    "keywords": [
-      "Passive",
-      "Movement Increase",
-    ]
-  },
-  {
-    "id": 5067,
-    "key": "phantom_lancer_juxtapose",
-    "keywords": [
-      "Passive",
-      "Summons"
-    ]
-  },
-  {
-    "id": 5434,
-    "key": "treant_natures_guise",
-    "keywords": [
-		"Passive",
-		"Movement Increase",
-		"Disable"
-    ]
-  },
-  {
-    "id": 5435,
-    "key": "treant_leech_seed",
-    "keywords": [
-		"Movement Reduction",
-		"Nuke"
-		"Heal"
-    ]
-  },
-  {
-    "id": 5436,
-    "key": "treant_living_armor",
-    "keywords": [
-		"Tank",
-		"Heal"
-    ]
-  },
-  {
-    "id": 5437,
-    "key": "treant_overgrowth",
-    "keywords": [
-		"Upgrade",
-		"Disable"
-    ]
-  },
-  {
-    "id": 5438,
-    "key": "ogre_magi_fireblast",
-    "keywords": [
-		"Nuke",
-	]
-  },
-  {
-    "id": 5439,
-    "key": "ogre_magi_ignite",
-    "keywords": [
-		"Movement Reduction"
-		"DPS"
-	]
-  },
-  {
-    "id": 5440,
-    "key": "ogre_magi_bloodlust",
-    "keywords": [
-		"Movement Increase",
-		"Attack Speed Increase",
-	]
-  },
-  {
-    "id": 5466,
-    "key": "ogre_magi_unrefined_fireblast",
-    "keywords": []
-  },
-  {
-    "id": 5441,
-    "key": "ogre_magi_multicast",
-    "keywords": []
-  },
-  {
-    "id": 5426,
-    "key": "chaos_knight_chaos_bolt",
-    "keywords": [
-      "Stun",
-      "Nuke"
-    ]
-  },
-  {
-    "id": 5427,
-    "key": "chaos_knight_reality_rift",
-    "keywords": [
-      "Disable",
-	  "Movement Reduction",
-	  "Attack Speed Reduction",
-    ]
-  },
-  {
-    "id": 5428,
-    "key": "chaos_knight_chaos_strike",
-    "keywords": [
-      "Passive",
-      "Heal",
-      "Crit"
-    ]
-  },
-  {
-    "id": 5429,
-    "key": "chaos_knight_phantasm",
-    "keywords": [
-      "Upgrade",
-      "Summons"
-    ]
-  },
-  {
-    "id": 5190,
-    "key": "phantom_assassin_stifling_dagger",
-    "keywords": [
-      "Movement Reduction",
-      "Nuke",
-    ]
-  },
-  {
-    "id": 5191,
-    "key": "phantom_assassin_phantom_strike",
-    "keywords": [
-      "Attack Speed Increase",
-    ]
-  },
-  {
-    "id": 5192,
-    "key": "phantom_assassin_blur",
-    "keywords": [
-      "Passive",
-      "Tank"
-    ]
-  },
-  {
-    "id": 5193,
-    "key": "phantom_assassin_coup_de_grace",
-    "keywords": [
-      "Passive",
-      "Crit"
-    ]
-  },
-  {
-    "id": 5361,
-    "key": "gyrocopter_rocket_barrage",
-    "keywords": [
-      "DPS"
-    ]
-  },
-  {
-    "id": 5362,
-    "key": "gyrocopter_homing_missile",
-    "keywords": [
-      "Stun",
-      "Nuke"
-    ]
-  },
-  {
-    "id": 5363,
-    "key": "gyrocopter_flak_cannon",
-    "keywords": []
-  },
-  {
-    "id": 5364,
-    "key": "gyrocopter_call_down",
-    "keywords": [
-      "Upgrade",
-      "Movement Reduction",
-      "Nuke"
-    ]
-  },
-  {
-    "id": 5448,
-    "key": "rubick_telekinesis",
-    "keywords": [
-		"Disable",
-		"Stun",
-	]
-  },
-  {
-    "id": 5450,
-    "key": "rubick_fade_bolt",
-    "keywords": [
-		"Nuke"
-	]
-  },
-  {
-    "id": 7320,
-    "key": "rubick_arcane_supremacy",
-    "keywords": [
-		"Tank"
-	]
-  },
-  {
-    "id": 5452,
-    "key": "rubick_spell_steal",
-    "keywords": []
-  },
-  {
-    "id": 5222,
-    "key": "luna_lucent_beam",
-    "keywords": [
-      "Stun",
-      "Nuke"
-    ]
-  },
-  {
-    "id": 5223,
-    "key": "luna_moon_glaive",
-    "keywords": [
-      "Passive",
-      "Attack Damage Increase"
-    ]
-  },
-  {
-    "id": 5224,
-    "key": "luna_lunar_blessing",
-    "keywords": [
-      "Passive",
-      "Attack Damage Increase"
-    ]
-  },
-  {
-    "id": 5225,
-    "key": "luna_eclipse",
-    "keywords": [
-      "Upgrade",
-      "Nuke",
-	  "Stun",
-    ]
-  },
-  {
-    "id": 5485,
-    "key": "wisp_tether",
-    "keywords": [
-		"Heal"
-	]
-  },
-  {
-    "id": 5486,
-    "key": "wisp_spirits",
-    "keywords": [
-		"Nuke"
-		"Movement Reduction"
-	]
-  },
-  {
-    "id": 5487,
-    "key": "wisp_overcharge",
-    "keywords": [
-		"Tank",
-		"Attack Speed Increase"
-	]
-  },
-  {
-    "id": 5488,
-    "key": "wisp_relocate",
-    "keywords": [
-		"Escape"
-	]
-  },
-  {
-    "id": 5458,
-    "key": "disruptor_thunder_strike",
-    "keywords": [
-      "Nuke"
-    ]
-  },
-  {
-    "id": 5459,
-    "key": "disruptor_glimpse",
-    "keywords": [
-      "Disable"
-    ]
-  },
-  {
-    "id": 5460,
-    "key": "disruptor_kinetic_field",
-    "keywords": [
-      "Disable"
-    ]
-  },
-  {
-    "id": 5461,
-    "key": "disruptor_static_storm",
-    "keywords": [
-      "Upgrade",
-      "DPS"
-    ]
-  },
-  {
-    "id": 5442,
-    "key": "undying_decay",
-    "keywords": [
-      "Tank",
-      "Upgrade",
-      "Nuke"
-    ]
-  },
-  {
-    "id": 5443,
-    "key": "undying_soul_rip",
-    "keywords": [
-      "Heal",
-      "Nuke"
-    ]
-  },
-  {
-    "id": 5444,
-    "key": "undying_tombstone",
-    "keywords": [
-      "Summons"
-    ]
-  },
-  {
-    "id": 5447,
-    "key": "undying_flesh_golem",
-    "keywords": [
-		"Tank",
-		"Movement Increase",
-		"DPS",
-    ]
-  },
-  {
-    "id": 5194,
-    "key": "templar_assassin_refraction",
-    "keywords": [
-		"Tank",
-		"Attack Damage Increase"
-	]
-  },
-  {
-    "id": 5195,
-    "key": "templar_assassin_meld",
-    "keywords": [
-		"Vision",
-		"Armor Reduction",
-		"Attack Damage Increase",
-	]
-  },
-  {
-    "id": 5196,
-    "key": "templar_assassin_psi_blades",
-    "keywords": [
-		"Passive",
-	]
-  },
-  {
-    "id": 5198,
-    "key": "templar_assassin_trap",
-    "keywords": [
-		"Vision",
-		"Nuke",
-		"Movement Reduction",
-	]
-  },
-  {
-    "id": 5197,
-    "key": "templar_assassin_psionic_trap",
-    "keywords": []
-  },
-  {
-    "id": 5467,
-    "key": "naga_siren_mirror_image",
-    "keywords": [
-      "Summons"
-    ]
-  },
-  {
-    "id": 5468,
-    "key": "naga_siren_ensnare",
-    "keywords": [
-      "Disable"
-    ]
-  },
-  {
-    "id": 5469,
-    "key": "naga_siren_rip_tide",
-    "keywords": [
-		"Passive",
-		"Nuke",
-		"Armor Reduction"
-    ]
-  },
-  {
-    "id": 5470,
-    "key": "naga_siren_song_of_the_siren",
-    "keywords": [
-      "Upgrade",
-      "Disable"
-    ]
-  },
-  {
-    "id": 5462,
-    "key": "nyx_assassin_impale",
-    "keywords": [
-      "Stun",
-      "Nuke"
-    ]
-  },
-  {
-    "id": 5463,
-    "key": "nyx_assassin_mana_burn",
-    "keywords": [
-      "Nuke"
-    ]
-  },
-  {
-    "id": 5464,
-    "key": "nyx_assassin_spiked_carapace",
-    "keywords": [
-      "Tank",
-      "Stun"
-    ]
-  },
-  {
-    "id": 5465,
-    "key": "nyx_assassin_vendetta",
-    "keywords": [
-      "Movement Increase",
-      "Attack Damage Increase",
-	  "Vision"
-    ]
-  },
-  {
-    "id": 5471,
-    "key": "keeper_of_the_light_illuminate",
-    "keywords": [
+     "id":7231,
+     "key":"beastmaster_call_of_the_wild_hawk",
+     "keywords":[
+        "Summons"
+     ]
+  },
+  {
+     "id":5172,
+     "key":"beastmaster_inner_beast",
+     "keywords":[
+        "Attack Speed Increase"
+     ]
+  },
+  {
+     "id":5177,
+     "key":"beastmaster_primal_roar",
+     "keywords":[
+        "Knockback",
+        "Nuke",
+        "Stun",
+        "Disable",
+		"AoE"
+     ]
+  },
+  {
+     "id":5015,
+     "key":"bloodseeker_bloodrage",
+     "keywords":[
+        "Attack Damage Increase",
+        "Heal"
+     ]
+  },
+  {
+     "id":5016,
+     "key":"bloodseeker_blood_bath",
+     "keywords":[
+        "Silence",
+        "Nuke",
+        "AoE"
+     ]
+  },
+  {
+     "id":5017,
+     "key":"bloodseeker_thirst",
+     "keywords":[
+        "Passive",
+        "Attack Speed Increase",
+        "Movement Increase"
+     ]
+  },
+  {
+     "id":5018,
+     "key":"bloodseeker_rupture",
+     "keywords":[
+        "Upgrade"
+     ]
+  },
+  {
+     "id":5328,
+     "key":"chen_penitence",
+     "keywords":[
+        "Movement Reduction",
+        "Attack Speed Increase"
+     ]
+  },
+  {
+     "id":7306,
+     "key":"chen_divine_favor",
+     "keywords":[
+        "Attack Damage Increase",
+        "Heal"
+     ]
+  },
+  {
+     "id":5330,
+     "key":"chen_holy_persuasion",
+     "keywords":[
+        "Summons"
+     ]
+  },
+  {
+     "id":5331,
+     "key":"chen_hand_of_god",
+     "keywords":[
+        "Heal"
+     ]
+  },
+  {
+     "id":5126,
+     "key":"crystal_maiden_crystal_nova",
+     "keywords":[
+        "Movement Reduction",
+        "Attack Speed Reduction",
+        "Nuke",
+        "Vision",
+		"AoE"
+     ]
+  },
+  {
+     "id":5127,
+     "key":"crystal_maiden_frostbite",
+     "keywords":[
+        "Stun",
+        "Disable",
+        "DPS"
+     ]
+  },
+  {
+     "id":5128,
+     "key":"crystal_maiden_brilliance_aura",
+     "keywords":[
+        "Passive"
+     ]
+  },
+  {
+     "id":5129,
+     "key":"crystal_maiden_freezing_field",
+     "keywords":[
+        "Upgrade",
+        "Nuke",
+        "Movement Reduction",
+        "Attack Speed Reduction",
+        "Armor Increase",
 		"Channeled",
-		"Nuke",
-		"Heal"
+		"AoE"
+     ]
+  },
+  {
+     "id":5255,
+     "key":"dark_seer_vacuum",
+     "keywords":[
+        "Nuke",
+        "Disable",
+		"AoE"
+     ]
+  },
+  {
+     "id":5256,
+     "key":"dark_seer_ion_shell",
+     "keywords":[
+        "DPS"
+     ]
+  },
+  {
+     "id":5257,
+     "key":"dark_seer_surge",
+     "keywords":[
+        "Movement Increase"
+     ]
+  },
+  {
+     "id":5258,
+     "key":"dark_seer_wall_of_replica",
+     "keywords":[
+        "Upgrade",
+        "Movement Reduction",
+        "Summons"
+     ]
+  },
+  {
+     "id":5233,
+     "key":"dazzle_poison_touch",
+     "keywords":[
+        "Movement Reduction",
+        "DPS"
+     ]
+  },
+  {
+     "id":5234,
+     "key":"dazzle_shallow_grave",
+     "keywords":[
+        "Upgrade",
+        "Tank"
+     ]
+  },
+  {
+     "id":5235,
+     "key":"dazzle_shadow_wave",
+     "keywords":[
+        "Heal",
+        "Nuke",
+		"AoE"
+     ]
+  },
+  {
+     "id":7304,
+     "key":"dazzle_bad_juju",
+     "keywords":[
+        "Armor Reduction"
+     ]
+  },
+  {
+     "id":5226,
+     "key":"dragon_knight_breathe_fire",
+     "keywords":[
+        "Nuke",
+		"AoE"
+     ]
+  },
+  {
+     "id":5227,
+     "key":"dragon_knight_dragon_tail",
+     "keywords":[
+        "Stun",
+        "Nuke"
+     ]
+  },
+  {
+     "id":5228,
+     "key":"dragon_knight_dragon_blood",
+     "keywords":[
+        "Passive",
+        "Tank",
+        "Heal",
+        "Armor Increase"
+     ]
+  },
+  {
+     "id":5229,
+     "key":"dragon_knight_elder_dragon_form",
+     "keywords":[
+        "Movement Increase",
+        "Attack Range Increase"
+     ]
+  },
+  {
+     "id":5339,
+     "key":"doom_bringer_devour",
+     "keywords":[
+        "Heal"
+     ]
+  },
+  {
+     "id":5340,
+     "key":"doom_bringer_scorched_earth",
+     "keywords":[
+        "DPS",
+        "Movement Increase"
+     ]
+  },
+  {
+     "id":5341,
+     "key":"doom_bringer_infernal_blade",
+     "keywords":[
+        "DPS",
+        "Bash",
+		"Autocast"
+     ]
+  },
+  {
+     "id":5342,
+     "key":"doom_bringer_doom",
+     "keywords":[
+        "Disable",
+        "DPS"
+     ]
+  },
+  {
+     "id":5019,
+     "key":"drow_ranger_frost_arrows",
+     "keywords":[
+        "Movement Reduction",
+        "Autocast"
+     ]
+  },
+  {
+     "id":5632,
+     "key":"drow_ranger_wave_of_silence",
+     "keywords":[
+        "Disable",
+        "Knockback",
+        "Silence",
+		"AoE"
+     ]
+  },
+  {
+     "id":5021,
+     "key":"drow_ranger_trueshot",
+     "keywords":[
+        "Passive",
+        "Attack Speed Increase"
+     ]
+  },
+  {
+     "id":5022,
+     "key":"drow_ranger_marksmanship",
+     "keywords":[
+        "Upgrade",
+        "Passive",
+        "Attack Damage Increase"
+     ]
+  },
+  {
+     "id":5023,
+     "key":"earthshaker_fissure",
+     "keywords":[
+        "Stun",
+        "Nuke",
+        "Disable",
+		"AoE"
+     ]
+  },
+  {
+     "id":5024,
+     "key":"earthshaker_enchant_totem",
+     "keywords":[
+        "Upgrade",
+        "Attack Damage Increase"
+     ]
+  },
+  {
+     "id":5025,
+     "key":"earthshaker_aftershock",
+     "keywords":[
+        "Passive",
+        "Stun",
+		"AoE"
+     ]
+  },
+  {
+     "id":5026,
+     "key":"earthshaker_echo_slam",
+     "keywords":[
+        "Nuke",
+		"AoE"
+     ]
+  },
+  {
+     "id":5267,
+     "key":"enchantress_untouchable",
+     "keywords":[
+        "Passive",
+        "Tank",
+        "Attack Speed Reduction"
+     ]
+  },
+  {
+     "id":5268,
+     "key":"enchantress_enchant",
+     "keywords":[
+        "Movement Reduction",
+        "Summons"
+     ]
+  },
+  {
+     "id":5269,
+     "key":"enchantress_natures_attendants",
+     "keywords":[
+        "Heal"
+     ]
+  },
+  {
+     "id":5270,
+     "key":"enchantress_impetus",
+     "keywords":[
+        "Upgrade",
+        "Attack Damage Increase",
+		"Autocast"
+     ]
+  },
+  {
+     "id":5146,
+     "key":"enigma_malefice",
+     "keywords":[
+        "Stun",
+        "Nuke"
+     ]
+  },
+  {
+     "id":5147,
+     "key":"enigma_demonic_conversion",
+     "keywords":[
+        "Summons"
+     ]
+  },
+  {
+     "id":5148,
+     "key":"enigma_midnight_pulse",
+     "keywords":[
+        "DPS",
+		"AoE"
+     ]
+  },
+  {
+     "id":5149,
+     "key":"enigma_black_hole",
+     "keywords":[
+        "Upgrade",
+        "DPS",
+        "Disable",
+        "Silence",
+        "Channeled",
+		"AoE"
+     ]
+  },
+  {
+     "id":5182,
+     "key":"faceless_void_time_walk",
+     "keywords":[
+        "Tank"
+     ]
+  },
+  {
+     "id":5691,
+     "key":"faceless_void_time_dilation",
+     "keywords":[
+		"AoE"
 	]
   },
   {
-    "id": 5476,
-    "key": "keeper_of_the_light_blinding_light",
-    "keywords": [
-		"Tank",
-		"Nuke",
-		"Knockback"
-	]
+     "id":5184,
+     "key":"faceless_void_time_lock",
+     "keywords":[
+        "Passive",
+        "Attack Damage Increase",
+        "Bash"
+     ]
   },
   {
-    "id": 5473,
-    "key": "keeper_of_the_light_chakra_magic",
-    "keywords": [
-		"Cooldown Reduction"
-	]
+     "id":5185,
+     "key":"faceless_void_chronosphere",
+     "keywords":[
+        "Upgrade",
+        "Disable",
+        "Stun",
+		"AoE"
+     ]
   },
   {
-    "id": 7316,
-    "key": "keeper_of_the_light_will_o_wisp",
-    "keywords": [
-		"Disable"
-	]
+     "id":5245,
+     "key":"furion_sprout",
+     "keywords":[
+        "Disable"
+     ]
   },
   {
-    "id": 5480,
-    "key": "visage_grave_chill",
-    "keywords": [
-      "Movement Increase",
-      "Attack Speed Increase"
-    ]
+     "id":5246,
+     "key":"furion_teleportation",
+     "keywords":[
+        "Escape"
+     ]
   },
   {
-    "id": 5481,
-    "key": "visage_soul_assumption",
-    "keywords": [
-      "Nuke"
-    ]
+     "id":5247,
+     "key":"furion_force_of_nature",
+     "keywords":[
+        "Summons"
+     ]
   },
   {
-    "id": 5482,
-    "key": "visage_gravekeepers_cloak",
-    "keywords": [
-      "Tank",
-      "Passive"
-    ]
+     "id":5248,
+     "key":"furion_wrath_of_nature",
+     "keywords":[
+        "Upgrade",
+        "Nuke"
+     ]
   },
   {
-    "id": 7116,
-    "key": "visage_stone_form_self_cast",
-    "keywords": []
+     "id":5028,
+     "key":"juggernaut_blade_fury",
+     "keywords":[
+        "DPS"
+     ]
   },
   {
-    "id": 5483,
-    "key": "visage_summon_familiars",
-    "keywords": [
-      "Upgrade",
-	  "Summons"
-    ]
+     "id":5029,
+     "key":"juggernaut_healing_ward",
+     "keywords":[
+        "Heal",
+		"AoE"
+     ]
   },
   {
-    "id": 5430,
-    "key": "meepo_earthbind",
-    "keywords": [
-		"Disable",
-	]
+     "id":5027,
+     "key":"juggernaut_blade_dance",
+     "keywords":[
+        "Crit",
+        "Attack Damage Increase"
+     ]
   },
   {
-    "id": 5431,
-    "key": "meepo_poof",
-    "keywords": [
-		"Nuke"
-	]
+     "id":5030,
+     "key":"juggernaut_omni_slash",
+     "keywords":[
+        "Upgrade",
+        "Attack Damage Increase"
+     ]
   },
   {
-    "id": 7318,
-    "key": "meepo_ransack",
-    "keywords": [
-		"Passive",
-		"Heal"
-	]
+     "id":5031,
+     "key":"kunkka_torrent",
+     "keywords":[
+        "Stun",
+        "Movement Reduction",
+        "Nuke",
+		"AoE"
+     ]
   },
   {
-    "id": 5433,
-    "key": "meepo_divided_we_stand",
-    "keywords": []
+     "id":5032,
+     "key":"kunkka_tidebringer",
+     "keywords":[
+        "Attack Damage Increase",
+		"Autocast"
+     ]
   },
   {
-    "id": 5518,
-    "key": "magnataur_shockwave",
-    "keywords": [
-      "Upgrade",
-      "Nuke",
-	  "Movement Reduction"
-    ]
+     "id":5033,
+     "key":"kunkka_x_marks_the_spot",
+     "keywords":[
+        "Disable"
+     ]
   },
   {
-    "id": 5519,
-    "key": "magnataur_empower",
-    "keywords": [
-      "Cleave",
-	  "Attack Damage Increase"
-    ]
+     "id":5035,
+     "key":"kunkka_ghostship",
+     "keywords":[
+        "Upgrade",
+        "Stun",
+        "Nuke",
+		"AoE"
+     ]
   },
   {
-    "id": 5520,
-    "key": "magnataur_skewer",
-    "keywords": [
-      "Movement Reduction",
-      "Attack Speed Reduction",
-      "Nuke",
-      "Disable"
-    ]
+     "id":5241,
+     "key":"leshrac_split_earth",
+     "keywords":[
+        "Stun",
+        "Nuke",
+		"AoE"
+     ]
   },
   {
-    "id": 5521,
-    "key": "magnataur_reverse_polarity",
-    "keywords": [
-      "Stun",
-      "Nuke",
-	  "AoE"
-    ]
+     "id":5242,
+     "key":"leshrac_diabolic_edict",
+     "keywords":[
+        "DPS",
+		"AoE"
+     ]
   },
   {
-    "id": 5514,
-    "key": "centaur_hoof_stomp",
-    "keywords": [
-      "Stun",
-      "Nuke",
-	  "AoE"
-    ]
+     "id":5243,
+     "key":"leshrac_lightning_storm",
+     "keywords":[
+        "Movement Reduction",
+        "Nuke"
+     ]
   },
   {
-    "id": 5515,
-    "key": "centaur_double_edge",
-    "keywords": [
-      "Nuke"
-    ]
+     "id":5244,
+     "key":"leshrac_pulse_nova",
+     "keywords":[
+        "Upgrade",
+        "DPS",
+		"AoE"
+     ]
   },
   {
-    "id": 5516,
-    "key": "centaur_return",
-    "keywords": [
-      "Tank",
-      "Passive"
-    ]
+     "id":5134,
+     "key":"lich_frost_nova",
+     "keywords":[
+        "Movement Reduction",
+        "Attack Speed Reduction",
+        "Nuke",
+		"AoE"
+     ]
   },
   {
-    "id": 5517,
-    "key": "centaur_stampede",
-    "keywords": [
-      "Upgrade",
-      "Movement Increase"
-    ]
+     "id":5136,
+     "key":"lich_frost_shield",
+     "keywords":[
+        "Nuke",
+        "Movement Reduction",
+		"AoE"
+     ]
   },
   {
-    "id": 5494,
-    "key": "slark_dark_pact",
-    "keywords": [
-      "Nuke",
-      "Tank"
-    ]
+     "id":7325,
+     "key":"lich_sinister_gaze",
+     "keywords":[
+        "Disable"
+     ]
   },
   {
-    "id": 5495,
-    "key": "slark_pounce",
-    "keywords": [
-      "Disable"
-    ]
+     "id":5137,
+     "key":"lich_chain_frost",
+     "keywords":[
+        "Upgrade",
+        "Movement Reduction",
+        "Attack Speed Reduction",
+        "Nuke"
+     ]
   },
   {
-    "id": 5496,
-    "key": "slark_essence_shift",
-    "keywords": [
-      "Passive",
-      "Attack Damage Increase"
-    ]
+     "id":5249,
+     "key":"life_stealer_rage",
+     "keywords":[
+        "Attack Speed Increase",
+        "Tank"
+     ]
   },
   {
-    "id": 5497,
-    "key": "slark_shadow_dance",
-    "keywords": [
-		"Passive"
-		"Upgrade",
-		"Tank",
-		"Movement Increase",
-    ]
+     "id":5250,
+     "key":"life_stealer_feast",
+     "keywords":[
+        "Passive",
+        "Heal",
+        "Tank"
+     ]
   },
   {
-    "id": 5524,
-    "key": "shredder_whirling_death",
-    "keywords": [
-		"Nuke"
-	]
+     "id":5251,
+     "key":"life_stealer_open_wounds",
+     "keywords":[
+        "Movement Reduction"
+     ]
   },
   {
-    "id": 5525,
-    "key": "shredder_timber_chain",
-    "keywords": [
-		"Nuke",
+     "id":5252,
+     "key":"life_stealer_infest",
+     "keywords":[
+
+     ]
+  },
+  {
+     "id":5040,
+     "key":"lina_dragon_slave",
+     "keywords":[
+        "Nuke",
+		"AoE"
+     ]
+  },
+  {
+     "id":5041,
+     "key":"lina_light_strike_array",
+     "keywords":[
+        "Disable",
+        "Stun",
+        "Nuke",
+		"AoE"
+     ]
+  },
+  {
+     "id":5042,
+     "key":"lina_fiery_soul",
+     "keywords":[
+        "Passive",
+        "Movement Increase",
+        "Attack Speed Increase"
+     ]
+  },
+  {
+     "id":5043,
+     "key":"lina_laguna_blade",
+     "keywords":[
+        "Upgrade",
+        "Nuke"
+     ]
+  },
+  {
+     "id":5044,
+     "key":"lion_impale",
+     "keywords":[
+        "Stun",
+        "Nuke"
+     ]
+  },
+  {
+     "id":5045,
+     "key":"lion_voodoo",
+     "keywords":[
+        "Disable"
+     ]
+  },
+  {
+     "id":5046,
+     "key":"lion_mana_drain",
+     "keywords":[
+        "Movement Reduction",
+        "Channeled"
+     ]
+  },
+  {
+     "id":5047,
+     "key":"lion_finger_of_death",
+     "keywords":[
+        "Upgrade",
+        "Nuke"
+     ]
+  },
+  {
+     "id":5051,
+     "key":"mirana_starfall",
+     "keywords":[
+        "Upgrade",
+        "Nuke",
+		"AoE"
+     ]
+  },
+  {
+     "id":5048,
+     "key":"mirana_arrow",
+     "keywords":[
+        "Disable",
+        "Stun",
+        "Nuke"
+     ]
+  },
+  {
+     "id":5050,
+     "key":"mirana_leap",
+     "keywords":[
+        "Attack Speed Increase",
+        "Movement Increase"
+     ]
+  },
+  {
+     "id":5049,
+     "key":"mirana_invis",
+     "keywords":[
+        "Vision"
+     ]
+  },
+  {
+     "id":5052,
+     "key":"morphling_waveform",
+     "keywords":[
+
+     ]
+  },
+  {
+     "id":5053,
+     "key":"morphling_adaptive_strike_agi",
+     "keywords":[
+
+     ]
+  },
+  {
+     "id":7000,
+     "key":"morphling_adaptive_strike_str",
+     "keywords":[
+
+     ]
+  },
+  {
+     "id":5055,
+     "key":"morphling_morph_agi",
+     "keywords":[
+
+     ]
+  },
+  {
+     "id":5056,
+     "key":"morphling_morph_str",
+     "keywords":[
+
+     ]
+  },
+  {
+     "id":5057,
+     "key":"morphling_replicate",
+     "keywords":[
+
+     ]
+  },
+  {
+     "id":5158,
+     "key":"necrolyte_death_pulse",
+     "keywords":[
+        "Heal",
+        "Nuke",
+		"AoE"
+     ]
+  },
+  {
+     "id":5160,
+     "key":"necrolyte_sadist",
+     "keywords":[
+        "Movement Reduction",
+		"AoE"
+     ]
+  },
+  {
+     "id":5159,
+     "key":"necrolyte_heartstopper_aura",
+     "keywords":[
+        "Passive",
+        "DPS",
+		"AoE"
+     ]
+  },
+  {
+     "id":5161,
+     "key":"necrolyte_reapers_scythe",
+     "keywords":[
+        "Upgrade",
+        "Disable",
+        "Stun",
+        "Nuke"
+     ]
+  },
+  {
+     "id":5059,
+     "key":"nevermore_shadowraze1",
+     "keywords":[
+        "Nuke"
+     ]
+  },
+  {
+     "id":5060,
+     "key":"nevermore_shadowraze2",
+     "keywords":[
+        "Nuke"
+     ]
+  },
+  {
+     "id":5061,
+     "key":"nevermore_shadowraze3",
+     "keywords":[
+        "Nuke"
+     ]
+  },
+  {
+     "id":5062,
+     "key":"nevermore_necromastery",
+     "keywords":[
+        "Attack Damage Increase"
+     ]
+  },
+  {
+     "id":5063,
+     "key":"nevermore_dark_lord",
+     "keywords":[
+        "Armor Reduction"
+     ]
+  },
+  {
+     "id":5064,
+     "key":"nevermore_requiem",
+     "keywords":[
+        "Nuke",
+        "Movement Reduction",
+		"AoE"
+     ]
+  },
+  {
+     "id":5275,
+     "key":"night_stalker_void",
+     "keywords":[
+        "Movement Reduction",
+        "Attack Speed Reduction",
+        "Nuke",
+        "AoE"
+     ]
+  },
+  {
+     "id":5276,
+     "key":"night_stalker_crippling_fear",
+     "keywords":[
+        "Silence",
+        "AoE"
+     ]
+  },
+  {
+     "id":5277,
+     "key":"night_stalker_hunter_in_the_night",
+     "keywords":[
+        "Passive",
+        "Movement Increase",
+        "Attack Speed Increase"
+     ]
+  },
+  {
+     "id":5278,
+     "key":"night_stalker_darkness",
+     "keywords":[
+        "Attack Damage Increase"
+     ]
+  },
+  {
+     "id":5263,
+     "key":"omniknight_purification",
+     "keywords":[
+        "Nuke",
+        "Heal",
+		"AoE"
+     ]
+  },
+  {
+     "id":5264,
+     "key":"omniknight_repel",
+     "keywords":[
+        "Tank"
+     ]
+  },
+  {
+     "id":5265,
+     "key":"omniknight_degen_aura",
+     "keywords":[
+        "Passive",
+        "Tank",
+        "Movement Reduction",
+        "Attack Speed Reduction",
+		"AoE"
+     ]
+  },
+  {
+     "id":5266,
+     "key":"omniknight_guardian_angel",
+     "keywords":[
+        "Upgrade",
+        "Tank"
+     ]
+  },
+  {
+     "id":5069,
+     "key":"puck_illusory_orb",
+     "keywords":[
+        "Nuke"
+     ]
+  },
+  {
+     "id":5071,
+     "key":"puck_waning_rift",
+     "keywords":[
+        "Nuke",
+        "Silence",
+		"AoE"
+     ]
+  },
+  {
+     "id":5072,
+     "key":"puck_phase_shift",
+     "keywords":[
+        "Tank",
+        "Channeled"
+     ]
+  },
+  {
+     "id":5070,
+     "key":"puck_ethereal_jaunt",
+     "keywords":[
+
+     ]
+  },
+  {
+     "id":5073,
+     "key":"puck_dream_coil",
+     "keywords":[
+        "Disable",
+		"AoE"
+     ]
+  },
+  {
+     "id":5075,
+     "key":"pudge_meat_hook",
+     "keywords":[
+        "Upgrade",
+        "Nuke"
+     ]
+  },
+  {
+     "id":5076,
+     "key":"pudge_rot",
+     "keywords":[
+        "Movement Reduction",
+        "DPS",
+		"AoE"
+     ]
+  },
+  {
+     "id":5074,
+     "key":"pudge_flesh_heap",
+     "keywords":[
+        "Tank",
+        "Passive"
+     ]
+  },
+  {
+     "id":5077,
+     "key":"pudge_dismember",
+     "keywords":[
+        "Disable",
+        "DPS",
+        "Channeled"
+     ]
+  },
+  {
+     "id":5186,
+     "key":"pugna_nether_blast",
+     "keywords":[
+        "Nuke",
+		"AoE"
+     ]
+  },
+  {
+     "id":5187,
+     "key":"pugna_decrepify",
+     "keywords":[
+        "Movement Reduction",
+        "Disable"
+     ]
+  },
+  {
+     "id":5188,
+     "key":"pugna_nether_ward",
+     "keywords":[
+        "Nuke"
+     ]
+  },
+  {
+     "id":5189,
+     "key":"pugna_life_drain",
+     "keywords":[
+        "Upgrade",
+        "Nuke",
+        "Heal",
+		"Channeled"
+     ]
+  },
+  {
+     "id":5237,
+     "key":"rattletrap_battery_assault",
+     "keywords":[
+        "Stun",
+        "DPS"
+     ]
+  },
+  {
+     "id":5238,
+     "key":"rattletrap_power_cogs",
+     "keywords":[
+        "Disable",
+        "Knockback"
+     ]
+  },
+  {
+     "id":5239,
+     "key":"rattletrap_rocket_flare",
+     "keywords":[
+        "Nuke",
+        "Vision",
+		"AoE"
+     ]
+  },
+  {
+     "id":5240,
+     "key":"rattletrap_hookshot",
+     "keywords":[
+        "Upgrade",
+        "Stun",
+        "Nuke"
+     ]
+  },
+  {
+     "id":5082,
+     "key":"razor_plasma_field",
+     "keywords":[
+        "Nuke",
+        "Movement Reduction",
+		"AoE"
+     ]
+  },
+  {
+     "id":5083,
+     "key":"razor_static_link",
+     "keywords":[
+        "Attack Damage Increase"
+     ]
+  },
+  {
+     "id":5084,
+     "key":"razor_unstable_current",
+     "keywords":[
+        "Passive",
+        "Movement Increase",
+        "Nuke"
+     ]
+  },
+  {
+     "id":5085,
+     "key":"razor_eye_of_the_storm",
+     "keywords":[
+        "Upgrade",
+        "Nuke",
+        "Armor Reduction"
+     ]
+  },
+  {
+     "id":5142,
+     "key":"riki_smoke_screen",
+     "keywords":[
+        "Silence",
+        "Movement Reduction",
+		"AoE"
+     ]
+  },
+  {
+     "id":5143,
+     "key":"riki_blink_strike",
+     "keywords":[
+        "Nuke"
+     ]
+  },
+  {
+     "id":5144,
+     "key":"riki_permanent_invisibility",
+     "keywords":[
+        "Passive",
+        "Attack Damage Increase",
+        "Vision",
 		"Escape"
-	]
+     ]
   },
   {
-    "id": 5526,
-    "key": "shredder_reactive_armor",
-    "keywords": [
+     "id":5145,
+     "key":"riki_tricks_of_the_trade",
+     "keywords":[
+        "Channeled",
+		"AoE"
+     ]
+  },
+  {
+     "id":5102,
+     "key":"sandking_burrowstrike",
+     "keywords":[
+        "Upgrade",
+        "Stun",
+        "Nuke"
+     ]
+  },
+  {
+     "id":5103,
+     "key":"sandking_sand_storm",
+     "keywords":[
+        "DPS",
+        "Vision",
+        "Channeled",
+        "Tank",
+		"AoE"
+     ]
+  },
+  {
+     "id":5104,
+     "key":"sandking_caustic_finale",
+     "keywords":[
+        "Passive",
+        "Movement Reduction",
+        "Attack Damage Increase"
+     ]
+  },
+  {
+     "id":5105,
+     "key":"sandking_epicenter",
+     "keywords":[
+        "Movement Reduction",
+        "Attack Speed Reduction",
+        "DPS",
+        "Channeled",
+		"AoE"
+     ]
+  },
+  {
+     "id":5078,
+     "key":"shadow_shaman_ether_shock",
+     "keywords":[
+        "Nuke"
+     ]
+  },
+  {
+     "id":5079,
+     "key":"shadow_shaman_voodoo",
+     "keywords":[
+        "Disable"
+     ]
+  },
+  {
+     "id":5080,
+     "key":"shadow_shaman_shackles",
+     "keywords":[
+        "Nuke",
+        "Stun"
+     ]
+  },
+  {
+     "id":5081,
+     "key":"shadow_shaman_mass_serpent_ward",
+     "keywords":[
+        "Upgrade",
+        "Nuke"
+     ]
+  },
+  {
+     "id":5114,
+     "key":"slardar_sprint",
+     "keywords":[
+        "Movement Increase"
+     ]
+  },
+  {
+     "id":5115,
+     "key":"slardar_slithereen_crush",
+     "keywords":[
+        "Stun",
+        "Movement Reduction",
+        "Attack Speed Reduction",
+        "AoE"
+     ]
+  },
+  {
+     "id":5116,
+     "key":"slardar_bash",
+     "keywords":[
+        "Passive",
+        "Bash"
+     ]
+  },
+  {
+     "id":5117,
+     "key":"slardar_amplify_damage",
+     "keywords":[
+        "Armor Reduction"
+     ]
+  },
+  {
+     "id":5154,
+     "key":"sniper_shrapnel",
+     "keywords":[
+        "Movement Reduction",
+        "Nuke",
+        "Vision",
+		"AoE"
+     ]
+  },
+  {
+     "id":5155,
+     "key":"sniper_headshot",
+     "keywords":[
+        "Passive",
+        "Knockback",
+        "Attack Damage Increase"
+     ]
+  },
+  {
+     "id":5156,
+     "key":"sniper_take_aim",
+     "keywords":[
+        "Passive"
+     ]
+  },
+  {
+     "id":5157,
+     "key":"sniper_assassinate",
+     "keywords":[
+        "Upgrade",
+        "Nuke",
+        "Stun"
+     ]
+  },
+  {
+     "id":5334,
+     "key":"spectre_spectral_dagger",
+     "keywords":[
+        "Nuke",
+        "Movement Reduction"
+     ]
+  },
+  {
+     "id":5335,
+     "key":"spectre_desolate",
+     "keywords":[
+        "Attack Damage Increase",
+        "Vision"
+     ]
+  },
+  {
+     "id":5336,
+     "key":"spectre_dispersion",
+     "keywords":[
+        "Tank"
+     ]
+  },
+  {
+     "id":5338,
+     "key":"spectre_reality",
+     "keywords":[
+
+     ]
+  },
+  {
+     "id":5337,
+     "key":"spectre_haunt",
+     "keywords":[
+        "Summons"
+     ]
+  },
+  {
+     "id":5098,
+     "key":"storm_spirit_static_remnant",
+     "keywords":[
+        "Nuke"
+     ]
+  },
+  {
+     "id":5099,
+     "key":"storm_spirit_electric_vortex",
+     "keywords":[
+        "Upgrade",
+        "Disable"
+     ]
+  },
+  {
+     "id":5100,
+     "key":"storm_spirit_overload",
+     "keywords":[
+        "Passive",
+        "Movement Reduction",
+        "Attack Speed Reduction",
+        "Attack Damage Increase"
+     ]
+  },
+  {
+     "id":5101,
+     "key":"storm_spirit_ball_lightning",
+     "keywords":[
+        "Nuke"
+     ]
+  },
+  {
+     "id":5094,
+     "key":"sven_storm_bolt",
+     "keywords":[
+        "Stun",
+        "Nuke",
+        "AoE"
+     ]
+  },
+  {
+     "id":5095,
+     "key":"sven_great_cleave",
+     "keywords":[
+        "Passive",
+        "Attack Damage Increase",
+		"AoE"
+     ]
+  },
+  {
+     "id":5096,
+     "key":"sven_warcry",
+     "keywords":[
+        "Tank",
+        "Movement Increase"
+     ]
+  },
+  {
+     "id":5097,
+     "key":"sven_gods_strength",
+     "keywords":[
+        "Upgrade",
+        "Attack Damage Increase"
+     ]
+  },
+  {
+     "id":5118,
+     "key":"tidehunter_gush",
+     "keywords":[
+        "Upgrade",
+        "Movement Reduction",
+        "Armor Reduction",
+        "Nuke",
+		"AoE"
+     ]
+  },
+  {
+     "id":5119,
+     "key":"tidehunter_kraken_shell",
+     "keywords":[
+        "Tank",
+        "Passive"
+     ]
+  },
+  {
+     "id":5120,
+     "key":"tidehunter_anchor_smash",
+     "keywords":[
+        "Nuke",
+     ]
+  },
+  {
+     "id":5121,
+     "key":"tidehunter_ravage",
+     "keywords":[
+        "Stun",
+        "Nuke",
+		"AoE"
+     ]
+  },
+  {
+     "id":5150,
+     "key":"tinker_laser",
+     "keywords":[
+        "Upgrade",
+        "Nuke"
+     ]
+  },
+  {
+     "id":5151,
+     "key":"tinker_heat_seeking_missile",
+     "keywords":[
+        "Upgrade",
+        "Nuke"
+     ]
+  },
+  {
+     "id":5152,
+     "key":"tinker_march_of_the_machines",
+     "keywords":[
+        "DPS",
+		"AoE"
+     ]
+  },
+  {
+     "id":5153,
+     "key":"tinker_rearm",
+     "keywords":[]
+  },
+  {
+     "id":5106,
+     "key":"tiny_avalanche",
+     "keywords":[
+        "Stun",
+        "Nuke",
+		"AoE"
+     ]
+  },
+  {
+     "id":5107,
+     "key":"tiny_toss",
+     "keywords":[
+        "Nuke",
+        "Disable"
+     ]
+  },
+  {
+     "id":5108,
+     "key":"tiny_craggy_exterior",
+     "keywords":[
+
+     ]
+  },
+  {
+     "id":5109,
+     "key":"tiny_grow",
+     "keywords":[
+        "Passive",
+        "Attack Damage Increase",
+        "Attack Speed Reduction",
+        "Armor Increase"
+     ]
+  },
+  {
+     "id":5122,
+     "key":"vengefulspirit_magic_missile",
+     "keywords":[
+        "Stun",
+        "Nuke"
+     ]
+  },
+  {
+     "id":5124,
+     "key":"vengefulspirit_wave_of_terror",
+     "keywords":[
+        "Nuke",
+        "Armor Reduction",
+		"AoE"
+     ]
+  },
+  {
+     "id":5123,
+     "key":"vengefulspirit_command_aura",
+     "keywords":[
 		"Passive",
-		"Armor Increase"
-		"Tank"
-	]
+        "Attack Damage Increase",
+		"AoE"
+     ]
   },
   {
-    "id": 5527,
-    "key": "shredder_chakram",
-    "keywords": [
-		"DPS",
-		"Movement Reduction",
-	]
+     "id":5125,
+     "key":"vengefulspirit_nether_swap",
+     "keywords":[
+        "Disable"
+     ]
   },
   {
-    "id": 5504,
-    "key": "medusa_split_shot",
-    "keywords": []
+     "id":5178,
+     "key":"venomancer_venomous_gale",
+     "keywords":[
+        "Movement Reduction",
+        "Nuke",
+        "DPS",
+		"AoE"
+     ]
   },
   {
-    "id": 5505,
-    "key": "medusa_mystic_snake",
-    "keywords": [
-      "Upgrade",
-      "Nuke"
-    ]
+     "id":5179,
+     "key":"venomancer_poison_sting",
+     "keywords":[
+        "Passive",
+        "DPS",
+        "Movement Reduction"
+     ]
   },
   {
-    "id": 5506,
-    "key": "medusa_mana_shield",
-    "keywords": [
-      "Tank"
-    ]
+     "id":5180,
+     "key":"venomancer_plague_ward",
+     "keywords":[
+        "Summons"
+     ]
   },
   {
-    "id": 5507,
-    "key": "medusa_stone_gaze",
-    "keywords": [
-      "Upgrade",
-      "Movement Reduction",
-	  "Attack Speed Reduction",
-      "Stun"
-    ]
+     "id":5181,
+     "key":"venomancer_poison_nova",
+     "keywords":[
+        "Upgrade",
+        "DPS",
+        "AoE"
+     ]
   },
   {
-    "id": 5508,
-    "key": "troll_warlord_berserkers_rage",
-    "keywords": [
-		"Armor Increase",
-		"Movement Increase",
-		"Attack Speed Increase",
-	]
+     "id":5218,
+     "key":"viper_poison_attack",
+     "keywords":[
+        "Movement Reduction",
+        "Attack Speed Reduction",
+        "Attack Damage Increase",
+        "Autocast"
+     ]
   },
   {
-    "id": 5509,
-    "key": "troll_warlord_whirling_axes_ranged",
-    "keywords": []
+     "id":5219,
+     "key":"viper_nethertoxin",
+     "keywords":[
+        "DPS",
+		"AoE"
+     ]
   },
   {
-    "id": 5510,
-    "key": "troll_warlord_whirling_axes_melee",
-    "keywords": []
+     "id":5220,
+     "key":"viper_corrosive_skin",
+     "keywords":[
+        "Passive",
+        "Tank",
+        "Attack Speed Reduction"
+     ]
   },
   {
-    "id": 5511,
-    "key": "troll_warlord_fervor",
-    "keywords": [
-		"Attack Speed Increase"
-	]
+     "id":5221,
+     "key":"viper_viper_strike",
+     "keywords":[
+        "Movement Reduction",
+        "Attack Speed Reduction",
+        "DPS"
+     ]
   },
   {
-    "id": 5512,
-    "key": "troll_warlord_battle_trance",
-    "keywords": [
-		"Attack Speed Increase",
-		"Movement Increase",
-		"Heal"
-	]
+     "id":5289,
+     "key":"weaver_the_swarm",
+     "keywords":[
+        "Summons",
+        "Armor Reduction",
+        "DPS"
+     ]
   },
   {
-    "id": 5565,
-    "key": "tusk_ice_shards",
-    "keywords": [
-		"Nuke"
-	]
+     "id":5290,
+     "key":"weaver_shukuchi",
+     "keywords":[
+        "Nuke",
+        "Movement Increase",
+        "Vision"
+     ]
   },
   {
-    "id": 5566,
-    "key": "tusk_snowball",
-    "keywords": [
-		"Nuke",
-		"Stun"
-	]
+     "id":5291,
+     "key":"weaver_geminate_attack",
+     "keywords":[
+        "Passive",
+        "Attack Damage Increase"
+     ]
   },
   {
-    "id": 7322,
-    "key": "tusk_tag_team",
-    "keywords": [
-		"Movement Increase",
-		"Attack Damage Increase"
-	]
+     "id":5292,
+     "key":"weaver_time_lapse",
+     "keywords":[
+        "Upgrade",
+        "Tank"
+     ]
   },
   {
-    "id": 5568,
-    "key": "tusk_walrus_punch",
-    "keywords": [
-		"Crit",
-		"Movement Reduction"
-	]
+     "id":5130,
+     "key":"windrunner_shackleshot",
+     "keywords":[
+        "Stun",
+		"Channeled"
+     ]
   },
   {
-    "id": 5548,
-    "key": "bristleback_viscous_nasal_goo",
-    "keywords": [
-      "Upgrade",
-      "Armor Reduction",
-	  "Movement Reduction",
-    ]
+     "id":5131,
+     "key":"windrunner_powershot",
+     "keywords":[
+        "Nuke",
+		"Channeled"
+     ]
   },
   {
-    "id": 5549,
-    "key": "bristleback_quill_spray",
-    "keywords": [
-      "Nuke"
-    ]
-  },
-  {
-    "id": 5550,
-    "key": "bristleback_bristleback",
-    "keywords": [
-      "Passive",
-      "Tank"
-    ]
-  },
-  {
-    "id": 5551,
-    "key": "bristleback_warpath",
-    "keywords": [
-      "Passive",
-	  "Attack Damage Increase"
-      "Attack Speed Increase"
-    ]
-  },
-  {
-    "id": 5581,
-    "key": "skywrath_mage_arcane_bolt",
-    "keywords": [
-      "Nuke"
-    ]
-  },
-  {
-    "id": 5582,
-    "key": "skywrath_mage_concussive_shot",
-    "keywords": [
-      "Nuke",
-	  "Movement Reduction",
-    ]
-  },
-  {
-    "id": 5583,
-    "key": "skywrath_mage_ancient_seal",
-    "keywords": [
-		"Disable",
-		"Silence"
-    ]
-  },
-  {
-    "id": 5584,
-    "key": "skywrath_mage_mystic_flare",
-    "keywords": [
-      "Upgrade",
-      "Nuke"
-    ]
-  },
-  {
-    "id": 5589,
-    "key": "elder_titan_echo_stomp",
-    "keywords": [
-      "Stun"
-    ]
-  },
-  {
-    "id": 5591,
-    "key": "elder_titan_ancestral_spirit",
-    "keywords": []
-  },
-  {
-    "id": 5593,
-    "key": "elder_titan_natural_order",
-    "keywords": [
-		"Passive",
-		"Tank",
-		"Armor Reduction",
-    ]
-  },
-  {
-    "id": 5594,
-    "key": "elder_titan_earth_splitter",
-    "keywords": [
-      "Upgrade",
-      "Movement Reduction",
-      "Nuke",
-      "Disable"
-    ]
-  },
-  {
-    "id": 5585,
-    "key": "abaddon_death_coil",
-    "keywords": [
-      "Heal",
-      "Nuke"
-    ]
-  },
-  {
-    "id": 5586,
-    "key": "abaddon_aphotic_shield",
-    "keywords": [
-      "Tank",
-	  "Nuke"
-    ]
-  },
-  {
-    "id": 5587,
-    "key": "abaddon_frostmourne",
-    "keywords": [
-      "Passive",
-      "Movement Increase",
-      "Attack Speed Increase",
-    ]
-  },
-  {
-    "id": 5588,
-    "key": "abaddon_borrowed_time",
-    "keywords": [
-      "Tank",
-      "Heal",
-      "Upgrade"
-    ]
-  },
-  {
-    "id": 5608,
-    "key": "earth_spirit_boulder_smash",
-    "keywords": []
-  },
-  {
-    "id": 5609,
-    "key": "earth_spirit_rolling_boulder",
-    "keywords": []
-  },
-  {
-    "id": 5610,
-    "key": "earth_spirit_geomagnetic_grip",
-    "keywords": []
-  },
-  {
-    "id": 5611,
-    "key": "earth_spirit_stone_caller",
-    "keywords": []
-  },
-  {
-    "id": 5612,
-    "key": "earth_spirit_magnetize",
-    "keywords": []
-  },
-  {
-    "id": 5603,
-    "key": "ember_spirit_searing_chains",
-    "keywords": [
-		"Disable",
-		"DPS",
-	]
-  },
-  {
-    "id": 5604,
-    "key": "ember_spirit_sleight_of_fist",
-    "keywords": [
-		"Attack Damage Increase"
-	]
-  },
-  {
-    "id": 5605,
-    "key": "ember_spirit_flame_guard",
-    "keywords": [
-		"Tank",
-		"DPS",
-	]
-  },
-  {
-    "id": 5607,
-    "key": "ember_spirit_activate_fire_remnant",
-    "keywords": [
+     "id":5132,
+     "key":"windrunner_windrun",
+     "keywords":[
+        "Tank",
+        "Movement Increase",
 		"Escape"
-		"Movement Increase"
-	]
+     ]
   },
   {
-    "id": 5606,
-    "key": "ember_spirit_fire_remnant",
-    "keywords": []
+     "id":5133,
+     "key":"windrunner_focusfire",
+     "keywords":[
+        "Upgrade",
+        "Attack Speed Increase"
+     ]
   },
   {
-    "id": 5595,
-    "key": "legion_commander_overwhelming_odds",
-    "keywords": [
-      "Movement Increase",
-      "Nuke"
-    ]
+     "id":5138,
+     "key":"witch_doctor_paralyzing_cask",
+     "keywords":[
+        "Stun",
+        "Nuke"
+     ]
   },
   {
-    "id": 5596,
-    "key": "legion_commander_press_the_attack",
-    "keywords": [
-      "Attack Speed Increase",
-      "Heal"
-    ]
+     "id":5139,
+     "key":"witch_doctor_voodoo_restoration",
+     "keywords":[
+        "Heal"
+     ]
   },
   {
-    "id": 5597,
-    "key": "legion_commander_moment_of_courage",
-    "keywords": [
-      "Passive",
-      "Tank"
-	  "Heal"
-    ]
+     "id":5140,
+     "key":"witch_doctor_maledict",
+     "keywords":[
+        "DPS"
+     ]
   },
   {
-    "id": 5598,
-    "key": "legion_commander_duel",
-    "keywords": [
-      "Disable",
-      "Attack Damage Increase",
-	  "Upgrade"
-    ]
+     "id":5141,
+     "key":"witch_doctor_death_ward",
+     "keywords":[
+        "Upgrade",
+        "Nuke",
+		"Channeled"
+     ]
   },
   {
-    "id": 5623,
-    "key": "phoenix_icarus_dive",
-    "keywords": [
-		"Escape",
-		"Movement Reduction",
-		"DPS",
-	]
+     "id":5110,
+     "key":"zuus_arc_lightning",
+     "keywords":[
+        "Nuke"
+     ]
   },
   {
-    "id": 5625,
-    "key": "phoenix_fire_spirits",
-    "keywords": [
-		"DPS"
-		"Attack Speed Reduction",
-	]
+     "id":5111,
+     "key":"zuus_lightning_bolt",
+     "keywords":[
+        "Nuke",
+        "Stun",
+        "Vision"
+     ]
   },
   {
-    "id": 5626,
-    "key": "phoenix_sun_ray",
-    "keywords": []
+     "id":5112,
+     "key":"zuus_static_field",
+     "keywords":[
+        "Passive",
+        "Nuke"
+     ]
   },
   {
-    "id": 5628,
-    "key": "phoenix_sun_ray_toggle_move",
-    "keywords": []
+     "id":5113,
+     "key":"zuus_thundergods_wrath",
+     "keywords":[
+        "Nuke"
+     ]
   },
   {
-    "id": 5630,
-    "key": "phoenix_supernova",
-    "keywords": [
-		"Stun",
-		"DPS",
-	]
+     "id":5279,
+     "key":"broodmother_spawn_spiderlings",
+     "keywords":[
+        "Nuke",
+        "Summons"
+     ]
   },
   {
-    "id": 5619,
-    "key": "terrorblade_reflection",
-    "keywords": [
-      "Movement Reduction",
-      "Summons"
-    ]
+     "id":5280,
+     "key":"broodmother_spin_web",
+     "keywords":[
+        "Tank",
+        "Movement Increase",
+		"AoE"
+     ]
   },
   {
-    "id": 5620,
-    "key": "terrorblade_conjure_image",
-    "keywords": [
-      "Summons"
-    ]
+     "id":5281,
+     "key":"broodmother_incapacitating_bite",
+     "keywords":[
+        "Passive",
+        "Movement Reduction"
+     ]
   },
   {
-    "id": 5621,
-    "key": "terrorblade_metamorphosis",
-    "keywords": []
+     "id":5282,
+     "key":"broodmother_insatiable_hunger",
+     "keywords":[
+        "Heal",
+        "Attack Damage Increase"
+     ]
   },
   {
-    "id": 5622,
-    "key": "terrorblade_sunder",
-    "keywords": [
-      "Tank",
-	  "Heal"
-    ]
+     "id":5086,
+     "key":"skeleton_king_hellfire_blast",
+     "keywords":[
+        "Movement Reduction",
+        "Stun",
+        "Nuke",
+        "DPS"
+     ]
   },
   {
-    "id": 5599,
-    "key": "techies_land_mines",
-    "keywords": [
-		"Nuke"
-	]
+     "id":5087,
+     "key":"skeleton_king_vampiric_aura",
+     "keywords":[
+        "Heal",
+		"AoE"
+     ]
   },
   {
-    "id": 5600,
-    "key": "techies_stasis_trap",
-    "keywords": [
-		"Disable"
-	]
+     "id":5088,
+     "key":"skeleton_king_mortal_strike",
+     "keywords":[
+        "Passive",
+        "Summons",
+        "Crit"
+     ]
   },
   {
-    "id": 5601,
-    "key": "techies_suicide",
-    "keywords": [
-		"Nuke",
-		"Silence"
-	]
+     "id":5089,
+     "key":"skeleton_king_reincarnation",
+     "keywords":[
+        "Upgrade",
+        "Passive",
+        "Attack Speed Reduction",
+        "Movement Reduction",
+        "Tank"
+     ]
   },
   {
-    "id": 5635,
-    "key": "techies_focused_detonate",
-    "keywords": []
+     "id":5173,
+     "key":"queenofpain_shadow_strike",
+     "keywords":[
+        "Movement Reduction",
+        "Nuke",
+        "DPS"
+     ]
   },
   {
-    "id": 5644,
-    "key": "techies_minefield_sign",
-    "keywords": []
+     "id":5174,
+     "key":"queenofpain_blink",
+     "keywords":[
+        "Escape"
+     ]
   },
   {
-    "id": 5602,
-    "key": "techies_remote_mines",
-    "keywords": [
-		"Nuke"
-	]
+     "id":5175,
+     "key":"queenofpain_scream_of_pain",
+     "keywords":[
+        "Nuke",
+		"AoE"
+     ]
   },
   {
-    "id": 5637,
-    "key": "oracle_fortunes_end",
-    "keywords": [
-      "Nuke",
-      "Disable"
-	  "Channeled"
-    ]
+     "id":5176,
+     "key":"queenofpain_sonic_wave",
+     "keywords":[
+        "Upgrade",
+        "Nuke",
+        "Knockback",
+		"AoE"
+     ]
   },
   {
-    "id": 5638,
-    "key": "oracle_fates_edict",
-    "keywords": [
-      "Disable"
-    ]
+     "id":7300,
+     "key":"huskar_inner_fire",
+     "keywords":[
+        "Knockback",
+        "Nuke",
+		"AoE"
+     ]
   },
   {
-    "id": 5639,
-    "key": "oracle_purifying_flames",
-    "keywords": [
-      "Upgrade",
-      "Heal",
-      "Nuke"
-    ]
+     "id":5272,
+     "key":"huskar_burning_spear",
+     "keywords":[
+        "DPS",
+        "Autocast"
+     ]
   },
   {
-    "id": 5640,
-    "key": "oracle_false_promise",
-    "keywords": [
-      "Tank"
-    ]
+     "id":5273,
+     "key":"huskar_berserkers_blood",
+     "keywords":[
+        "Attack Speed Increase"
+     ]
   },
   {
-    "id": 5651,
-    "key": "winter_wyvern_arctic_burn",
-    "keywords": [
-      "Upgrade",
-      "Vision",
-      "Movement Reduction",
-	  "DPS",
-    ]
+     "id":5274,
+     "key":"huskar_life_break",
+     "keywords":[
+        "Upgrade",
+        "Movement Reduction",
+        "Nuke"
+     ]
   },
   {
-    "id": 5652,
-    "key": "winter_wyvern_splinter_blast",
-    "keywords": [
-      "Movement Reduction",
-      "Nuke"
-    ]
+     "id":5297,
+     "key":"jakiro_dual_breath",
+     "keywords":[
+        "Movement Reduction",
+        "Attack Speed Reduction",
+        "DPS",
+		"AoE"
+     ]
   },
   {
-    "id": 5653,
-    "key": "winter_wyvern_cold_embrace",
-    "keywords": [
-      "Heal",
-      "Tank"
-    ]
+     "id":5298,
+     "key":"jakiro_ice_path",
+     "keywords":[
+        "Stun",
+        "Nuke",
+		"AoE"
+     ]
   },
   {
-    "id": 5654,
-    "key": "winter_wyvern_winters_curse",
-    "keywords": [
-      "Disable"
-    ]
+     "id":5299,
+     "key":"jakiro_liquid_fire",
+     "keywords":[
+        "Attack Speed Reduction",
+        "DPS",
+		"Autocast"
+     ]
   },
   {
-    "id": 5677,
-    "key": "arc_warden_flux",
-    "keywords": [
-      "DPS",
-      "Movement Reduction"
-    ]
+     "id":5300,
+     "key":"jakiro_macropyre",
+     "keywords":[
+        "Upgrade",
+        "DPS",
+		"AoE"
+     ]
   },
   {
-    "id": 5678,
-    "key": "arc_warden_magnetic_field",
-    "keywords": [
-		"Tank",
-		"Attack Speed Increase"
-    ]
+     "id":5320,
+     "key":"batrider_sticky_napalm",
+     "keywords":[
+        "Movement Reduction",
+		"AoE"
+     ]
   },
   {
-    "id": 5679,
-    "key": "arc_warden_spark_wraith",
-    "keywords": [
-      "Movement Reduction",
-      "Nuke"
-    ]
+     "id":5321,
+     "key":"batrider_flamebreak",
+     "keywords":[
+        "Nuke",
+        "Knockback",
+		"AoE"
+     ]
   },
   {
-    "id": 5683,
-    "key": "arc_warden_tempest_double",
-    "keywords": [
-      "Summons"
-    ]
+     "id":5322,
+     "key":"batrider_firefly",
+     "keywords":[
+        "Movement Increase",
+        "DPS"
+     ]
   },
   {
-    "id": 5613,
-    "key": "abyssal_underlord_firestorm",
-    "keywords": [
-      "DPS"
-    ]
+     "id":5323,
+     "key":"batrider_flaming_lasso",
+     "keywords":[
+        "Upgrade",
+        "Disable",
+        "DPS"
+     ]
   },
   {
-    "id": 5614,
-    "key": "abyssal_underlord_pit_of_malice",
-    "keywords": [
-      "Disable"
-    ]
+     "id":5162,
+     "key":"warlock_fatal_bonds",
+     "keywords":[
+        "Nuke",
+		"AoE"
+     ]
   },
   {
-    "id": 5615,
-    "key": "abyssal_underlord_atrophy_aura",
-    "keywords": [
-      "Upgrade",
-      "Passive",
-      "Attack Damage Increase"
-    ]
+     "id":5163,
+     "key":"warlock_shadow_word",
+     "keywords":[
+        "Nuke",
+        "Heal"
+     ]
   },
   {
-    "id": 5616,
-    "key": "abyssal_underlord_dark_rift",
-    "keywords": [
-		"Escape"
-	]
-  },
-  {
-    "id": 5716,
-    "key": "monkey_king_boundless_strike",
-    "keywords": [
-		"Crit",
-		"Stun",
-	]
-  },
-  {
-    "id": 5721,
-    "key": "monkey_king_tree_dance",
-    "keywords": [
-		"Vision",
-		"Escape",
-	]
-  },
-  {
-    "id": 5724,
-    "key": "monkey_king_primal_spring",
-    "keywords": [
+     "id":5164,
+     "key":"warlock_upheaval",
+     "keywords":[
+        "Movement Reduction",
 		"Channeled",
-		"Nuke",
-		"Movement Reduction",
-	]
+		"AoE"
+     ]
   },
   {
-    "id": 5723,
-    "key": "monkey_king_jingu_mastery",
-    "keywords": [
-		"Tank",
-		"Heal",
-		"Attack Damage Increase",
-	]
+     "id":5165,
+     "key":"warlock_rain_of_chaos",
+     "keywords":[
+        "Upgrade",
+        "Nuke",
+        "Stun",
+        "Summons",
+		"AoE"
+     ]
   },
   {
-    "id": 5719,
-    "key": "monkey_king_mischief",
-    "keywords": []
+     "id":5365,
+     "key":"alchemist_acid_spray",
+     "keywords":[
+        "DPS",
+        "Armor Reduction",
+		"AoE"
+     ]
   },
   {
-    "id": 5725,
-    "key": "monkey_king_wukongs_command",
-    "keywords": [
-		"Summons",
-		"Armor Increase"
-	]
+     "id":5366,
+     "key":"alchemist_unstable_concoction",
+     "keywords":[
+        "Stun",
+        "Nuke"
+     ]
   },
   {
-    "id": 6339,
-    "key": "dark_willow_bramble_maze",
-    "keywords": [
-		"Disable",
-		"DPS",
-		"AoE",
-	]
+     "id":5368,
+     "key":"alchemist_goblins_greed",
+     "keywords":[
+        "Passive",
+     ]
   },
   {
-    "id": 6341,
-    "key": "dark_willow_shadow_realm",
-    "keywords": [
-		"Attack Damage Increase"
-	]
+     "id":5369,
+     "key":"alchemist_chemical_rage",
+     "keywords":[
+        "Tank",
+        "Movement Increase",
+        "Attack Speed Increase"
+     ]
   },
   {
-    "id": 6342,
-    "key": "dark_willow_cursed_crown",
-    "keywords": [
-		"Stun"
-	]
+     "id":5090,
+     "key":"death_prophet_carrion_swarm",
+     "keywords":[
+        "Nuke",
+		"AoE"
+     ]
   },
   {
-    "id": 6340,
-    "key": "dark_willow_bedlam",
-    "keywords": [
-		"Nuke"
-	]
+     "id":5091,
+     "key":"death_prophet_silence",
+     "keywords":[
+        "Silence",
+		"AoE"
+     ]
   },
   {
-    "id": 8340,
-    "key": "dark_willow_terrorize",
-    "keywords": [
-		"Disable",
-	]
+     "id":5685,
+     "key":"death_prophet_spirit_siphon",
+     "keywords":[
+        "Movement Increase",
+        "DPS"
+     ]
   },
   {
-    "id": 6344,
-    "key": "pangolier_swashbuckle",
-    "keywords": [
-		"Attack Damage Increase",
-		"Attack Speed Increase"
-	]
+     "id":5093,
+     "key":"death_prophet_exorcism",
+     "keywords":[
+        "Heal",
+        "DPS"
+     ]
   },
   {
-    "id": 6461,
-    "key": "pangolier_shield_crash",
-    "keywords": [
-		"Tank",
-		"Nuke",
-	]
+     "id":5357,
+     "key":"ursa_earthshock",
+     "keywords":[
+        "Movement Reduction",
+        "Nuke",
+		"AoE"
+     ]
   },
   {
-    "id": 7307,
-    "key": "pangolier_lucky_shot",
-    "keywords": [
-		"Disable",
-		"Movement Reduction",
-	]
+     "id":5358,
+     "key":"ursa_overpower",
+     "keywords":[
+        "Attack Speed Increase"
+     ]
   },
   {
-    "id": 6343,
-    "key": "pangolier_gyroshell",
-    "keywords": [
+     "id":5359,
+     "key":"ursa_fury_swipes",
+     "keywords":[
+        "Passive",
+        "Attack Damage Increase"
+     ]
+  },
+  {
+     "id":5360,
+     "key":"ursa_enrage",
+     "keywords":[
+        "Upgrade",
+        "Tank"
+     ]
+  },
+  {
+     "id":5285,
+     "key":"bounty_hunter_shuriken_toss",
+     "keywords":[
+        "Upgrade",
+        "Nuke",
+        "Stun"
+     ]
+  },
+  {
+     "id":5286,
+     "key":"bounty_hunter_jinada",
+     "keywords":[
+        "Passive"
+     ]
+  },
+  {
+     "id":5287,
+     "key":"bounty_hunter_wind_walk",
+     "keywords":[
+        "Movement Increase",
+        "Vision",
 		"Escape"
-		"Nuke",
-		"Stun"
-	]
+     ]
   },
   {
-    "id": 8000,
-    "key": "grimstroke_dark_artistry",
-    "keywords": [
-		"Movement Reduction",
-		"Nuke",
-	]
+     "id":5288,
+     "key":"bounty_hunter_track",
+     "keywords":[
+        "Vision"
+     ]
   },
   {
-    "id": 8006,
-    "key": "grimstroke_ink_creature",
-    "keywords": [
-		"Silence",
-		"DPS",
-	]
+     "id":5377,
+     "key":"silencer_curse_of_the_silent",
+     "keywords":[
+        "DPS",
+        "Movement Reduction",
+		"AoE"
+     ]
   },
   {
-    "id": 8007,
-    "key": "grimstroke_spirit_walk",
-    "keywords": [
-		"Stun",
-		"Nuke",
-	]
+     "id":5378,
+     "key":"silencer_glaives_of_wisdom",
+     "keywords":[
+        "Upgrade",
+        "Attack Damage Increase",
+		"Autocast"
+     ]
   },
   {
-    "id": 6491,
-    "key": "grimstroke_soul_chain",
-    "keywords": [
-		"Movement Reduction"
-	]
+     "id":5379,
+     "key":"silencer_last_word",
+     "keywords":[
+        "Silence",
+        "Nuke"
+     ]
   },
   {
-    "id": 6583,
-    "key": "mars_spear",
-    "keywords": [
-		"Nuke",
-		"Stun",
-		"Knockback"
-	]
+     "id":5380,
+     "key":"silencer_global_silence",
+     "keywords":[
+        "Silence"
+     ]
   },
   {
-    "id": 6495,
-    "key": "mars_gods_rebuke",
-    "keywords": [
-		"Attack Damage Increase",
-		"Crit",
-		"Knockback"
-	]
+     "id":5353,
+     "key":"spirit_breaker_charge_of_darkness",
+     "keywords":[
+        "Movement Increase"
+     ]
   },
   {
-    "id": 6582,
-    "key": "mars_bulwark",
-    "keywords": [
-		"Tank",
-	]
+     "id":7301,
+     "key":"spirit_breaker_bulldoze",
+     "keywords":[
+        "Movement Increase",
+        "Tank"
+     ]
   },
   {
-    "id": 6598,
-    "key": "mars_arena_of_blood",
-    "keywords": [
-		"Disable"
-	]
+     "id":5355,
+     "key":"spirit_breaker_greater_bash",
+     "keywords":[
+        "Passive",
+        "Bash",
+        "Knockback"
+     ]
+  },
+  {
+     "id":5356,
+     "key":"spirit_breaker_nether_strike",
+     "keywords":[
+        "Upgrade",
+        "Nuke"
+     ]
+  },
+  {
+     "id":5370,
+     "key":"invoker_quas",
+     "keywords":[
+
+     ]
+  },
+  {
+     "id":5371,
+     "key":"invoker_wex",
+     "keywords":[
+
+     ]
+  },
+  {
+     "id":5372,
+     "key":"invoker_exort",
+     "keywords":[
+
+     ]
+  },
+  {
+     "id":5373,
+     "key":"invoker_empty1",
+     "keywords":[
+
+     ]
+  },
+  {
+     "id":5374,
+     "key":"invoker_empty2",
+     "keywords":[
+
+     ]
+  },
+  {
+     "id":5375,
+     "key":"invoker_invoke",
+     "keywords":[
+
+     ]
+  },
+  {
+     "id":5259,
+     "key":"clinkz_strafe",
+     "keywords":[
+        "Attack Speed Increase"
+     ]
+  },
+  {
+     "id":5260,
+     "key":"clinkz_searing_arrows",
+     "keywords":[
+        "Attack Damage Increase"
+     ]
+  },
+  {
+     "id":5261,
+     "key":"clinkz_wind_walk",
+     "keywords":[
+        "Movement Increase",
+        "Vision",
+		"Escape"
+     ]
+  },
+  {
+     "id":7319,
+     "key":"clinkz_burning_army",
+     "keywords":[
+        "Summons"
+     ]
+  },
+  {
+     "id":5391,
+     "key":"obsidian_destroyer_arcane_orb",
+     "keywords":[
+        "Attack Damage Increase",
+        "Autocast"
+     ]
+  },
+  {
+     "id":5392,
+     "key":"obsidian_destroyer_astral_imprisonment",
+     "keywords":[
+        "Upgrade",
+        "Nuke",
+        "Disable"
+     ]
+  },
+  {
+     "id":5684,
+     "key":"obsidian_destroyer_equilibrium",
+     "keywords":[
+        "Movement Reduction"
+     ]
+  },
+  {
+     "id":5394,
+     "key":"obsidian_destroyer_sanity_eclipse",
+     "keywords":[
+        "Nuke",
+		"AoE"
+     ]
+  },
+  {
+     "id":5421,
+     "key":"shadow_demon_disruption",
+     "keywords":[
+        "Disable",
+        "Summons"
+     ]
+  },
+  {
+     "id":5422,
+     "key":"shadow_demon_soul_catcher",
+     "keywords":[
+        "Nuke"
+     ]
+  },
+  {
+     "id":5423,
+     "key":"shadow_demon_shadow_poison",
+     "keywords":[
+        "Nuke"
+     ]
+  },
+  {
+     "id":5424,
+     "key":"shadow_demon_shadow_poison_release",
+     "keywords":[
+
+     ]
+  },
+  {
+     "id":5425,
+     "key":"shadow_demon_demonic_purge",
+     "keywords":[
+        "Movement Reduction"
+     ]
+  },
+  {
+     "id":5395,
+     "key":"lycan_summon_wolves",
+     "keywords":[
+        "Summons"
+     ]
+  },
+  {
+     "id":5396,
+     "key":"lycan_howl",
+     "keywords":[
+        "Tank",
+        "Armor Increase"
+     ]
+  },
+  {
+     "id":5397,
+     "key":"lycan_feral_impulse",
+     "keywords":[
+        "Passive",
+        "Tank",
+        "Attack Damage Increase"
+     ]
+  },
+  {
+     "id":5398,
+     "key":"lycan_shapeshift",
+     "keywords":[
+        "Movement Increase",
+        "Crit",
+        "Vision"
+     ]
+  },
+  {
+     "id":5412,
+     "key":"lone_druid_spirit_bear",
+     "keywords":[
+
+     ]
+  },
+  {
+     "id":7309,
+     "key":"lone_druid_spirit_link",
+     "keywords":[
+
+     ]
+  },
+  {
+     "id":5414,
+     "key":"lone_druid_savage_roar",
+     "keywords":[
+
+     ]
+  },
+  {
+     "id":5415,
+     "key":"lone_druid_true_form",
+     "keywords":[
+
+     ]
+  },
+  {
+     "id":5400,
+     "key":"brewmaster_thunder_clap",
+     "keywords":[
+        "Movement Reduction",
+        "Attack Speed Reduction",
+        "Nuke",
+		"AoE"
+     ]
+  },
+  {
+     "id":7310,
+     "key":"brewmaster_cinder_brew",
+     "keywords":[
+        "Movement Reduction",
+        "DPS"
+     ]
+  },
+  {
+     "id":5402,
+     "key":"brewmaster_drunken_brawler",
+     "keywords":[
+        "Passive",
+        "Tank",
+        "Crit"
+     ]
+  },
+  {
+     "id":5403,
+     "key":"brewmaster_primal_split",
+     "keywords":[
+        "Upgrade",
+        "Stun",
+        "Disable",
+        "Movement Reduction",
+        "DPS",
+        "Tank"
+     ]
+  },
+  {
+     "id":5065,
+     "key":"phantom_lancer_spirit_lance",
+     "keywords":[
+        "Summons",
+        "Movement Reduction",
+        "Nuke"
+     ]
+  },
+  {
+     "id":5066,
+     "key":"phantom_lancer_doppelwalk",
+     "keywords":[
+        "Summons",
+        "Escape"
+     ]
+  },
+  {
+     "id":5068,
+     "key":"phantom_lancer_phantom_edge",
+     "keywords":[
+        "Passive",
+        "Movement Increase"
+     ]
+  },
+  {
+     "id":5067,
+     "key":"phantom_lancer_juxtapose",
+     "keywords":[
+        "Passive",
+        "Summons"
+     ]
+  },
+  {
+     "id":5434,
+     "key":"treant_natures_guise",
+     "keywords":[
+        "Passive",
+        "Movement Increase",
+        "Disable"
+     ]
+  },
+  {
+     "id":5435,
+     "key":"treant_leech_seed",
+     "keywords":[
+        "Movement Reduction",
+        "Nuke",
+        "Heal",
+		"AoE"
+     ]
+  },
+  {
+     "id":5436,
+     "key":"treant_living_armor",
+     "keywords":[
+        "Tank",
+        "Heal"
+     ]
+  },
+  {
+     "id":5437,
+     "key":"treant_overgrowth",
+     "keywords":[
+        "Upgrade",
+        "Disable",
+		"AoE"
+     ]
+  },
+  {
+     "id":5438,
+     "key":"ogre_magi_fireblast",
+     "keywords":[
+        "Nuke"
+     ]
+  },
+  {
+     "id":5439,
+     "key":"ogre_magi_ignite",
+     "keywords":[
+        "Movement Reduction",
+        "DPS"
+     ]
+  },
+  {
+     "id":5440,
+     "key":"ogre_magi_bloodlust",
+     "keywords":[
+        "Movement Increase",
+        "Attack Speed Increase"
+     ]
+  },
+  {
+     "id":5466,
+     "key":"ogre_magi_unrefined_fireblast",
+     "keywords":[
+
+     ]
+  },
+  {
+     "id":5441,
+     "key":"ogre_magi_multicast",
+     "keywords":[
+
+     ]
+  },
+  {
+     "id":5426,
+     "key":"chaos_knight_chaos_bolt",
+     "keywords":[
+        "Stun",
+        "Nuke"
+     ]
+  },
+  {
+     "id":5427,
+     "key":"chaos_knight_reality_rift",
+     "keywords":[
+        "Disable",
+        "Movement Reduction",
+        "Attack Speed Reduction"
+     ]
+  },
+  {
+     "id":5428,
+     "key":"chaos_knight_chaos_strike",
+     "keywords":[
+        "Passive",
+        "Heal",
+        "Crit"
+     ]
+  },
+  {
+     "id":5429,
+     "key":"chaos_knight_phantasm",
+     "keywords":[
+        "Upgrade",
+        "Summons"
+     ]
+  },
+  {
+     "id":5190,
+     "key":"phantom_assassin_stifling_dagger",
+     "keywords":[
+        "Movement Reduction",
+        "Nuke"
+     ]
+  },
+  {
+     "id":5191,
+     "key":"phantom_assassin_phantom_strike",
+     "keywords":[
+        "Attack Speed Increase"
+     ]
+  },
+  {
+     "id":5192,
+     "key":"phantom_assassin_blur",
+     "keywords":[
+        "Passive",
+        "Tank",
+		"Escape"
+     ]
+  },
+  {
+     "id":5193,
+     "key":"phantom_assassin_coup_de_grace",
+     "keywords":[
+        "Passive",
+        "Crit"
+     ]
+  },
+  {
+     "id":5361,
+     "key":"gyrocopter_rocket_barrage",
+     "keywords":[
+        "DPS"
+     ]
+  },
+  {
+     "id":5362,
+     "key":"gyrocopter_homing_missile",
+     "keywords":[
+        "Stun",
+        "Nuke"
+     ]
+  },
+  {
+     "id":5363,
+     "key":"gyrocopter_flak_cannon",
+     "keywords":[
+
+     ]
+  },
+  {
+     "id":5364,
+     "key":"gyrocopter_call_down",
+     "keywords":[
+        "Upgrade",
+        "Movement Reduction",
+        "Nuke",
+		"AoE"
+     ]
+  },
+  {
+     "id":5448,
+     "key":"rubick_telekinesis",
+     "keywords":[
+        "Disable",
+        "Stun"
+     ]
+  },
+  {
+     "id":5450,
+     "key":"rubick_fade_bolt",
+     "keywords":[
+        "Nuke"
+     ]
+  },
+  {
+     "id":7320,
+     "key":"rubick_arcane_supremacy",
+     "keywords":[
+        "Tank"
+     ]
+  },
+  {
+     "id":5452,
+     "key":"rubick_spell_steal",
+     "keywords":[
+
+     ]
+  },
+  {
+     "id":5222,
+     "key":"luna_lucent_beam",
+     "keywords":[
+        "Stun",
+        "Nuke"
+     ]
+  },
+  {
+     "id":5223,
+     "key":"luna_moon_glaive",
+     "keywords":[
+        "Passive",
+        "Attack Damage Increase",
+		"AoE"
+     ]
+  },
+  {
+     "id":5224,
+     "key":"luna_lunar_blessing",
+     "keywords":[
+        "Passive",
+        "Attack Damage Increase"
+     ]
+  },
+  {
+     "id":5225,
+     "key":"luna_eclipse",
+     "keywords":[
+        "Upgrade",
+        "Nuke",
+        "Stun",
+		"AoE"
+     ]
+  },
+  {
+     "id":5485,
+     "key":"wisp_tether",
+     "keywords":[
+        "Heal"
+     ]
+  },
+  {
+     "id":5486,
+     "key":"wisp_spirits",
+     "keywords":[
+        "Nuke",
+        "Movement Reduction",
+		"AoE"
+     ]
+  },
+  {
+     "id":5487,
+     "key":"wisp_overcharge",
+     "keywords":[
+        "Tank",
+        "Attack Speed Increase"
+     ]
+  },
+  {
+     "id":5488,
+     "key":"wisp_relocate",
+     "keywords":[
+        "Escape"
+     ]
+  },
+  {
+     "id":5458,
+     "key":"disruptor_thunder_strike",
+     "keywords":[
+        "Nuke"
+     ]
+  },
+  {
+     "id":5459,
+     "key":"disruptor_glimpse",
+     "keywords":[
+        "Disable"
+     ]
+  },
+  {
+     "id":5460,
+     "key":"disruptor_kinetic_field",
+     "keywords":[
+        "Disable",
+		"AoE"
+     ]
+  },
+  {
+     "id":5461,
+     "key":"disruptor_static_storm",
+     "keywords":[
+        "Upgrade",
+        "DPS",
+		"AoE"
+     ]
+  },
+  {
+     "id":5442,
+     "key":"undying_decay",
+     "keywords":[
+        "Tank",
+        "Upgrade",
+        "Nuke",
+		"AoE"
+     ]
+  },
+  {
+     "id":5443,
+     "key":"undying_soul_rip",
+     "keywords":[
+        "Heal",
+        "Nuke"
+     ]
+  },
+  {
+     "id":5444,
+     "key":"undying_tombstone",
+     "keywords":[
+        "Summons"
+     ]
+  },
+  {
+     "id":5447,
+     "key":"undying_flesh_golem",
+     "keywords":[
+        "Tank",
+        "Movement Increase",
+        "DPS"
+     ]
+  },
+  {
+     "id":5194,
+     "key":"templar_assassin_refraction",
+     "keywords":[
+        "Tank",
+        "Attack Damage Increase"
+     ]
+  },
+  {
+     "id":5195,
+     "key":"templar_assassin_meld",
+     "keywords":[
+        "Vision",
+        "Armor Reduction",
+        "Attack Damage Increase"
+     ]
+  },
+  {
+     "id":5196,
+     "key":"templar_assassin_psi_blades",
+     "keywords":[
+        "Passive"
+     ]
+  },
+  {
+     "id":5198,
+     "key":"templar_assassin_trap",
+     "keywords":[
+        "Vision",
+        "Nuke",
+        "Movement Reduction"
+     ]
+  },
+  {
+     "id":5197,
+     "key":"templar_assassin_psionic_trap",
+     "keywords":[
+
+     ]
+  },
+  {
+     "id":5467,
+     "key":"naga_siren_mirror_image",
+     "keywords":[
+        "Summons"
+     ]
+  },
+  {
+     "id":5468,
+     "key":"naga_siren_ensnare",
+     "keywords":[
+        "Disable"
+     ]
+  },
+  {
+     "id":5469,
+     "key":"naga_siren_rip_tide",
+     "keywords":[
+        "Passive",
+        "Nuke",
+        "Armor Reduction"
+     ]
+  },
+  {
+     "id":5470,
+     "key":"naga_siren_song_of_the_siren",
+     "keywords":[
+        "Upgrade",
+        "Disable",
+		"AoE"
+     ]
+  },
+  {
+     "id":5462,
+     "key":"nyx_assassin_impale",
+     "keywords":[
+        "Stun",
+        "Nuke"
+     ]
+  },
+  {
+     "id":5463,
+     "key":"nyx_assassin_mana_burn",
+     "keywords":[
+        "Nuke"
+     ]
+  },
+  {
+     "id":5464,
+     "key":"nyx_assassin_spiked_carapace",
+     "keywords":[
+        "Tank",
+        "Stun"
+     ]
+  },
+  {
+     "id":5465,
+     "key":"nyx_assassin_vendetta",
+     "keywords":[
+        "Movement Increase",
+        "Attack Damage Increase",
+        "Vision"
+     ]
+  },
+  {
+     "id":5471,
+     "key":"keeper_of_the_light_illuminate",
+     "keywords":[
+        "Channeled",
+        "Nuke",
+        "Heal",
+		"AoE"
+     ]
+  },
+  {
+     "id":5476,
+     "key":"keeper_of_the_light_blinding_light",
+     "keywords":[
+        "Tank",
+        "Nuke",
+        "Knockback",
+		"AoE"
+     ]
+  },
+  {
+     "id":5473,
+     "key":"keeper_of_the_light_chakra_magic",
+     "keywords":[]
+  },
+  {
+     "id":7316,
+     "key":"keeper_of_the_light_will_o_wisp",
+     "keywords":[
+        "Disable",
+		"AoE"
+     ]
+  },
+  {
+     "id":5480,
+     "key":"visage_grave_chill",
+     "keywords":[
+        "Movement Increase",
+        "Attack Speed Increase"
+     ]
+  },
+  {
+     "id":5481,
+     "key":"visage_soul_assumption",
+     "keywords":[
+        "Nuke"
+     ]
+  },
+  {
+     "id":5482,
+     "key":"visage_gravekeepers_cloak",
+     "keywords":[
+        "Tank",
+        "Passive"
+     ]
+  },
+  {
+     "id":7116,
+     "key":"visage_stone_form_self_cast",
+     "keywords":[
+
+     ]
+  },
+  {
+     "id":5483,
+     "key":"visage_summon_familiars",
+     "keywords":[
+        "Upgrade",
+        "Summons"
+     ]
+  },
+  {
+     "id":5430,
+     "key":"meepo_earthbind",
+     "keywords":[
+        "Disable"
+     ]
+  },
+  {
+     "id":5431,
+     "key":"meepo_poof",
+     "keywords":[
+        "Nuke"
+     ]
+  },
+  {
+     "id":7318,
+     "key":"meepo_ransack",
+     "keywords":[
+        "Passive",
+        "Heal"
+     ]
+  },
+  {
+     "id":5433,
+     "key":"meepo_divided_we_stand",
+     "keywords":[
+
+     ]
+  },
+  {
+     "id":5518,
+     "key":"magnataur_shockwave",
+     "keywords":[
+        "Upgrade",
+        "Nuke",
+        "Movement Reduction",
+		"AoE"
+     ]
+  },
+  {
+     "id":5519,
+     "key":"magnataur_empower",
+     "keywords":[
+        "Attack Damage Increase"
+     ]
+  },
+  {
+     "id":5520,
+     "key":"magnataur_skewer",
+     "keywords":[
+        "Movement Reduction",
+        "Attack Speed Reduction",
+        "Nuke",
+        "Disable"
+     ]
+  },
+  {
+     "id":5521,
+     "key":"magnataur_reverse_polarity",
+     "keywords":[
+        "Stun",
+        "Nuke",
+        "AoE"
+     ]
+  },
+  {
+     "id":5514,
+     "key":"centaur_hoof_stomp",
+     "keywords":[
+        "Stun",
+        "Nuke",
+        "AoE"
+     ]
+  },
+  {
+     "id":5515,
+     "key":"centaur_double_edge",
+     "keywords":[
+        "Nuke"
+     ]
+  },
+  {
+     "id":5516,
+     "key":"centaur_return",
+     "keywords":[
+        "Tank",
+        "Passive"
+     ]
+  },
+  {
+     "id":5517,
+     "key":"centaur_stampede",
+     "keywords":[
+        "Upgrade",
+        "Movement Increase"
+     ]
+  },
+  {
+     "id":5494,
+     "key":"slark_dark_pact",
+     "keywords":[
+        "Nuke",
+        "Tank"
+     ]
+  },
+  {
+     "id":5495,
+     "key":"slark_pounce",
+     "keywords":[
+        "Disable"
+     ]
+  },
+  {
+     "id":5496,
+     "key":"slark_essence_shift",
+     "keywords":[
+        "Passive",
+        "Attack Damage Increase"
+     ]
+  },
+  {
+     "id":5497,
+     "key":"slark_shadow_dance",
+     "keywords":[
+        "Passive",
+        "Upgrade",
+        "Tank",
+        "Movement Increase",
+		"Escape"
+     ]
+  },
+  {
+     "id":5524,
+     "key":"shredder_whirling_death",
+     "keywords":[
+        "Nuke",
+		"AoE"
+     ]
+  },
+  {
+     "id":5525,
+     "key":"shredder_timber_chain",
+     "keywords":[
+        "Nuke",
+        "Escape"
+     ]
+  },
+  {
+     "id":5526,
+     "key":"shredder_reactive_armor",
+     "keywords":[
+        "Passive",
+        "Armor Increase",
+        "Tank"
+     ]
+  },
+  {
+     "id":5527,
+     "key":"shredder_chakram",
+     "keywords":[
+        "DPS",
+        "Movement Reduction",
+		"AoE"
+     ]
+  },
+  {
+     "id":5504,
+     "key":"medusa_split_shot",
+     "keywords":[
+
+     ]
+  },
+  {
+     "id":5505,
+     "key":"medusa_mystic_snake",
+     "keywords":[
+        "Upgrade",
+        "Nuke"
+     ]
+  },
+  {
+     "id":5506,
+     "key":"medusa_mana_shield",
+     "keywords":[
+        "Tank"
+     ]
+  },
+  {
+     "id":5507,
+     "key":"medusa_stone_gaze",
+     "keywords":[
+        "Upgrade",
+        "Movement Reduction",
+        "Attack Speed Reduction",
+        "Stun",
+		"AoE"
+     ]
+  },
+  {
+     "id":5508,
+     "key":"troll_warlord_berserkers_rage",
+     "keywords":[
+        "Armor Increase",
+        "Movement Increase",
+        "Attack Speed Increase"
+     ]
+  },
+  {
+     "id":5509,
+     "key":"troll_warlord_whirling_axes_ranged",
+     "keywords":[
+
+     ]
+  },
+  {
+     "id":5510,
+     "key":"troll_warlord_whirling_axes_melee",
+     "keywords":[
+
+     ]
+  },
+  {
+     "id":5511,
+     "key":"troll_warlord_fervor",
+     "keywords":[
+        "Attack Speed Increase"
+     ]
+  },
+  {
+     "id":5512,
+     "key":"troll_warlord_battle_trance",
+     "keywords":[
+        "Attack Speed Increase",
+        "Movement Increase",
+        "Heal"
+     ]
+  },
+  {
+     "id":5565,
+     "key":"tusk_ice_shards",
+     "keywords":[
+        "Nuke",
+		"AoE"
+     ]
+  },
+  {
+     "id":5566,
+     "key":"tusk_snowball",
+     "keywords":[
+        "Nuke",
+        "Stun"
+     ]
+  },
+  {
+     "id":7322,
+     "key":"tusk_tag_team",
+     "keywords":[
+        "Movement Increase",
+        "Attack Damage Increase"
+     ]
+  },
+  {
+     "id":5568,
+     "key":"tusk_walrus_punch",
+     "keywords":[
+        "Crit",
+        "Movement Reduction",
+		"Autocast"
+     ]
+  },
+  {
+     "id":5548,
+     "key":"bristleback_viscous_nasal_goo",
+     "keywords":[
+        "Upgrade",
+        "Armor Reduction",
+        "Movement Reduction"
+     ]
+  },
+  {
+     "id":5549,
+     "key":"bristleback_quill_spray",
+     "keywords":[
+        "Nuke"
+     ]
+  },
+  {
+     "id":5550,
+     "key":"bristleback_bristleback",
+     "keywords":[
+        "Passive",
+        "Tank"
+     ]
+  },
+  {
+     "id":5551,
+     "key":"bristleback_warpath",
+     "keywords":[
+        "Passive",
+        "Attack Damage Increase",
+        "Attack Speed Increase"
+     ]
+  },
+  {
+     "id":5581,
+     "key":"skywrath_mage_arcane_bolt",
+     "keywords":[
+        "Nuke"
+     ]
+  },
+  {
+     "id":5582,
+     "key":"skywrath_mage_concussive_shot",
+     "keywords":[
+        "Nuke",
+        "Movement Reduction"
+     ]
+  },
+  {
+     "id":5583,
+     "key":"skywrath_mage_ancient_seal",
+     "keywords":[
+        "Disable",
+        "Silence"
+     ]
+  },
+  {
+     "id":5584,
+     "key":"skywrath_mage_mystic_flare",
+     "keywords":[
+        "Upgrade",
+        "Nuke",
+		"AoE"
+     ]
+  },
+  {
+     "id":5589,
+     "key":"elder_titan_echo_stomp",
+     "keywords":[
+        "Stun",
+		"Channeled",
+		"AoE"
+     ]
+  },
+  {
+     "id":5591,
+     "key":"elder_titan_ancestral_spirit",
+     "keywords":[
+
+     ]
+  },
+  {
+     "id":5593,
+     "key":"elder_titan_natural_order",
+     "keywords":[
+        "Passive",
+        "Tank",
+        "Armor Reduction"
+     ]
+  },
+  {
+     "id":5594,
+     "key":"elder_titan_earth_splitter",
+     "keywords":[
+        "Upgrade",
+        "Movement Reduction",
+        "Nuke",
+        "Disable",
+		"AoE"
+     ]
+  },
+  {
+     "id":5585,
+     "key":"abaddon_death_coil",
+     "keywords":[
+        "Heal",
+        "Nuke"
+     ]
+  },
+  {
+     "id":5586,
+     "key":"abaddon_aphotic_shield",
+     "keywords":[
+        "Tank",
+        "Nuke"
+     ]
+  },
+  {
+     "id":5587,
+     "key":"abaddon_frostmourne",
+     "keywords":[
+        "Passive",
+        "Movement Increase",
+        "Attack Speed Increase"
+     ]
+  },
+  {
+     "id":5588,
+     "key":"abaddon_borrowed_time",
+     "keywords":[
+        "Tank",
+        "Heal",
+        "Upgrade"
+     ]
+  },
+  {
+     "id":5608,
+     "key":"earth_spirit_boulder_smash",
+     "keywords":[
+
+     ]
+  },
+  {
+     "id":5609,
+     "key":"earth_spirit_rolling_boulder",
+     "keywords":[
+
+     ]
+  },
+  {
+     "id":5610,
+     "key":"earth_spirit_geomagnetic_grip",
+     "keywords":[
+
+     ]
+  },
+  {
+     "id":5611,
+     "key":"earth_spirit_stone_caller",
+     "keywords":[
+
+     ]
+  },
+  {
+     "id":5612,
+     "key":"earth_spirit_magnetize",
+     "keywords":[
+
+     ]
+  },
+  {
+     "id":5603,
+     "key":"ember_spirit_searing_chains",
+     "keywords":[
+        "Disable",
+        "DPS"
+     ]
+  },
+  {
+     "id":5604,
+     "key":"ember_spirit_sleight_of_fist",
+     "keywords":[
+        "Attack Damage Increase"
+     ]
+  },
+  {
+     "id":5605,
+     "key":"ember_spirit_flame_guard",
+     "keywords":[
+        "Tank",
+        "DPS",
+		"AoE"
+     ]
+  },
+  {
+     "id":5607,
+     "key":"ember_spirit_activate_fire_remnant",
+     "keywords":[
+        "Escape",
+        "Movement Increase"
+     ]
+  },
+  {
+     "id":5606,
+     "key":"ember_spirit_fire_remnant",
+     "keywords":[
+
+     ]
+  },
+  {
+     "id":5595,
+     "key":"legion_commander_overwhelming_odds",
+     "keywords":[
+        "Movement Increase",
+        "Nuke",
+		"AoE"
+     ]
+  },
+  {
+     "id":5596,
+     "key":"legion_commander_press_the_attack",
+     "keywords":[
+        "Attack Speed Increase",
+        "Heal"
+     ]
+  },
+  {
+     "id":5597,
+     "key":"legion_commander_moment_of_courage",
+     "keywords":[
+        "Passive",
+        "Tank",
+        "Heal"
+     ]
+  },
+  {
+     "id":5598,
+     "key":"legion_commander_duel",
+     "keywords":[
+        "Disable",
+        "Attack Damage Increase",
+        "Upgrade"
+     ]
+  },
+  {
+     "id":5623,
+     "key":"phoenix_icarus_dive",
+     "keywords":[
+        "Escape",
+        "Movement Reduction",
+        "DPS"
+     ]
+  },
+  {
+     "id":5625,
+     "key":"phoenix_fire_spirits",
+     "keywords":[
+        "DPS",
+        "Attack Speed Reduction"
+     ]
+  },
+  {
+     "id":5626,
+     "key":"phoenix_sun_ray",
+     "keywords":[
+
+     ]
+  },
+  {
+     "id":5628,
+     "key":"phoenix_sun_ray_toggle_move",
+     "keywords":[
+
+     ]
+  },
+  {
+     "id":5630,
+     "key":"phoenix_supernova",
+     "keywords":[
+        "Stun",
+        "DPS",
+		"AoE"
+     ]
+  },
+  {
+     "id":5619,
+     "key":"terrorblade_reflection",
+     "keywords":[
+        "Movement Reduction",
+        "Summons",
+		"AoE"
+     ]
+  },
+  {
+     "id":5620,
+     "key":"terrorblade_conjure_image",
+     "keywords":[
+        "Summons"
+     ]
+  },
+  {
+     "id":5621,
+     "key":"terrorblade_metamorphosis",
+     "keywords":[
+
+     ]
+  },
+  {
+     "id":5622,
+     "key":"terrorblade_sunder",
+     "keywords":[
+        "Tank",
+        "Heal"
+     ]
+  },
+  {
+     "id":5599,
+     "key":"techies_land_mines",
+     "keywords":[
+        "Nuke",
+		"AoE"
+     ]
+  },
+  {
+     "id":5600,
+     "key":"techies_stasis_trap",
+     "keywords":[
+        "Disable"
+     ]
+  },
+  {
+     "id":5601,
+     "key":"techies_suicide",
+     "keywords":[
+        "Nuke",
+        "Silence"
+     ]
+  },
+  {
+     "id":5635,
+     "key":"techies_focused_detonate",
+     "keywords":[
+
+     ]
+  },
+  {
+     "id":5644,
+     "key":"techies_minefield_sign",
+     "keywords":[
+
+     ]
+  },
+  {
+     "id":5602,
+     "key":"techies_remote_mines",
+     "keywords":[
+        "Nuke",
+		"AoE"
+     ]
+  },
+  {
+     "id":5637,
+     "key":"oracle_fortunes_end",
+     "keywords":[
+        "Nuke",
+        "Disable",
+        "Channeled",
+		"AoE"
+     ]
+  },
+  {
+     "id":5638,
+     "key":"oracle_fates_edict",
+     "keywords":[
+        "Disable"
+     ]
+  },
+  {
+     "id":5639,
+     "key":"oracle_purifying_flames",
+     "keywords":[
+        "Upgrade",
+        "Heal",
+        "Nuke"
+     ]
+  },
+  {
+     "id":5640,
+     "key":"oracle_false_promise",
+     "keywords":[
+        "Tank"
+     ]
+  },
+  {
+     "id":5651,
+     "key":"winter_wyvern_arctic_burn",
+     "keywords":[
+        "Upgrade",
+        "Vision",
+        "Movement Reduction",
+        "DPS"
+     ]
+  },
+  {
+     "id":5652,
+     "key":"winter_wyvern_splinter_blast",
+     "keywords":[
+        "Movement Reduction",
+        "Nuke"
+     ]
+  },
+  {
+     "id":5653,
+     "key":"winter_wyvern_cold_embrace",
+     "keywords":[
+        "Heal",
+        "Tank"
+     ]
+  },
+  {
+     "id":5654,
+     "key":"winter_wyvern_winters_curse",
+     "keywords":[
+        "Disable",
+		"AoE"
+     ]
+  },
+  {
+     "id":5677,
+     "key":"arc_warden_flux",
+     "keywords":[
+        "DPS",
+        "Movement Reduction"
+     ]
+  },
+  {
+     "id":5678,
+     "key":"arc_warden_magnetic_field",
+     "keywords":[
+        "Tank",
+        "Attack Speed Increase",
+		"AoE"
+     ]
+  },
+  {
+     "id":5679,
+     "key":"arc_warden_spark_wraith",
+     "keywords":[
+        "Movement Reduction",
+        "Nuke"
+     ]
+  },
+  {
+     "id":5683,
+     "key":"arc_warden_tempest_double",
+     "keywords":[
+        "Summons"
+     ]
+  },
+  {
+     "id":5613,
+     "key":"abyssal_underlord_firestorm",
+     "keywords":[
+        "DPS",
+		"AoE"
+     ]
+  },
+  {
+     "id":5614,
+     "key":"abyssal_underlord_pit_of_malice",
+     "keywords":[
+        "Disable",
+		"AoE"
+     ]
+  },
+  {
+     "id":5615,
+     "key":"abyssal_underlord_atrophy_aura",
+     "keywords":[
+        "Upgrade",
+        "Passive",
+        "Attack Damage Increase"
+     ]
+  },
+  {
+     "id":5616,
+     "key":"abyssal_underlord_dark_rift",
+     "keywords":[
+        "Escape"
+     ]
+  },
+  {
+     "id":5716,
+     "key":"monkey_king_boundless_strike",
+     "keywords":[
+        "Crit",
+        "Stun"
+     ]
+  },
+  {
+     "id":5721,
+     "key":"monkey_king_tree_dance",
+     "keywords":[
+        "Vision",
+        "Escape"
+     ]
+  },
+  {
+     "id":5724,
+     "key":"monkey_king_primal_spring",
+     "keywords":[
+        "Channeled",
+        "Nuke",
+        "Movement Reduction",
+		"AoE"
+     ]
+  },
+  {
+     "id":5723,
+     "key":"monkey_king_jingu_mastery",
+     "keywords":[
+        "Tank",
+        "Heal",
+        "Attack Damage Increase"
+     ]
+  },
+  {
+     "id":5719,
+     "key":"monkey_king_mischief",
+     "keywords":[
+
+     ]
+  },
+  {
+     "id":5725,
+     "key":"monkey_king_wukongs_command",
+     "keywords":[
+        "Summons",
+        "Armor Increase",
+		"AoE"
+     ]
+  },
+  {
+     "id":6339,
+     "key":"dark_willow_bramble_maze",
+     "keywords":[
+        "Disable",
+        "DPS",
+        "AoE"
+     ]
+  },
+  {
+     "id":6341,
+     "key":"dark_willow_shadow_realm",
+     "keywords":[
+        "Attack Damage Increase"
+     ]
+  },
+  {
+     "id":6342,
+     "key":"dark_willow_cursed_crown",
+     "keywords":[
+        "Stun"
+     ]
+  },
+  {
+     "id":6340,
+     "key":"dark_willow_bedlam",
+     "keywords":[
+        "Nuke"
+     ]
+  },
+  {
+     "id":8340,
+     "key":"dark_willow_terrorize",
+     "keywords":[
+        "Disable",
+		"AoE"
+     ]
+  },
+  {
+     "id":6344,
+     "key":"pangolier_swashbuckle",
+     "keywords":[
+        "Attack Damage Increase",
+        "Attack Speed Increase"
+     ]
+  },
+  {
+     "id":6461,
+     "key":"pangolier_shield_crash",
+     "keywords":[
+        "Tank",
+        "Nuke"
+     ]
+  },
+  {
+     "id":7307,
+     "key":"pangolier_lucky_shot",
+     "keywords":[
+        "Disable",
+        "Movement Reduction"
+     ]
+  },
+  {
+     "id":6343,
+     "key":"pangolier_gyroshell",
+     "keywords":[
+        "Escape",
+        "Nuke",
+        "Stun"
+     ]
+  },
+  {
+     "id":8000,
+     "key":"grimstroke_dark_artistry",
+     "keywords":[
+        "Movement Reduction",
+        "Nuke",
+		"AoE"
+     ]
+  },
+  {
+     "id":8006,
+     "key":"grimstroke_ink_creature",
+     "keywords":[
+        "Silence",
+        "DPS"
+     ]
+  },
+  {
+     "id":8007,
+     "key":"grimstroke_spirit_walk",
+     "keywords":[
+        "Stun",
+        "Nuke",
+		"AoE"
+     ]
+  },
+  {
+     "id":6491,
+     "key":"grimstroke_soul_chain",
+     "keywords":[
+        "Movement Reduction"
+     ]
+  },
+  {
+     "id":6583,
+     "key":"mars_spear",
+     "keywords":[
+        "Nuke",
+        "Stun",
+        "Knockback"
+     ]
+  },
+  {
+     "id":6495,
+     "key":"mars_gods_rebuke",
+     "keywords":[
+        "Attack Damage Increase",
+        "Crit",
+        "Knockback",
+		"AoE"
+     ]
+  },
+  {
+     "id":6582,
+     "key":"mars_bulwark",
+     "keywords":[
+        "Tank"
+     ]
+  },
+  {
+     "id":6598,
+     "key":"mars_arena_of_blood",
+     "keywords":[
+        "Disable",
+		"AoE"
+     ]
   }
 ]
