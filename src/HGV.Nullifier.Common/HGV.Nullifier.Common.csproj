@@ -64,6 +64,7 @@
     <Compile Include="Export\Ability.cs" />
     <Compile Include="Export\AbilityCombo.cs" />
     <Compile Include="Export\AbilityHero.cs" />
+    <Compile Include="Export\AbilityKeywords.cs" />
     <Compile Include="Export\Hero.cs" />
     <Compile Include="Export\HeroAttribute.cs" />
     <Compile Include="Export\HeroCombo.cs" />

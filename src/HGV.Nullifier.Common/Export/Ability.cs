@@ -15,11 +15,7 @@ namespace HGV.Nullifier.Common.Export
         public int HeroId { get; set; }
         public bool HasUpgrade { get; set; }
         public double Picks { get; set; }
-        public double PicksPercentage { get; set; }
-        public int PicksDeviation { get; set; }
         public double Wins { get; set; }
-        public double WinsPercentage { get; set; }
-        public int WinsDeviation { get; set; }
         public double WinRate { get; set; }
     }
 }
