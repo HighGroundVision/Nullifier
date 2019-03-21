@@ -27,18 +27,14 @@ namespace HGV.Nullifier
             handler.Initialize();
 
             var tasks = new Task[] {
-                handler.ExportSummary(),
-                handler.ExportHeroesSummary(),
-
-                handler.ExportDraftPool(),
-
-                handler.ExportHeroes(),
+                // handler.ExportSummary(),
+                // handler.ExportHeroesSummary(),
+                // handler.ExportDraftPool(),
+                // handler.ExportHeroes(),
                 handler.ExportHeroDetails(),
-
-                handler.ExportAbilitiesSummary(),
-                handler.ExportAbilities(),
-                handler.ExportAbilityDetails(),
-
+                // handler.ExportAbilitiesSummary(),
+                // handler.ExportAbilities(),
+                // handler.ExportAbilityDetails(),
                 // handler.ExportAccounts(),
             };
             Task.WaitAll(tasks, t);
@@ -416,9 +412,12 @@ namespace HGV.Nullifier
 
             var abilities = client.GetSkills();
 
+            var heroesAbilities = abilities.Where(_ => _.HeroId == heroId).Select(_ => _.Id).ToList();
+
             var start = flag == true ? context.Skills.Where(__ => __.is_ulimate == 1) : context.Skills.Where(__ => __.is_skill == 1);
             var query = start
                    .Where(__ => __.hero_id == heroId)
+                   .Where(__ => heroesAbilities.Contains(__.ability_id) == false)
                    .GroupBy(__ => __.ability_id)
                    .Select(__ => new
                    {

@@ -197,3 +197,4 @@ FakesAssemblies/
 
 # App Config Setting Overrides
 *.App.config
+*.Connections.config
