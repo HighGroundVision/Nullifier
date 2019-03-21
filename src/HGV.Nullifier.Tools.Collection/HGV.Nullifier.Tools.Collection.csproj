@@ -63,6 +63,9 @@
     <None Include="User.App.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="User.Connections.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HGV.Nullifier.Common\HGV.Nullifier.Common.csproj">

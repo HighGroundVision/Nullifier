@@ -31,10 +31,10 @@ namespace HGV.Nullifier
                 // handler.ExportHeroesSummary(),
                 // handler.ExportDraftPool(),
                 // handler.ExportHeroes(),
-                handler.ExportHeroDetails(),
+                // handler.ExportHeroDetails(),
                 // handler.ExportAbilitiesSummary(),
                 // handler.ExportAbilities(),
-                // handler.ExportAbilityDetails(),
+                handler.ExportAbilityDetails(),
                 // handler.ExportAccounts(),
             };
             Task.WaitAll(tasks, t);
@@ -694,7 +694,7 @@ namespace HGV.Nullifier
             return collection;
         }
 
-        public List<Common.Export.AbilityHero> GetAbilityHeroes(int abilityId)
+        public List<Common.Export.AbilityHero> GetAbilityHeroes(int abilityId, int heroId)
         {
             var context = new DataContext();
             var client = new MetaClient();
@@ -703,6 +703,7 @@ namespace HGV.Nullifier
 
             var query = context.Skills
                 .Where(_ => _.ability_id == abilityId)
+                .Where(_ => _.hero_id != heroId)
                 .GroupBy(_ => new { _.ability_id, _.hero_id }).Select(_ => new
                 {
                     AbilityId = _.Key.ability_id,
@@ -712,10 +713,11 @@ namespace HGV.Nullifier
                 })
                 .ToList();
 
-            (double sd, double mean, double max, double min) = query.Deviation(__ => __.Picks);
+            (double sdPicks, double meanPicks, double maxPicks, double minPicks) = query.Deviation(_ => _.Picks);
+            (double sdWins, double meanWins, double maxWins, double minWins) = query.Deviation(_ => _.Wins);
 
             var collection = query
-                .Where(__ => __.Picks > mean)
+                .Where(__ => __.Picks > meanPicks)
                 .Join(heroes, _ => _.HeroId, _ => _.Id, (lhs, rhs) => new Common.Export.AbilityHero()
                 {
                     HeroId = rhs.Id,
@@ -725,6 +727,8 @@ namespace HGV.Nullifier
                     Wins = (int)lhs.Wins,
                     Picks = (int)lhs.Picks,
                     WinRate = lhs.Wins / lhs.Picks,
+                    PicksRatio = lhs.Picks / maxPicks,
+                    WinsRatio = lhs.Wins / maxWins,
                 })
                 .OrderByDescending(_ => _.WinRate)
                 .Take(10)
@@ -733,10 +737,12 @@ namespace HGV.Nullifier
             return collection;
         }
 
-        public List<Common.Export.HeroCombo> GetAbilityCombos(int abilityId, bool flag)
+        public List<Common.Export.HeroCombo> GetAbilityCombos(int abilityId, int heroId, bool flag)
         {
             var context = new DataContext();
             var client = new MetaClient();
+
+            var sharedAbilities = client.GetAbilities().Where(_ => _.HeroId == heroId).Select(_ => _.Id).ToList();
 
             var skills = client.GetSkills();
 
@@ -749,7 +755,10 @@ namespace HGV.Nullifier
                 group rhs by rhs.ability_id into combo
                 select new { AbilityId = combo.Key, Picks = (float)combo.Count(), Wins = (float)combo.Sum(_ => _.match_result) } into c
                 select new { c.AbilityId, c.Picks, c.Wins, WinRate = c.Wins / c.Picks }
-            ).ToList();
+            )
+            .ToList()
+            .Where(_ => sharedAbilities.Contains(_.AbilityId) == false)
+            .ToList();
 
             (double sdPicks, double meanPicks, double maxPicks, double minPicks) = query.Deviation(_ => _.Picks);
             (double sdWins, double meanWins, double maxWins, double minWins) = query.Deviation(_ => _.Wins);
@@ -789,11 +798,11 @@ namespace HGV.Nullifier
                 {
                     Summary = _,
                     Ability = details.Find(__ => __.Id == _.Id),
-                    Heroes = GetAbilityHeroes(_.Id),
+                    Heroes = GetAbilityHeroes(_.Id, _.HeroId),
                     Combos = new
                     {
-                        Abilities = GetAbilityCombos(_.Id, false),
-                        Ultimates = GetAbilityCombos(_.Id, true),
+                        Abilities = GetAbilityCombos(_.Id, _.HeroId, false),
+                        Ultimates = GetAbilityCombos(_.Id, _.HeroId, true),
                     }
                 };
             })
