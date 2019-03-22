@@ -34,8 +34,8 @@ namespace HGV.Nullifier
                 // handler.ExportHeroDetails(),
                 // handler.ExportAbilitiesSummary(),
                 // handler.ExportAbilities(),
-                handler.ExportAbilityDetails(),
-                // handler.ExportAccounts(),
+                // handler.ExportAbilityDetails(),
+                handler.ExportAccounts(),
             };
             Task.WaitAll(tasks, t);
         }
@@ -517,6 +517,7 @@ namespace HGV.Nullifier
                 Wins = lhs.Wins,
                 WinsRatio = lhs.Wins / maxWins,
                 WinRate = lhs.Wins / lhs.Picks,
+                Keywords = rhs.Keywords,
             })
             .ToList();
 
@@ -556,6 +557,7 @@ namespace HGV.Nullifier
                 Wins = lhs.Wins,
                 WinsRatio = lhs.Wins / maxWins,
                 WinRate = lhs.Wins / lhs.Picks,
+                Keywords = rhs.Keywords,
             })
             .ToList();
 
@@ -569,9 +571,6 @@ namespace HGV.Nullifier
             var abilties = await GetAbilities();
             var ultimates = await GetUltimates();
             var heroes = client.GetHeroes();
-
-            var jsonIN = File.ReadAllText(@"..\..\..\..\ability-keywords.json");
-            var keywords = JsonConvert.DeserializeObject<List<Common.Export.AbilityKeywords>>(jsonIN);
 
             var collection = abilties
                 .Union(ultimates)
@@ -587,20 +586,7 @@ namespace HGV.Nullifier
                     WinRate = lhs.WinRate,
                     HeroId = lhs.HeroId,
                     HeroName = rhs.Name,
-                })
-                .Join(keywords, _ => _.Id, _ => _.id, (lhs, rhs) => new
-                {
-                    Id = lhs.Id,
-                    Name = lhs.Name,
-                    Key = lhs.Key,
-                    Image = lhs.Image,
-                    HasUpgrade = lhs.HasUpgrade,
-                    Picks = lhs.Picks,
-                    Wins = lhs.Wins,
-                    WinRate = lhs.WinRate,
-                    HeroId = lhs.HeroId,
-                    HeroName = lhs.HeroName,
-                    Keywords = rhs.keywords
+                    Keywords = lhs.Keywords,
                 })
                 .ToList();
 
@@ -609,27 +595,24 @@ namespace HGV.Nullifier
 
         public async Task ExportAbilitiesSummary()
         {
-            var jsonIN = File.ReadAllText(@"..\..\..\..\ability-keywords.json");
-            var keywords = JsonConvert.DeserializeObject<List<Common.Export.AbilityKeywords>>(jsonIN);
-
             var abilities = await GetAbilities();
             var ultimates = await GetUltimates();
 
             var collection = abilities
                 .Union(ultimates)
-                .Join(keywords, _ => _.Id, _ => _.id, (lhs, rhs) =>
+                .Select(_ =>
                 {
-                    return rhs.keywords.Select(k => new
+                    return _.Keywords.Select(k => new
                     {
-                        lhs.Id,
-                        lhs.Name,
-                        lhs.Key,
-                        lhs.Image,
-                        lhs.HeroId,
-                        lhs.HasUpgrade,
-                        lhs.Picks,
-                        lhs.Wins,
-                        lhs.WinRate,
+                        _.Id,
+                        _.Name,
+                        _.Key,
+                        _.Image,
+                        _.HeroId,
+                        _.HasUpgrade,
+                        _.Picks,
+                        _.Wins,
+                        _.WinRate,
                         Keyword = k
                     }).ToList();
                 })
@@ -644,16 +627,12 @@ namespace HGV.Nullifier
                     Keyword = _.Key,
                     Count = _.Count(),
                     WinRate = _.Sum(__ => __.Wins) / (float)_.Sum(__ => __.Picks),
-                    // Wins = _.Sum(__ => __.Wins),
-                    // Picks = _.Sum(__ => __.Picks),
                 })
                 .OrderByDescending(_ => _.WinRate)
                 .ToList();
 
 
             this.WriteResultsToFile("ability-groups.json", query);
-
-            // await Task.Delay(100);
         }
 
         public async Task<List<Common.Export.HeroTalent>> GetTaltents()
