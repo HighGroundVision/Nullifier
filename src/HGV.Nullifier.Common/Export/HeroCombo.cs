@@ -18,5 +18,6 @@ namespace HGV.Nullifier.Common.Export
         public double WinRate { get; set; }
         public double PicksRatio { get; set; }
         public double WinsRatio { get; set; }
+        public List<string> Keywords { get; internal set; }
     }
 }

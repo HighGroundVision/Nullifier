@@ -18,8 +18,8 @@ namespace HGV.Nullifier.Common.Export
         public double Picks { get; set; }
         public double Wins { get; set; }
         public double WinRate { get; set; }
-        public string Color { get; set; }
         public double PicksRatio { get; set; }
         public double WinsRatio { get; set; }
+        public string Color { get; set; }
     }
 }

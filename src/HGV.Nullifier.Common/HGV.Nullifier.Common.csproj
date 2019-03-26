@@ -37,8 +37,8 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="HGV.Basilius, Version=2.0.33.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\HGV.Basilius.2.0.33\lib\netstandard2.0\HGV.Basilius.dll</HintPath>
+    <Reference Include="HGV.Basilius, Version=2.0.34.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HGV.Basilius.2.0.34\lib\netstandard2.0\HGV.Basilius.dll</HintPath>
     </Reference>
     <Reference Include="HGV.Daedalus, Version=1.1.7.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\HGV.Daedalus.1.1.7\lib\netstandard2.0\HGV.Daedalus.dll</HintPath>
@@ -63,6 +63,7 @@
   <ItemGroup>
     <Compile Include="Export\Ability.cs" />
     <Compile Include="Export\AbilityCombo.cs" />
+    <Compile Include="Export\AbilityGroup.cs" />
     <Compile Include="Export\AbilityHero.cs" />
     <Compile Include="Export\AbilityKeywords.cs" />
     <Compile Include="Export\Hero.cs" />

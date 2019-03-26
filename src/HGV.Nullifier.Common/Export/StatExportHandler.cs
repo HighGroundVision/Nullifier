@@ -34,8 +34,8 @@ namespace HGV.Nullifier
                 // handler.ExportHeroDetails(),
                 // handler.ExportAbilitiesSummary(),
                 // handler.ExportAbilities(),
-                // handler.ExportAbilityDetails(),
-                handler.ExportAccounts(),
+                handler.ExportAbilityDetails(),
+                // handler.ExportAccounts(),
             };
             Task.WaitAll(tasks, t);
         }
@@ -443,10 +443,11 @@ namespace HGV.Nullifier
                     Picks = (int)lhs.Picks,
                     PicksRatio = lhs.Picks / maxPicks,
                     WinsRatio = lhs.Wins / maxWins,
-                    WinRate = lhs.Wins / lhs.Picks
+                    WinRate = lhs.Wins / lhs.Picks,
+                    Keywords = rhs.Keywords,
                 })
                 .OrderByDescending(_ => _.WinRate)
-                .Take(10)
+                //.Take(10)
                 .ToList();
 
             return collection;
@@ -465,6 +466,12 @@ namespace HGV.Nullifier
 
             var collection = heroes.Select(_ =>
             {
+                var combosAbilities = GetHeroCombos(_.Id, false);
+                var combosUltimates = GetHeroCombos(_.Id, true);
+
+                var skills = combosAbilities.Union(combosUltimates).ToList();
+                var abilityGroups = GetAbilitiesSummary(skills);
+
                 return new
                 {
                     Summary = _,
@@ -474,8 +481,9 @@ namespace HGV.Nullifier
                     Talents = talents.Where(__ => __.HeroId == _.Id).ToList(),
                     Combos = new
                     {
-                        Abilities = GetHeroCombos(_.Id, false),
-                        Ultimates = GetHeroCombos(_.Id, true),
+                        Abilities = combosAbilities.Take(25).ToList(),
+                        Ultimates = combosUltimates.Take(25).ToList(),
+                        Groups = abilityGroups,
                     }
                 };
             })
@@ -593,13 +601,9 @@ namespace HGV.Nullifier
             this.WriteResultsToFile("ability-collection.json", collection);
         }
 
-        public async Task ExportAbilitiesSummary()
+        public List<Common.Export.AbilityGroup> GetAbilitiesSummary(List<Common.Export.Ability> skills)
         {
-            var abilities = await GetAbilities();
-            var ultimates = await GetUltimates();
-
-            var collection = abilities
-                .Union(ultimates)
+            var collection = skills
                 .Select(_ =>
                 {
                     return _.Keywords.Select(k => new
@@ -622,7 +626,7 @@ namespace HGV.Nullifier
             var groups = collection.GroupBy(_ => _.Keyword).ToList();
 
             var query = groups
-                .Select(_ => new
+                .Select(_ => new Common.Export.AbilityGroup
                 {
                     Keyword = _.Key,
                     Count = _.Count(),
@@ -631,8 +635,54 @@ namespace HGV.Nullifier
                 .OrderByDescending(_ => _.WinRate)
                 .ToList();
 
+            return query;
+        }
 
-            this.WriteResultsToFile("ability-groups.json", query);
+        public List<Common.Export.AbilityGroup> GetAbilitiesSummary(List<Common.Export.HeroCombo> skills)
+        {
+            var collection = skills
+                .Select(_ =>
+                {
+                    return _.Keywords.Select(k => new
+                    {
+                        _.AbilityId,
+                        _.Name,
+                        _.Key,
+                        _.Image,
+                        _.HasUpgrade,
+                        _.Picks,
+                        _.Wins,
+                        _.WinRate,
+                        Keyword = k
+                    }).ToList();
+                })
+                .SelectMany(_ => _)
+                .ToList();
+
+            var groups = collection.GroupBy(_ => _.Keyword).ToList();
+
+            var query = groups
+                .Select(_ => new Common.Export.AbilityGroup
+                {
+                    Keyword = _.Key,
+                    Count = _.Count(),
+                    WinRate = _.Sum(__ => __.Wins) / (float)_.Sum(__ => __.Picks),
+                })
+                .OrderByDescending(_ => _.WinRate)
+                .ToList();
+
+            return query;
+        }
+
+        public async Task ExportAbilitiesSummary()
+        {
+            var abilities = await GetAbilities();
+            var ultimates = await GetUltimates();
+
+            var skills = abilities.Union(ultimates).ToList();
+            var collection = GetAbilitiesSummary(skills);
+
+            this.WriteResultsToFile("ability-groups.json", collection);
         }
 
         public async Task<List<Common.Export.HeroTalent>> GetTaltents()
@@ -699,18 +749,21 @@ namespace HGV.Nullifier
                 .Where(__ => __.Picks > meanPicks)
                 .Join(heroes, _ => _.HeroId, _ => _.Id, (lhs, rhs) => new Common.Export.AbilityHero()
                 {
-                    HeroId = rhs.Id,
+                    Icon = string.Format("https://hgv-hyperstone.azurewebsites.net/heroes/icons/{0}.png", rhs.Key),
                     Image = string.Format("https://hgv-hyperstone.azurewebsites.net/heroes/banner/{0}.png", rhs.Key),
                     Key = rhs.Key,
                     Name = rhs.Name,
+                    AttributePrimary = rhs.AttributePrimary,
+                    AttackCapabilities = rhs.AttackCapabilities,
                     Wins = (int)lhs.Wins,
                     Picks = (int)lhs.Picks,
                     WinRate = lhs.Wins / lhs.Picks,
                     PicksRatio = lhs.Picks / maxPicks,
                     WinsRatio = lhs.Wins / maxWins,
+                    Color = "#67b7dc",
                 })
                 .OrderByDescending(_ => _.WinRate)
-                .Take(10)
+                //.Take(10)
                 .ToList();
 
             return collection;
@@ -721,7 +774,7 @@ namespace HGV.Nullifier
             var context = new DataContext();
             var client = new MetaClient();
 
-            var sharedAbilities = client.GetAbilities().Where(_ => _.HeroId == heroId).Select(_ => _.Id).ToList();
+            var sharedAbilities = client.GetSkills().Where(_ => _.HeroId == heroId).Select(_ => _.Id).ToList();
 
             var skills = client.GetSkills();
 
@@ -755,9 +808,9 @@ namespace HGV.Nullifier
                    WinRate = lhs.Wins / lhs.Picks,
                    PicksRatio = lhs.Picks / maxPicks,
                    WinsRatio = lhs.Wins / maxWins,
+                   Keywords = rhs.Keywords,
                })
                .OrderByDescending(_ => _.WinRate)
-               .Take(10)
                .ToList();
 
             return collection;
@@ -773,6 +826,11 @@ namespace HGV.Nullifier
 
             var collection = abilities.Union(ultimates).Select(_ =>
             {
+                var combosAbilities = GetAbilityCombos(_.Id, _.HeroId, false);
+                var combosUltimates = GetAbilityCombos(_.Id, _.HeroId, true);
+                var skills = combosAbilities.Union(combosUltimates).ToList();
+                var abilityGroups = GetAbilitiesSummary(skills);
+
                 return new
                 {
                     Summary = _,
@@ -780,8 +838,9 @@ namespace HGV.Nullifier
                     Heroes = GetAbilityHeroes(_.Id, _.HeroId),
                     Combos = new
                     {
-                        Abilities = GetAbilityCombos(_.Id, _.HeroId, false),
-                        Ultimates = GetAbilityCombos(_.Id, _.HeroId, true),
+                        Abilities = combosAbilities.Take(25).ToList(),
+                        Ultimates = combosUltimates.Take(25).ToList(),
+                        Groups = abilityGroups,
                     }
                 };
             })
