@@ -22,6 +22,9 @@ namespace HGV.Nullifier.Data.Models
         public int victory_dire { get; set; }
         public int victory_radiant { get; set; }
 
+        public int cluster { get; set; }
+        public int region { get; set; }
+
         public int valid { get; set; }
     }
 }

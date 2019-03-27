@@ -27,14 +27,14 @@ namespace HGV.Nullifier
             handler.Initialize();
 
             var tasks = new Task[] {
-                // handler.ExportSummary(),
+                handler.ExportSummary(),
                 // handler.ExportHeroesSummary(),
                 // handler.ExportDraftPool(),
                 // handler.ExportHeroes(),
                 // handler.ExportHeroDetails(),
                 // handler.ExportAbilitiesSummary(),
                 // handler.ExportAbilities(),
-                handler.ExportAbilityDetails(),
+                // handler.ExportAbilityDetails(),
                 // handler.ExportAccounts(),
             };
             Task.WaitAll(tasks, t);
@@ -746,7 +746,6 @@ namespace HGV.Nullifier
             (double sdWins, double meanWins, double maxWins, double minWins) = query.Deviation(_ => _.Wins);
 
             var collection = query
-                .Where(__ => __.Picks > meanPicks)
                 .Join(heroes, _ => _.HeroId, _ => _.Id, (lhs, rhs) => new Common.Export.AbilityHero()
                 {
                     Icon = string.Format("https://hgv-hyperstone.azurewebsites.net/heroes/icons/{0}.png", rhs.Key),
@@ -760,10 +759,9 @@ namespace HGV.Nullifier
                     WinRate = lhs.Wins / lhs.Picks,
                     PicksRatio = lhs.Picks / maxPicks,
                     WinsRatio = lhs.Wins / maxWins,
-                    Color = "#67b7dc",
+                    Color = lhs.Picks > meanPicks ? "#67b7dc" : "#FF8800",
                 })
-                .OrderByDescending(_ => _.WinRate)
-                //.Take(10)
+                .OrderBy(_ => _.Name)
                 .ToList();
 
             return collection;
