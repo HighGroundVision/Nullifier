@@ -37,8 +37,8 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="HGV.Basilius, Version=2.0.34.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\HGV.Basilius.2.0.34\lib\netstandard2.0\HGV.Basilius.dll</HintPath>
+    <Reference Include="HGV.Basilius, Version=2.0.37.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HGV.Basilius.2.0.37\lib\netstandard2.0\HGV.Basilius.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -57,17 +57,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Migrations\201902260527594_ImportProject.cs" />
-    <Compile Include="Migrations\201902260527594_ImportProject.Designer.cs">
-      <DependentUpon>201902260527594_ImportProject.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201903021631002_EqualizeTables.cs" />
-    <Compile Include="Migrations\201903021631002_EqualizeTables.Designer.cs">
-      <DependentUpon>201903021631002_EqualizeTables.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201903021633213_RemoveUnusedColumnsFromPlayer.cs" />
-    <Compile Include="Migrations\201903021633213_RemoveUnusedColumnsFromPlayer.Designer.cs">
-      <DependentUpon>201903021633213_RemoveUnusedColumnsFromPlayer.cs</DependentUpon>
+    <Compile Include="Migrations\201904030113062_Import-Project.cs" />
+    <Compile Include="Migrations\201904030113062_Import-Project.Designer.cs">
+      <DependentUpon>201904030113062_Import-Project.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="DataContext.cs" />
@@ -75,6 +67,7 @@
     <Compile Include="Models\Hero.cs" />
     <Compile Include="Models\Match.cs" />
     <Compile Include="Models\Player.cs" />
+    <Compile Include="Models\Region.cs" />
     <Compile Include="Models\Skill.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -83,14 +76,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201902260527594_ImportProject.resx">
-      <DependentUpon>201902260527594_ImportProject.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903021631002_EqualizeTables.resx">
-      <DependentUpon>201903021631002_EqualizeTables.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903021633213_RemoveUnusedColumnsFromPlayer.resx">
-      <DependentUpon>201903021633213_RemoveUnusedColumnsFromPlayer.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201904030113062_Import-Project.resx">
+      <DependentUpon>201904030113062_Import-Project.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

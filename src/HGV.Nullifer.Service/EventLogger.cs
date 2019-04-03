@@ -21,28 +21,25 @@ namespace HGV.Nullifer.Service
 
         public void Error(Exception ex)
         {
-            this.Flush();
-            
+            this.Flush(true);
             this.events.WriteEntry(ex.Message, EventLogEntryType.Error);
         }
 
         public void Warning(string msg)
         {
-            this.Flush();
-
-            this.events.WriteEntry(msg, EventLogEntryType.Warning);
+            this.messages.Add(msg);
+            this.Flush(false);
         }
 
         public void Info(string msg)
         {
             this.messages.Add(msg);
-
-            if (this.messages.Count >= 10) { this.Flush(); }
+            this.Flush(false);
         }
      
-        private void Flush()
+        private void Flush(bool now = false)
         {
-            if(this.messages.Count() > 0)
+            if(this.messages.Count >= 10 || now)
             {
                 var entry = string.Join(Environment.NewLine, this.messages.ToArray());
                 this.events.WriteEntry(entry);

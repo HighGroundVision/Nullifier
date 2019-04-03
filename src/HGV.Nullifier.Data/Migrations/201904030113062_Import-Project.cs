@@ -29,32 +29,39 @@ namespace HGV.Nullifier.Data.Migrations
                 .PrimaryKey(t => t.id);
             
             CreateTable(
-                "dbo.MatchSummaries",
-                c => new
-                    {
-                        id = c.Long(nullable: false),
-                        match_number = c.Long(nullable: false),
-                        duration = c.Double(nullable: false),
-                        day_of_week = c.Int(nullable: false),
-                        date = c.DateTime(nullable: false),
-                        victory_dire = c.Int(nullable: false),
-                        victory_radiant = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.id)
-                .Index(t => t.match_number);
-            
-            CreateTable(
-                "dbo.PlayerSummaries",
+                "dbo.Matches",
                 c => new
                     {
                         id = c.Int(nullable: false, identity: true),
-                        hero_id = c.Int(nullable: false),
                         match_id = c.Long(nullable: false),
-                        match_result = c.Int(nullable: false),
+                        match_number = c.Long(nullable: false),
+                        league_id = c.Int(nullable: false),
+                        duration = c.Double(nullable: false),
+                        date = c.DateTime(nullable: false),
+                        day_of_week = c.Int(nullable: false),
+                        hour_of_day = c.Int(nullable: false),
+                        cluster = c.Int(nullable: false),
+                        region = c.Int(nullable: false),
+                        victory_dire = c.Int(nullable: false),
+                        victory_radiant = c.Int(nullable: false),
+                        valid = c.Boolean(nullable: false),
+                    })
+                .PrimaryKey(t => t.id)
+                .Index(t => t.match_id)
+                .Index(t => t.match_number);
+            
+            CreateTable(
+                "dbo.Players",
+                c => new
+                    {
+                        id = c.Int(nullable: false, identity: true),
+                        match_ref = c.Int(nullable: false),
+                        victory = c.Int(nullable: false),
                         player_slot = c.Int(nullable: false),
                         draft_order = c.Int(nullable: false),
                         team = c.Int(nullable: false),
                         account_id = c.Long(nullable: false),
+                        hero_id = c.Int(nullable: false),
                         kills = c.Int(nullable: false),
                         deaths = c.Int(nullable: false),
                         assists = c.Int(nullable: false),
@@ -70,43 +77,53 @@ namespace HGV.Nullifier.Data.Migrations
                         hero_healing = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.id)
-                .Index(t => t.hero_id)
-                .Index(t => t.match_id);
+                .Index(t => t.match_ref)
+                .Index(t => t.hero_id);
             
             CreateTable(
-                "dbo.SkillSummaries",
+                "dbo.Regions",
+                c => new
+                    {
+                        id = c.Int(nullable: false),
+                        name = c.String(),
+                        timezone = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.id);
+            
+            CreateTable(
+                "dbo.Skills",
                 c => new
                     {
                         id = c.Int(nullable: false, identity: true),
+                        match_ref = c.Int(nullable: false),
+                        player_ref = c.Int(nullable: false),
                         ability_id = c.Int(nullable: false),
-                        hero_id = c.Int(nullable: false),
-                        match_id = c.Long(nullable: false),
-                        account_id = c.Long(nullable: false),
-                        draft_order = c.Int(nullable: false),
-                        match_result = c.Int(nullable: false),
                         is_skill = c.Int(nullable: false),
                         is_ulimate = c.Int(nullable: false),
                         is_taltent = c.Int(nullable: false),
-                        is_self = c.Int(nullable: false),
+                        is_hero_same = c.Int(nullable: false),
+                        level = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.id)
-                .Index(t => t.ability_id)
-                .Index(t => t.hero_id)
-                .Index(t => t.match_id);
+                .Index(t => t.match_ref)
+                .Index(t => t.player_ref)
+                .Index(t => t.ability_id);
             
         }
         
         public override void Down()
         {
-            DropIndex("dbo.SkillSummaries", new[] { "match_id" });
-            DropIndex("dbo.SkillSummaries", new[] { "hero_id" });
-            DropIndex("dbo.SkillSummaries", new[] { "ability_id" });
-            DropIndex("dbo.PlayerSummaries", new[] { "match_id" });
-            DropIndex("dbo.PlayerSummaries", new[] { "hero_id" });
-            DropIndex("dbo.MatchSummaries", new[] { "match_number" });
-            DropTable("dbo.SkillSummaries");
-            DropTable("dbo.PlayerSummaries");
-            DropTable("dbo.MatchSummaries");
+            DropIndex("dbo.Skills", new[] { "ability_id" });
+            DropIndex("dbo.Skills", new[] { "player_ref" });
+            DropIndex("dbo.Skills", new[] { "match_ref" });
+            DropIndex("dbo.Players", new[] { "hero_id" });
+            DropIndex("dbo.Players", new[] { "match_ref" });
+            DropIndex("dbo.Matches", new[] { "match_number" });
+            DropIndex("dbo.Matches", new[] { "match_id" });
+            DropTable("dbo.Skills");
+            DropTable("dbo.Regions");
+            DropTable("dbo.Players");
+            DropTable("dbo.Matches");
             DropTable("dbo.Heroes");
             DropTable("dbo.Abilities");
         }

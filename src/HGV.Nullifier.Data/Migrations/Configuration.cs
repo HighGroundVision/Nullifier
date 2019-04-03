@@ -21,9 +21,11 @@ namespace HGV.Nullifier.Data.Migrations
             var client = new HGV.Basilius.MetaClient();
             var heroes = client.GetHeroes().Select(_ => new Hero() { id = _.Id, key = _.Key, name = _.Name }).ToArray();
             var abilities = client.GetSkills().Where(_ => _.Id != HGV.Basilius.Ability.GENERIC).Select(_ => new Ability() { id = _.Id, key = _.Key, name = _.Name, hero_id = _.HeroId }).ToArray();
+            var regions = client.GetRegions().Select(_ => new Region() {  id = _.Key, name = _.Value, timezone = 0 } ).ToArray();
 
             context.Heroes.AddOrUpdate(_ => _.id, heroes);
             context.Abilities.AddOrUpdate(_ => _.id, abilities);
+            context.Regions.AddOrUpdate(_ => _.id, regions);
         }
     }
 }

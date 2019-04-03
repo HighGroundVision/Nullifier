@@ -37,11 +37,14 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="HGV.Basilius, Version=2.0.34.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\HGV.Basilius.2.0.34\lib\netstandard2.0\HGV.Basilius.dll</HintPath>
+    <Reference Include="HGV.Basilius, Version=2.0.37.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HGV.Basilius.2.0.37\lib\netstandard2.0\HGV.Basilius.dll</HintPath>
     </Reference>
     <Reference Include="HGV.Daedalus, Version=1.1.7.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\HGV.Daedalus.1.1.7\lib\netstandard2.0\HGV.Daedalus.dll</HintPath>
+    </Reference>
+    <Reference Include="Humanizer, Version=2.6.0.0, Culture=neutral, PublicKeyToken=979442b78dfc278e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Humanizer.Core.2.6.2\lib\netstandard2.0\Humanizer.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -61,23 +64,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Export\Ability.cs" />
-    <Compile Include="Export\AbilityCombo.cs" />
-    <Compile Include="Export\AbilityGroup.cs" />
-    <Compile Include="Export\AbilityHero.cs" />
-    <Compile Include="Export\AbilityKeywords.cs" />
-    <Compile Include="Export\Hero.cs" />
-    <Compile Include="Export\HeroAttribute.cs" />
-    <Compile Include="Export\HeroCombo.cs" />
-    <Compile Include="Export\HeroTalent.cs" />
-    <Compile Include="Export\Player.cs" />
-    <Compile Include="Export\SteamID.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Logger\DefaultLogger.cs" />
     <Compile Include="Logger\ILogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Collection\StatCollectionHandler.cs" />
-    <Compile Include="Export\StatExportHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HGV.Nullifier.Data\HGV.Nullifier.Data.csproj">
@@ -88,6 +79,9 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Export\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
