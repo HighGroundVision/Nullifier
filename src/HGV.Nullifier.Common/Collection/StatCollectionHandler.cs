@@ -15,7 +15,7 @@ namespace HGV.Nullifier
     public class StatCollectionHandler
     {
         private ILogger logger;
-        private readonly ConcurrentQueue<Daedalus.GetMatchDetails.Match> qProcessing;
+        private readonly ConcurrentQueue<long> qProcessing;
         private readonly string api_key;
         private long match_number;
 
@@ -40,7 +40,7 @@ namespace HGV.Nullifier
         private StatCollectionHandler(string apiKey, ILogger l)
         {
             this.logger = l;
-            this.qProcessing = new ConcurrentQueue<Daedalus.GetMatchDetails.Match>();
+            this.qProcessing = new ConcurrentQueue<long>();
             this.api_key = apiKey; 
         }
 
@@ -63,13 +63,13 @@ namespace HGV.Nullifier
             if (this.match_number == 0)
                 throw new ApplicationException("match_number cannot be zero");
 
-            var client = new DotaApiClient(this.api_key);
+            var apiClient = new DotaApiClient(this.api_key);
             while (true)
             {
                 try
                 {
                     this.match_number++;
-                    var matches = await client.GetMatchesInSequence(this.match_number);
+                    var matches = await apiClient.GetMatchesInSequence(this.match_number);
                     foreach (var match in matches)
                     {
                         // Retarget match number
@@ -78,7 +78,10 @@ namespace HGV.Nullifier
 
                         // Send AD match on to processs
                         if (match.game_mode == 18)
-                            this.qProcessing.Enqueue(match);
+                        {
+                            var id = match.match_id;
+                            this.qProcessing.Enqueue(id);
+                        }
                     }
 
                     await Task.Delay(TimeSpan.FromSeconds(3));
@@ -93,12 +96,12 @@ namespace HGV.Nullifier
 
         public async Task Processing()
         {
-            var client = new MetaClient();
-            var heroesTest = client.GetHeroes();
-            var heroes = client.GetHeroes().Select(_ => new { Key = _.Id, Abilities = _.Abilities.Select(__ => __.Id).ToList() }).ToDictionary(_ => _.Key, _ => _.Abilities);
-            var abilities = client.GetAbilities().Select(_ => _.Id).ToList();
-            var ultimates = client.GetUltimates().Select(_ => _.Id).ToList();
-            var talents = client.GetTalents().Select(_ => _.Id).ToList();
+            var apiClient = new DotaApiClient(this.api_key);
+            var metaClient = new MetaClient();
+            var heroes = metaClient.GetHeroes().Select(_ => new { Key = _.Id, Abilities = _.Abilities.Select(__ => __.Id).ToList() }).ToDictionary(_ => _.Key, _ => _.Abilities);
+            var abilities = metaClient.GetAbilities().Select(_ => _.Id).ToList();
+            var ultimates = metaClient.GetUltimates().Select(_ => _.Id).ToList();
+            var talents = metaClient.GetTalents().Select(_ => _.Id).ToList();
 
             while (true)
             {
@@ -107,13 +110,18 @@ namespace HGV.Nullifier
                 {
                     try
                     {
-                        Daedalus.GetMatchDetails.Match match;
-                        if (!this.qProcessing.TryDequeue(out match))
+                        long match_id = 0;
+                        if (!this.qProcessing.TryDequeue(out match_id))
                             continue;
 
-                        var count = context.Matches.Where(_ => _.match_number == match.match_seq_num).Count();
+                        if (match_id == 0)
+                            continue;
+
+                        var count = context.Matches.Where(_ => _.match_id == match_id).Count();
                         if (count > 0)
                             continue;
+
+                        var match = await apiClient.GetMatchDetails(match_id);
 
                         var date = DateTimeOffset.FromUnixTimeSeconds(match.start_time).UtcDateTime;
                         var duration = DateTimeOffset.FromUnixTimeSeconds(match.duration).TimeOfDay.TotalMinutes;
@@ -128,7 +136,7 @@ namespace HGV.Nullifier
                             hour_of_day = date.Hour,
                             date = date,
                             cluster = match.cluster,
-                            region = client.ConvertClusterToRegion(match.cluster),
+                            region = metaClient.ConvertClusterToRegion(match.cluster),
                             victory_radiant = match.radiant_win ? 1 : 0,
                             victory_dire = match.radiant_win ? 0 : 1,
                             valid = true,
