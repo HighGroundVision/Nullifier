@@ -1,17 +1,14 @@
-﻿using HGV.Daedalus;
-using HGV.Daedalus.GetMatchDetails;
-using System;
-using System.Collections.Generic;
-using System.Collections.Concurrent;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using HGV.Basilius;
+using HGV.Daedalus;
 using HGV.Nullifier.Data;
-using HGV.Basilius;
-using System.Threading;
-using System.Diagnostics;
-using HGV.Nullifier.Data.Models;
 using HGV.Nullifier.Logger;
 using Humanizer;
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace HGV.Nullifier
 {
