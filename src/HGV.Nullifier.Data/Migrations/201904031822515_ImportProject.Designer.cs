@@ -13,7 +13,7 @@ namespace HGV.Nullifier.Data.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201904030113062_Import-Project"; }
+            get { return "201904031822515_ImportProject"; }
         }
         
         string IMigrationMetadata.Source

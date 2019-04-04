@@ -15,7 +15,7 @@ namespace HGV.Nullifier
     public class StatCollectionHandler
     {
         private ILogger logger;
-        private readonly ConcurrentQueue<long> qProcessing;
+        private readonly ConcurrentQueue<Daedalus.GetMatchDetails.Match> qProcessing;
         private readonly string api_key;
         private long match_number;
 
@@ -40,15 +40,15 @@ namespace HGV.Nullifier
         private StatCollectionHandler(string apiKey, ILogger l)
         {
             this.logger = l;
-            this.qProcessing = new ConcurrentQueue<long>();
-            this.api_key = apiKey; 
+            this.qProcessing = new ConcurrentQueue<Daedalus.GetMatchDetails.Match>();
+            this.api_key = apiKey;
         }
 
         public void Initialize()
         {
             var context = new DataContext();
             var count = context.Matches.Count();
-            if(count > 0)
+            if (count > 0)
             {
                 this.match_number = context.Matches.Max(_ => _.match_number) + 1;
             }
@@ -63,45 +63,64 @@ namespace HGV.Nullifier
             if (this.match_number == 0)
                 throw new ApplicationException("match_number cannot be zero");
 
-            var apiClient = new DotaApiClient(this.api_key);
+            long date = 0;
+            var count = 0;
+            var error = 0;
+            var countTimer = new System.Timers.Timer(60 * 60 * 1000); 
+            countTimer.Elapsed += (Object source, System.Timers.ElapsedEventArgs e) => {
+                var delta = DateTime.Now - DateTimeOffset.FromUnixTimeSeconds(date).LocalDateTime;
+                this.logger.Info(String.Format("M/h: {0}, E/h: {1}, time delta: {2}", count, error, delta.Humanize(4)));
+                count = 0;
+                error = 0;
+            };
+            countTimer.AutoReset = true;
+            countTimer.Enabled = true;
+
+            var client = new DotaApiClient(this.api_key);
             while (true)
             {
                 try
                 {
                     this.match_number++;
-                    var matches = await apiClient.GetMatchesInSequence(this.match_number);
+                    var matches = await client.GetMatchesInSequence(this.match_number);
                     foreach (var match in matches)
                     {
+                        // Keep a running total
+                        count++;
+
                         // Retarget match number
                         if (match.match_seq_num > this.match_number)
                             this.match_number = match.match_seq_num;
 
                         // Send AD match on to processs
                         if (match.game_mode == 18)
-                        {
-                            var id = match.match_id;
-                            this.qProcessing.Enqueue(id);
-                        }
+                            this.qProcessing.Enqueue(match);
+
+                        date = match.start_time;
                     }
 
                     await Task.Delay(TimeSpan.FromSeconds(3));
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    await Task.Delay(TimeSpan.FromSeconds(60));
+                    await Task.Delay(TimeSpan.FromSeconds(10));
+                    error++;
+                    // this.logger.Error(ex);
                 }
 
             }
         }
 
+        // Add Method to back fill...
+
         public async Task Processing()
         {
-            var apiClient = new DotaApiClient(this.api_key);
-            var metaClient = new MetaClient();
-            var heroes = metaClient.GetHeroes().Select(_ => new { Key = _.Id, Abilities = _.Abilities.Select(__ => __.Id).ToList() }).ToDictionary(_ => _.Key, _ => _.Abilities);
-            var abilities = metaClient.GetAbilities().Select(_ => _.Id).ToList();
-            var ultimates = metaClient.GetUltimates().Select(_ => _.Id).ToList();
-            var talents = metaClient.GetTalents().Select(_ => _.Id).ToList();
+            var client = new MetaClient();
+            var heroesTest = client.GetHeroes();
+            var heroes = client.GetHeroes().Select(_ => new { Key = _.Id, Abilities = _.Abilities.Select(__ => __.Id).ToList() }).ToDictionary(_ => _.Key, _ => _.Abilities);
+            var abilities = client.GetAbilities().Select(_ => _.Id).ToList();
+            var ultimates = client.GetUltimates().Select(_ => _.Id).ToList();
+            var talents = client.GetTalents().Select(_ => _.Id).ToList();
 
             while (true)
             {
@@ -110,22 +129,17 @@ namespace HGV.Nullifier
                 {
                     try
                     {
-                        long match_id = 0;
-                        if (!this.qProcessing.TryDequeue(out match_id))
+                        Daedalus.GetMatchDetails.Match match;
+                        if (!this.qProcessing.TryDequeue(out match))
                             continue;
 
-                        if (match_id == 0)
-                            continue;
-
-                        var count = context.Matches.Where(_ => _.match_id == match_id).Count();
+                        var count = context.Matches.Where(_ => _.match_number == match.match_seq_num).Count();
                         if (count > 0)
                             continue;
 
-                        var match = await apiClient.GetMatchDetails(match_id);
-
                         var date = DateTimeOffset.FromUnixTimeSeconds(match.start_time).UtcDateTime;
                         var duration = DateTimeOffset.FromUnixTimeSeconds(match.duration).TimeOfDay.TotalMinutes;
-                        
+
                         var match_summary = new Data.Models.Match()
                         {
                             match_id = match.match_id,
@@ -136,7 +150,7 @@ namespace HGV.Nullifier
                             hour_of_day = date.Hour,
                             date = date,
                             cluster = match.cluster,
-                            region = metaClient.ConvertClusterToRegion(match.cluster),
+                            region = client.ConvertClusterToRegion(match.cluster),
                             victory_radiant = match.radiant_win ? 1 : 0,
                             victory_dire = match.radiant_win ? 0 : 1,
                             valid = true,
@@ -145,7 +159,7 @@ namespace HGV.Nullifier
                         var time_limit = 10;
                         if (duration < time_limit)
                         {
-                            this.logger.Warning($"    Error: match {match.match_id} is invalid as its durration of {duration:0.00} is lower then the time limit of {time_limit}");
+                            // this.logger.Warning($"    Error: match {match.match_id} is invalid as its durration of {duration:0.00} is lower then the time limit of {time_limit}");
                             match_summary.valid = false;
                         }
 
@@ -163,7 +177,7 @@ namespace HGV.Nullifier
                             {
                                 // https://wiki.teamfortress.com/wiki/WebAPI/GetMatchDetails
                                 var status = player.leaver_status == 2 ? "DISCONNECTED" : player.leaver_status == 3 ? "ABANDONED" : player.leaver_status == 4 ? "AFK" : "Unknown";
-                                this.logger.Warning($"  Warning: match {match.match_id} ({duration:0.00}) is invalid as player {order} has a leaver status of {player.leaver_status} ({status}) ");
+                                // this.logger.Warning($"  Warning: match {match.match_id} ({duration:0.00}) is invalid as player {order} has a leaver status of {player.leaver_status} ({status}) ");
                                 match_summary.valid = false;
                             }
 
@@ -180,6 +194,7 @@ namespace HGV.Nullifier
                                 draft_order = order,
                                 player_slot = player.player_slot,
                                 account_id = player.account_id,
+                                persona = player.persona,
                                 // Hero
                                 hero_id = hero_id,
                                 kills = player.kills,
@@ -231,14 +246,14 @@ namespace HGV.Nullifier
                         }
 
                         var match_delta = DateTime.Now - match_summary.date.ToLocalTime().AddMinutes(match_summary.duration);
-                        this.logger.Info($"Processed: match {match_summary.match_id} which ended {match_delta.Humanize(3)} mins ago.");
+                        // this.logger.Info($"Processed: match {match_summary.match_id} which ended {match_delta.Humanize(3)} mins ago.");
 
                         transation.Commit();
                     }
                     catch (Exception ex)
                     {
                         transation.Rollback();
-                        this.logger.Error(ex);
+                        // this.logger.Error(ex);
                     }
                 }
             }

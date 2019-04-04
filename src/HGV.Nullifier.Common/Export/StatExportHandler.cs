@@ -341,6 +341,7 @@ namespace HGV.Nullifier
 
             var AverageMatches = players.Average(_ => _.Matches);
 
+            /*
             var collection = players
                 .Where(_ => _.Matches > AverageMatches)
                 .Select(_ => new
@@ -413,7 +414,7 @@ namespace HGV.Nullifier
             };
 
             this.WriteResultsToFile("leaderboard-summary.json", leaderboard);
-
+            */
         }
     }
 }

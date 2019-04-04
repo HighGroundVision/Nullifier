@@ -20,6 +20,7 @@ namespace HGV.Nullifier.Data.Models
         public int draft_order { get; set; }
         public int team { get; set; }
         public long account_id { get; set; }
+        public string persona { get; set; }
 
         // Hero
         [Index]

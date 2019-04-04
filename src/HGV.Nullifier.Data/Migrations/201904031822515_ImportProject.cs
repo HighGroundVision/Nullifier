@@ -61,6 +61,7 @@ namespace HGV.Nullifier.Data.Migrations
                         draft_order = c.Int(nullable: false),
                         team = c.Int(nullable: false),
                         account_id = c.Long(nullable: false),
+                        persona = c.String(),
                         hero_id = c.Int(nullable: false),
                         kills = c.Int(nullable: false),
                         deaths = c.Int(nullable: false),

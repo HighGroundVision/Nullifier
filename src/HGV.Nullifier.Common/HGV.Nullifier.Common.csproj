@@ -40,8 +40,8 @@
     <Reference Include="HGV.Basilius, Version=2.0.37.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\HGV.Basilius.2.0.37\lib\netstandard2.0\HGV.Basilius.dll</HintPath>
     </Reference>
-    <Reference Include="HGV.Daedalus, Version=1.1.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\HGV.Daedalus.1.1.7\lib\netstandard2.0\HGV.Daedalus.dll</HintPath>
+    <Reference Include="HGV.Daedalus, Version=1.1.8.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HGV.Daedalus.1.1.8\lib\netstandard2.0\HGV.Daedalus.dll</HintPath>
     </Reference>
     <Reference Include="Humanizer, Version=2.6.0.0, Culture=neutral, PublicKeyToken=979442b78dfc278e, processorArchitecture=MSIL">
       <HintPath>..\packages\Humanizer.Core.2.6.2\lib\netstandard2.0\Humanizer.dll</HintPath>
