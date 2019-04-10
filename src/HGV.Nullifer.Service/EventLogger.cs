@@ -17,19 +17,19 @@ namespace HGV.Nullifer.Service
             this.events = e;
         }
 
-        public void Error(Exception ex)
+        public void Error(Exception ex, int id = 0)
         {
-            this.events.WriteEntry(ex.Message, EventLogEntryType.Error);
+            this.events.WriteEntry(ex.Message, EventLogEntryType.Error, id);
         }
 
-        public void Warning(string msg)
+        public void Warning(string msg, int id = 0)
         {
-            this.events.WriteEntry(msg);
+            this.events.WriteEntry(msg, EventLogEntryType.Warning, id);
         }
 
-        public void Info(string msg)
+        public void Info(string msg, int id = 0)
         {
-            this.events.WriteEntry(msg);
+            this.events.WriteEntry(msg, EventLogEntryType.Information, id);
         }
     }
 }

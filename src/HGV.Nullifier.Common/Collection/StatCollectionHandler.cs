@@ -15,103 +15,162 @@ namespace HGV.Nullifier
     public class StatCollectionHandler
     {
         private ILogger logger;
+
         private readonly ConcurrentQueue<Daedalus.GetMatchDetails.Match> qProcessing;
-        private readonly string api_key;
-        private long match_number;
 
-        public static void Run(string apiKey, CancellationToken t, ILogger l)
+        private long past_target = 0;
+        private DotaApiClient apiClient = null;
+
+        public static void Run(ILogger l, string apiKey, long pastTarget, CancellationToken t)
         {
-            var handler = new StatCollectionHandler(apiKey, l);
-            handler.Initialize();
+            var handler = new StatCollectionHandler(l, apiKey, pastTarget);
+            handler.Init().Wait();
 
-            var tasks = new Task[2] { handler.Collecting(), handler.Processing() };
-            var result = Task.WaitAny(tasks, t);
-            switch (result)
-            {
-                case 0:
-                    throw new Exception("Collecting Failed");
-                case 1:
-                    throw new Exception("Processing Failed");
-                default:
-                    break;
-            }
+            var tasksMain = new List<Task>() { handler.CollectingFuture(), handler.CollectingPast(), handler.Processing() };
+            Task.WaitAll(tasksMain.ToArray(), t);
         }
 
-        private StatCollectionHandler(string apiKey, ILogger l)
+        private StatCollectionHandler(ILogger l, string apiKey, long pastTarget)
         {
             this.logger = l;
             this.qProcessing = new ConcurrentQueue<Daedalus.GetMatchDetails.Match>();
-            this.api_key = apiKey;
+            this.apiClient = new DotaApiClient(apiKey);
+            this.past_target = pastTarget;
         }
 
-        public void Initialize()
+        private async Task Init()
         {
             var context = new DataContext();
-            var count = context.Matches.Count();
-            if (count > 0)
-            {
-                this.match_number = context.Matches.Max(_ => _.match_number) + 1;
-            }
-            else
-            {
-                this.match_number = 3873978702; // Match from start of 7.21d
-            }
+            if (context.Matches.Count() > 0)
+                return;
+
+            var matches = await apiClient.GetLastestMatches();
+            var lastest = matches.OrderByDescending(_ => _.match_seq_num).FirstOrDefault();
+
+            var date = DateTimeOffset.FromUnixTimeSeconds(lastest.start_time).UtcDateTime;
+            var match = new Data.Models.Match() { match_id = lastest.match_id, match_number = lastest.match_seq_num, date = date, valid = false };
+            context.Matches.Add(match);
+            await context.SaveChangesAsync();
         }
 
-        private async Task Collecting()
+        private async Task CollectingPast()
         {
-            if (this.match_number == 0)
-                throw new ApplicationException("match_number cannot be zero");
+            if (past_target == 0)
+                return;
 
-            long date = 0;
+            var context = new DataContext();
+
+            var refMatch = context.Matches.Where(_ => _.id == 1).First();
+            var refDate = refMatch.date.ToLocalTime();
+
+            var loc_match_seq_num = past_target;
+            var minMax = context.Matches.Where(_ => _.match_number < refMatch.match_number).ToList();
+            if(minMax.Count > 0)
+            {
+                loc_match_seq_num = minMax.Max(_ => _.match_number);
+            }
+
+            TimeSpan delta = TimeSpan.MinValue;
             var count = 0;
             var error = 0;
-            var countTimer = new System.Timers.Timer(60 * 60 * 1000); 
+            var countTimer = new System.Timers.Timer(60 * 1000); // 60 *
             countTimer.Elapsed += (Object source, System.Timers.ElapsedEventArgs e) => {
-                var delta = DateTime.Now - DateTimeOffset.FromUnixTimeSeconds(date).LocalDateTime;
-                this.logger.Info(String.Format("M/h: {0}, E/h: {1}, time delta: {2}", count, error, delta.Humanize(4)));
+                this.logger.Info(String.Format("[P] M/m: {0}, E/m: {1}, dT: {2}", count, error, delta.Humanize(4)), 2);
                 count = 0;
                 error = 0;
             };
             countTimer.AutoReset = true;
             countTimer.Enabled = true;
 
-            var client = new DotaApiClient(this.api_key);
             while (true)
             {
                 try
                 {
-                    this.match_number++;
-                    var matches = await client.GetMatchesInSequence(this.match_number);
-                    foreach (var match in matches)
+                    loc_match_seq_num++;
+
+                    var matches = await this.apiClient.GetMatchesInSequence(loc_match_seq_num);
+                    if (matches.Count == 0)
+                        continue;
+
+                    count += matches.Count();
+
+                    var match = matches.OrderByDescending(_ => _.match_seq_num).First();
+                    var date = DateTimeOffset.FromUnixTimeSeconds(match.start_time).LocalDateTime;
+                    var duration = DateTimeOffset.FromUnixTimeSeconds(match.duration).TimeOfDay.TotalMinutes;
+                    delta = refDate - date.AddMinutes(duration);
+                    loc_match_seq_num = match.match_seq_num;
+
+                    var collection = matches.Where(_ => _.game_mode == 18).ToList();
+                    foreach (var item in collection)
                     {
-                        // Keep a running total
-                        count++;
-
-                        // Retarget match number
-                        if (match.match_seq_num > this.match_number)
-                            this.match_number = match.match_seq_num;
-
-                        // Send AD match on to processs
-                        if (match.game_mode == 18)
-                            this.qProcessing.Enqueue(match);
-
-                        date = match.start_time;
+                        this.qProcessing.Enqueue(item);
                     }
 
-                    await Task.Delay(TimeSpan.FromSeconds(3));
+                    await Task.Delay(TimeSpan.FromSeconds(5));
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    await Task.Delay(TimeSpan.FromSeconds(10));
+                    await Task.Delay(TimeSpan.FromSeconds(30));
                     error++;
-                    // this.logger.Error(ex);
                 }
 
             }
         }
 
-        // Add Method to back fill...
+        private async Task CollectingFuture()
+        {
+            long loc_match_seq_num = 0;
+
+            var context = new DataContext();
+            loc_match_seq_num = context.Matches.Max(_ => _.match_number);
+
+            TimeSpan delta = TimeSpan.MinValue;
+            var count = 0;
+            var error = 0;
+            
+            var countTimer = new System.Timers.Timer( 60 * 1000); // 60 *
+            countTimer.Elapsed += (Object source, System.Timers.ElapsedEventArgs e) => {
+                this.logger.Info(String.Format("[F] M/m: {0}, E/m: {1}, dT: {2}", count, error, delta.Humanize(2)), 1);
+                count = 0;
+                error = 0;
+            };
+            countTimer.AutoReset = true;
+            countTimer.Enabled = true;
+
+            while (true)
+            {
+                try
+                {
+                    loc_match_seq_num++;
+
+                    var matches = await this.apiClient.GetMatchesInSequence(loc_match_seq_num);
+                    if (matches.Count == 0)
+                        continue;
+
+                    count += matches.Count();
+
+                    var match = matches.OrderByDescending(_ => _.match_seq_num).First();
+                    var date = DateTimeOffset.FromUnixTimeSeconds(match.start_time).LocalDateTime;
+                    var duration = DateTimeOffset.FromUnixTimeSeconds(match.duration).TimeOfDay.TotalMinutes;
+                    delta = DateTime.Now - date.AddMinutes(duration);
+                    loc_match_seq_num = match.match_seq_num;
+
+                    var collection = matches.Where(_ => _.game_mode == 18).ToList();
+                    foreach (var item in collection)
+                    {
+                        this.qProcessing.Enqueue(item);
+                    }
+
+                    await Task.Delay(TimeSpan.FromSeconds(1));
+                }
+                catch (Exception)
+                {
+                    await Task.Delay(TimeSpan.FromSeconds(30));
+                    error++;
+                }
+
+            }
+        }
 
         public async Task Processing()
         {
