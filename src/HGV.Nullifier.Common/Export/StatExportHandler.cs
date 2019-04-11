@@ -46,8 +46,10 @@ namespace HGV.Nullifier
         {
             var handler = new StatExportHandler(l, apiKey, output);
             handler.Initialize();
+
             // handler.ExportSchedule();
             // handler.ExportDraftPool();
+            // handler.ExportHeroesSearch();
             // handler.ExportHeroesChart();
             // handler.ExportHeroesTypes();
             // handler.ExportSummaryAbilities();
@@ -726,6 +728,23 @@ namespace HGV.Nullifier
             this.WriteResultsToFile("draft-pool.json", draftPool);
         }
 
+        private void ExportHeroesSearch()
+        {
+            var heroes = this.metaClient.GetADHeroes();
+
+            var collection = heroes
+                .Select(_ => new 
+                {
+                    Id = _.Id,
+                    Name = _.Name,
+                    Image = _.ImageBanner,
+                    Icon = _.ImageIcon,
+                })
+                .ToList();
+
+            this.WriteResultsToFile("heroes-search.json", collection);
+        }
+
         public void ExportHeroesChart()
         {
             var vaildMatches = this.context.Matches.Where(_ => _.valid == true);
@@ -906,11 +925,6 @@ namespace HGV.Nullifier
             this.WriteResultsToFile("abilities-search.json", collection);
         }
 
-        private void ExportBestAbilityOverAllHeroes()
-        {
-
-        }
-
         const long ID_OFFSET = 76561197960265728L;
         static public long ConvertDotaIdToSteamId(long input)
         {
@@ -924,6 +938,17 @@ namespace HGV.Nullifier
         public void ExportAccounts()
         {
             var matches = this.context.Matches.Where(_ => _.valid == true);
+
+            var averageMatches = this.context.Players
+                .Where(_ => _.account_id != CATCH_ALL_ACCOUNT_ID)
+                .Join(matches, _ => _.match_ref, _ => _.id, (lhs, rhs) => new
+                {
+                    AccountId = lhs.account_id,
+                })
+                .GroupBy(_ => _.AccountId)
+                .Average(_ => _.Count());
+
+            averageMatches = Math.Ceiling(averageMatches);
 
             var players = this.context.Players
                 .Where(_ => _.account_id != CATCH_ALL_ACCOUNT_ID)
@@ -943,12 +968,11 @@ namespace HGV.Nullifier
                     Wins = _.Sum(x => x.Victory),
                     Matches = _.Count(),
                     WinRate = (float)_.Sum(x => x.Victory) / (float)_.Count(),
-                });
-
-            var AverageMatches = players.Average(_ => _.Matches);
+                })
+                .ToList();
 
             var collection = players
-                .Where(_ => _.Matches > AverageMatches)
+                .Where(_ => _.Matches > averageMatches)
                 .ToList();
 
             var chunks = collection
@@ -997,13 +1021,31 @@ namespace HGV.Nullifier
                })
                .ToList();
 
-            this.WriteResultsToFile("leaderboard-collection.json", accounts);
+            var dataPlayers = new
+            {
+                averageMatches = averageMatches,
+                players = accounts,
+            };
+
+            this.WriteResultsToFile("leaderboard-collection.json", dataPlayers);
 
             var regions = accounts
                 .GroupBy(_ => _.Region)
-                .ToDictionary(_ => _.Key, _ => _.OrderByDescending(x => x.WinRate).Take(3).ToList());
+                .Select(_ => new
+                {
+                    region = _.Key,
+                    players = _.OrderByDescending(x => x.WinRate).ThenByDescending(x => x.Matches).Take(3).ToList(),
+                })
+                .OrderBy(_ => _.region)
+                .ToDictionary(_ => _.region, _ => _.players);
 
-            this.WriteResultsToFile("leaderboard-regions.json", regions);
+            var dataRegions = new
+            {
+                averageMatches = averageMatches,
+                regions = regions,
+            };
+
+            this.WriteResultsToFile("leaderboard-regions.json", dataRegions);
         }
     }
 }
