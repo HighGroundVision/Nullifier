@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Linq.Expressions;
 
 namespace HGV.Nullifier
 {
@@ -47,16 +48,34 @@ namespace HGV.Nullifier
             var handler = new StatExportHandler(l, apiKey, output);
             handler.Initialize();
 
-            // handler.ExportSchedule();
+            // Page - Draft Pool
             // handler.ExportDraftPool();
+
+            // Page - Schedule
+            // handler.ExportSchedule();
+
+            // Page - Heroes
             // handler.ExportHeroesSearch();
             // handler.ExportHeroesChart();
             // handler.ExportHeroesTypes();
+
+            // Page - Abilities
             // handler.ExportSummaryAbilities();
             // handler.ExportSummaryCombos();
             // handler.ExportAbilitiesGroups();
 
-            handler.ExportAccounts();
+            // Page - Leaderboard
+            // handler.ExportAccounts();
+
+            // Page - Hero
+            handler.ExportHeroDetails();
+            
+            // Page - Ability
+            // Summary
+            // Attributes
+            // Heroes Chart
+            // Combos - Skills
+            // Combos - Ultimates
         }
 
         public void Initialize()
@@ -728,7 +747,7 @@ namespace HGV.Nullifier
             this.WriteResultsToFile("draft-pool.json", draftPool);
         }
 
-        private void ExportHeroesSearch()
+        public void ExportHeroesSearch()
         {
             var heroes = this.metaClient.GetADHeroes();
 
@@ -824,6 +843,171 @@ namespace HGV.Nullifier
                 .ToList();
 
             this.WriteResultsToFile("heroes-types.json", collection);
+        }
+
+        private HeroAttribute GetHeroAttribute<T, K>(IList<T> collection, T item, Expression<Func<T, K>> keySelector)
+        {
+            var selector = keySelector.Compile();
+
+            var ranks = collection.AsQueryable().GroupBy(keySelector).Select(_ => Convert.ToDouble(_.Key)).OrderBy(_ => _).ToList();
+            var value = Convert.ToDouble(selector(item));
+            var rank = (ranks.IndexOf(value) + 1.0) / ranks.Count();
+
+            return new HeroAttribute() { Rank = rank, Value = value };
+        }
+
+        public void ExportHeroDetails()
+        {
+            // TOOD:
+            // Summary
+            // Attributes
+            // Abilities
+            // Talents
+            // Combos - Skills
+            // Combos - Ultimates
+            // Ability Groups
+
+            var matches = this.context.Matches.Where(_ => _.valid == true);
+            var players = this.context.Players
+                .Join(matches, _ => _.match_ref, _ => _.id, (lhs, rhs) => new { player = lhs, match = rhs })
+                .Select(_ => new
+                {
+                    _.player.hero_id,
+                    _.player.kills,
+                    _.player.assists,
+                    _.player.deaths,
+                    wins = _.player.victory,
+                })
+                .GroupBy(_ => _.hero_id)
+                .ToList();
+
+            var abilityQuery = this.context.Skills
+                    .Where(_ => _.is_skill == 1 || _.is_ulimate == 1)
+                    .Join(this.context.Players, _ => _.player_ref, _ => _.id, (lhs, rhs) => new
+                    {
+                        id = lhs.ability_id,
+                        victory = rhs.victory,
+                        kills = rhs.kills,
+                        deaths = rhs.deaths,
+                        assists = rhs.assists
+                    })
+                    .GroupBy(_ => _.id)
+                    .ToList();
+
+            var talentQuery = this.context.Skills
+                   .Where(_ => _.is_taltent == 1)
+                   .Join(this.context.Players, _ => _.player_ref, _ => _.id, (lhs, rhs) => new
+                   {
+                       id = lhs.ability_id,
+                       victory = rhs.victory,
+                       kills = rhs.kills,
+                       deaths = rhs.deaths,
+                       assists = rhs.assists
+                   })
+                    .GroupBy(_ => _.id)
+                    .ToList();
+
+            var talentLevels = new Dictionary<int, int>() {
+                {0, 10},
+                {1, 10},
+                {2, 15},
+                {3, 15},
+                {4, 20},
+                {5, 20},
+                {6, 25},
+                {7, 25},
+            };
+
+            var heroes = this.metaClient.GetADHeroes();
+            foreach (var item in heroes)
+            {
+                // Summary
+                var group = players.Where(_ => _.Key == item.Id).FirstOrDefault();
+                var byWins = group.Sum(_ => _.wins);
+                var byKills = group.Sum(_ => _.kills);
+                var byKda = ((group.Sum(_ => _.kills) + (group.Sum(_ => _.assists) / 3.0f)) - group.Sum(_ => _.deaths)) / group.Count();
+                var byWinRate = (float)group.Sum(_ => _.wins) / (float)group.Count();
+                var byPicks = group.Count();
+
+                // Abilities
+                var abilityContains = item.Abilities.Select(x => x.Id).ToList();
+                var abilityData = abilityQuery.Where(_ => abilityContains.Contains(_.Key));
+                var abilities  = item.Abilities.Join(abilityData, _ => _.Id, _ => _.Key, (rhs, lhs) => new
+                    {
+                        Id = rhs.Id,
+                        Key = rhs.Key,
+                        Name = rhs.Name,
+                        Image = rhs.Image,
+                        Wins = lhs.Sum(x => x.victory),
+                        Kills = lhs.Sum(x => x.kills),
+                        Kda = ((lhs.Sum(x => x.kills) + (lhs.Sum(x => x.assists) / 3.0f)) - lhs.Sum(x => x.deaths)) / lhs.Count(),
+                        WinRate = (float)lhs.Sum(x => x.victory) / (float)lhs.Count(),
+                        Picks = lhs.Count(),
+                    })
+                    .ToList();
+
+                // Talents
+                var talentContains = item.Talents.Select(x => x.Id).ToList();
+                var talentData = talentQuery.Where(_ => talentContains.Contains(_.Key));
+                var talentCount = 0;
+                var talents = item.Talents.Join(talentData, _ => _.Id, _ => _.Key, (rhs, lhs) => new
+                    {
+                        Id = rhs.Id,
+                        Level = talentLevels[talentCount++],
+                        Key = rhs.Key,
+                        Name = rhs.Name,
+                        Wins = lhs.Sum(x => x.victory),
+                        Kills = lhs.Sum(x => x.kills),
+                        Kda = ((lhs.Sum(x => x.kills) + (lhs.Sum(x => x.assists) / 3.0f)) - lhs.Sum(x => x.deaths)) / lhs.Count(),
+                        WinRate = (float)lhs.Sum(x => x.victory) / (float)lhs.Count(),
+                        Picks = lhs.Count(),
+                    })
+                    .GroupBy(_ => _.Level)
+                    .Select(_ => new
+                    {
+                        Level = _.Key,
+                        lhs = _.FirstOrDefault(),
+                        rhs = _.LastOrDefault()
+                    })
+                    .ToList();
+
+                var data = new
+                {
+                    Summary = new {
+                        Wins = byWins,
+                        Kills = byKills,
+                        Kda = byKda,
+                        Winrate = byWinRate,
+                        Picks = byPicks,
+                    },
+                    Attributes = new {
+                        AttributeBaseStrength = GetHeroAttribute(heroes, item, _ => _.AttributeBaseStrength),
+                        AttributeStrengthGain = GetHeroAttribute(heroes, item, _ => _.AttributeStrengthGain),
+                        AttributeBaseAgility = GetHeroAttribute(heroes, item, _ => _.AttributeBaseAgility),
+                        AttributeAgilityGain = GetHeroAttribute(heroes, item, _ => _.AttributeAgilityGain),
+                        AttributeBaseIntelligence = GetHeroAttribute(heroes, item, _ => _.AttributeBaseIntelligence),
+                        AttributeIntelligenceGain = GetHeroAttribute(heroes, item, _ => _.AttributeIntelligenceGain),
+                        StatusHealth = GetHeroAttribute(heroes, item, _ => _.StatusHealth),
+                        StatusHealthRegen = GetHeroAttribute(heroes, item, _ => _.StatusHealthRegen),
+                        StatusMana = GetHeroAttribute(heroes, item, _ => _.StatusMana),
+                        StatusManaRegen = GetHeroAttribute(heroes, item, _ => _.StatusManaRegen),
+                        AttackRange = GetHeroAttribute(heroes, item, _ => _.AttackRange),
+                        AttackDamageMin = GetHeroAttribute(heroes, item, _ => _.AttackDamageMin),
+                        AttackDamageMax = GetHeroAttribute(heroes, item, _ => _.AttackDamageMax),
+                        MovementSpeed = GetHeroAttribute(heroes, item, _ => _.MovementSpeed),
+                        MovementTurnRate = GetHeroAttribute(heroes, item, _ => _.MovementTurnRate),
+                        VisionDaytimeRange = GetHeroAttribute(heroes, item, _ => _.VisionDaytimeRange),
+                        VisionNighttimeRange = GetHeroAttribute(heroes, item, _ => _.VisionNighttimeRange)
+                    },
+                    Abilities = abilities,
+                    Talents = talents,
+                    ComboSkills = new List<object>(),
+                    ComboUltimates = new List<object>(),
+                    AbilityGroups = new List<object>(),
+                };
+
+                this.WriteResultsToFile($"hero.{item.Id}.json", data);
+            }
         }
 
         public void ExportAbilitiesGroups()
