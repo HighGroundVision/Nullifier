@@ -1104,12 +1104,6 @@ namespace HGV.Nullifier
 
                 var data = new
                 {
-                    Details = new
-                    {
-                        Name = item.Name,
-                        Image = item.ImageBanner,
-                        Icon = item.ImageIcon,
-                    },
                     Summary = new
                     {
                         Wins = byWins,
@@ -1118,6 +1112,7 @@ namespace HGV.Nullifier
                         Winrate = byWinRate,
                         Picks = byPicks,
                     },
+                    Details = item,
                     Attributes = new
                     {
                         AttributeBaseStrength = GetHeroAttribute(heroes, item, _ => _.AttributeBaseStrength),
@@ -1271,6 +1266,9 @@ namespace HGV.Nullifier
 
             foreach (var item in skills)
             {
+                if (item.AbilityDraftEnabled == false)
+                    continue;
+
                 var abilityDetails = this.context.Skills
                     .Where(_ => _.ability_id == item.Id)
                     .Join(this.context.Players, _ => _.player_ref, _ => _.id, (lhs, rhs) => new
@@ -1325,6 +1323,7 @@ namespace HGV.Nullifier
                         Wins = _.Sum(x => x.Wins),
                         WinRate = (float)_.Sum(x => x.Wins) / (float)_.Sum(x => x.Picks),
                     })
+                    .OrderByDescending(_ => _.WinRate)
                     .ToList();
 
                 var heroRoles = abilityHeroes
@@ -1342,11 +1341,80 @@ namespace HGV.Nullifier
                         Wins = _.Sum(x => x.Wins),
                         WinRate = (float)_.Sum(x => x.Wins) / (float)_.Sum(x => x.Picks),
                     })
+                    .OrderByDescending(_ => _.WinRate)
+                    .ToList();
+
+                var thisAbilityQuery = this.context.Skills.Where(_ => _.ability_id == item.Id);
+                var otherAbilitiesQuery = this.context.Skills.Where(_ => _.is_skill == 1 && _.ability_id != item.Id);
+                var comboAbilities = thisAbilityQuery
+                    .Join(otherAbilitiesQuery, _ => _.player_ref, _ => _.player_ref, (lhs, rhs) => new
+                    {
+                        ability_id = rhs.ability_id,
+                        player_ref = rhs.player_ref,
+                        match_ref = rhs.match_ref,
+                    })
+                    .Join(matchesQuery, _ => _.match_ref, _ => _.id, (lhs, rhs) => lhs)
+                    .Join(this.context.Players, _ => _.player_ref, _ => _.id, (lhs, rhs) => new
+                    {
+                        ability_id = lhs.ability_id,
+                        rhs.victory,
+                        rhs.kills,
+                        rhs.deaths,
+                        rhs.assists,
+                    })
+                    .ToList()
+                    .GroupBy(_ => _.ability_id)
+                    .Join(skills, _ => _.Key, _ => _.Id, (lhs, rhs) => new
+                    {
+                        Id = rhs.Id,
+                        Name = rhs.Name,
+                        Image = rhs.Image,
+                        // HasUpgrade = rhs.HasScepterUpgrade,
+                        Wins = lhs.Sum(x => x.victory),
+                        WinRate = (float)lhs.Sum(x => x.victory) / (float)lhs.Count(),
+                        Kills = lhs.Sum(x => x.kills),
+                        KDA = ((lhs.Sum(x => x.kills) + (lhs.Sum(x => x.assists) / 3.0f)) - lhs.Sum(x => x.deaths)) / lhs.Count(),
+                        Matches = lhs.Count(),
+                    })
+                    .OrderByDescending(_ => _.WinRate)
+                    .ToList();
+
+                var otherUlimatesQuery = this.context.Skills.Where(_ => _.is_ulimate == 1 && _.ability_id != item.Id);
+                var comboUlimates = thisAbilityQuery
+                    .Join(otherUlimatesQuery, _ => _.player_ref, _ => _.player_ref, (lhs, rhs) => new
+                    {
+                        ability_id = rhs.ability_id,
+                        player_ref = rhs.player_ref,
+                        match_ref = rhs.match_ref,
+                    })
+                    .Join(matchesQuery, _ => _.match_ref, _ => _.id, (lhs, rhs) => lhs)
+                    .Join(this.context.Players, _ => _.player_ref, _ => _.id, (lhs, rhs) => new
+                    {
+                        ability_id = lhs.ability_id,
+                        rhs.victory,
+                        rhs.kills,
+                        rhs.deaths,
+                        rhs.assists,
+                    })
+                    .ToList()
+                    .GroupBy(_ => _.ability_id)
+                    .Join(skills, _ => _.Key, _ => _.Id, (lhs, rhs) => new
+                    {
+                        Id = rhs.Id,
+                        Name = rhs.Name,
+                        Image = rhs.Image,
+                        // HasUpgrade = rhs.HasScepterUpgrade,
+                        Wins = lhs.Sum(x => x.victory),
+                        WinRate = (float)lhs.Sum(x => x.victory) / (float)lhs.Count(),
+                        Kills = lhs.Sum(x => x.kills),
+                        KDA = ((lhs.Sum(x => x.kills) + (lhs.Sum(x => x.assists) / 3.0f)) - lhs.Sum(x => x.deaths)) / lhs.Count(),
+                        Matches = lhs.Count(),
+                     })
+                    .OrderByDescending(_ => _.WinRate)
                     .ToList();
 
                 var data = new
                 {
-                    Details = item,
                     Summary = new
                     {
                         Wins = byWins,
@@ -1355,11 +1423,12 @@ namespace HGV.Nullifier
                         Winrate = byWinRate,
                         Picks = byPicks,
                     },
+                    Details = item,
                     Heroes = abilityHeroes,
                     HeroRoles = heroRoles,
                     HeroTypes = heroTypes,
-                    ComboAbilities = new List<object>(),
-                    ComboUltimates = new List<object>(),
+                    ComboAbilities = comboAbilities,
+                    ComboUltimates = comboUlimates,
                 };
 
                 this.WriteResultsToFile($"ability.{item.Id}.json", data);
