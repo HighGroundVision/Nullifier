@@ -44,33 +44,38 @@ namespace HGV.Nullifier
 
         public static void Run(ILogger l, string apiKey, string output)
         {
+            var then = DateTime.Now;
+
             var handler = new StatExportHandler(l, apiKey, output);
             handler.Initialize();
 
             // Page - Draft Pool
-            // handler.ExportDraftPool();
+            handler.ExportDraftPool();
 
             // Page - Schedule
-            // handler.ExportSchedule();
+            handler.ExportSchedule();
 
             // Page - Heroes
-            // handler.ExportHeroesSearch();
-            // handler.ExportHeroesChart();
-            // handler.ExportHeroesTypes();
+            handler.ExportHeroesSearch();
+            handler.ExportHeroesChart();
+            handler.ExportHeroesTypes();
 
             // Page - Abilities
-            // handler.ExportSummaryAbilities();
-            // handler.ExportSummaryCombos();
-            // handler.ExportAbilitiesGroups();
+            handler.ExportSummaryAbilities();
+            handler.ExportSummaryCombos();
+            handler.ExportAbilitiesGroups();
+
+            // Page - Hero
+            handler.ExportHeroDetails();
+
+            // Page - Ability
+            handler.ExportAbilityDetails();
 
             // Page - Leaderboard
             // handler.ExportAccounts();
 
-            // Page - Hero
-            // handler.ExportHeroDetails();
-
-            // Page - Ability
-            handler.ExportAbilityDetails();
+            var delta = DateTime.Now - then;
+            l.Info(String.Format("Time: {0}", delta.TotalMinutes));
         }
 
         public void Initialize()

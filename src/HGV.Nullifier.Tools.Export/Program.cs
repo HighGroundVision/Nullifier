@@ -16,6 +16,9 @@ namespace HGV.Nullifier.Tools.Export
             var outputDirectory = settings["OutputDirectory"].ToString() ?? Environment.CurrentDirectory;
 
             StatExportHandler.Run(defaultLogger, apiKey, outputDirectory);
+
+            Console.WriteLine("Press any key to continue");
+            Console.Read();
         }
     }
 }
