@@ -50,26 +50,27 @@ namespace HGV.Nullifier
             handler.Initialize();
 
             // Page - Draft Pool
-            handler.ExportDraftPool();
+            //handler.ExportDraftPool();
 
             // Page - Schedule
             handler.ExportSchedule();
 
             // Page - Heroes
-            handler.ExportHeroesSearch();
-            handler.ExportHeroesChart();
-            handler.ExportHeroesTypes();
+            //handler.ExportHeroesSearch();
+            //handler.ExportHeroesChart();
+            //handler.ExportHeroesTypes();
 
             // Page - Abilities
-            handler.ExportSummaryAbilities();
-            handler.ExportSummaryCombos();
-            handler.ExportAbilitiesGroups();
+            //handler.ExportSummaryAbilities();
+            //handler.ExportSummaryCombos();
+            //handler.ExportAbilitiesGroups();
+
 
             // Page - Hero
-            handler.ExportHeroDetails();
+            //handler.ExportHeroDetails();
 
             // Page - Ability
-            handler.ExportAbilityDetails();
+            //handler.ExportAbilityDetails();
 
             // Page - Leaderboard
             // handler.ExportAccounts();
@@ -685,7 +686,7 @@ namespace HGV.Nullifier
             };
 
             // Regions
-            var regions = query.GroupBy(_ => _.region).ToDictionary(_ => _.Key, _ => _.Count());
+            var regions = query.GroupBy(_ => _.region).ToDictionary(_ => this.metaClient.GetRegionName(_.Key), _ => _.Count());
 
             // Schedules
             var schedule = query
