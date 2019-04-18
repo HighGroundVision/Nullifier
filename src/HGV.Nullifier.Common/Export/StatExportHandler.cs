@@ -31,6 +31,7 @@ namespace HGV.Nullifier
             this.metaClient = new MetaClient();
             this.apiClient = new DotaApiClient(apiKey);
             this.context = new DataContext();
+            this.context.Database.CommandTimeout = 180;
 
             this.jsonSettings = new JsonSerializerSettings()
             {
@@ -53,27 +54,27 @@ namespace HGV.Nullifier
             //handler.ExportDraftPool();
 
             // Page - Schedule
-            // handler.ExportSchedule();
+            //handler.ExportSchedule();
 
             // Page - Heroes
             //handler.ExportHeroesSearch();
             //handler.ExportHeroesChart();
-            handler.ExportHeroesTypes();
+            //handler.ExportHeroesTypes();
 
             // Page - Abilities
             //handler.ExportSummaryAbilities();
-            //handler.ExportSummaryCombos();
-            //handler.ExportAbilitiesGroups();
+            handler.ExportSummaryCombos();
+            handler.ExportAbilitiesGroups();
 
 
             // Page - Hero
-            //handler.ExportHeroDetails();
+            handler.ExportHeroDetails();
 
             // Page - Ability
-            //handler.ExportAbilityDetails();
+            handler.ExportAbilityDetails();
 
             // Page - Leaderboard
-            // handler.ExportAccounts();
+            handler.ExportAccounts();
 
             var delta = DateTime.Now - then;
             l.Info(String.Format("Time: {0}", delta.TotalMinutes));
@@ -673,7 +674,7 @@ namespace HGV.Nullifier
                 Start = minDate,
                 End = maxDate,
                 Matches = totalMatches,
-                AbandonedRaito = abandonedRaito,
+                AbandonedRatio = abandonedRaito,
             };
 
             // Teams
@@ -817,9 +818,6 @@ namespace HGV.Nullifier
                     HeroId = _.Key.hero_id,
                     Wins = _.Sum(x => x.lhs.victory),
                     Matches = _.Count(),
-                    Kills = _.Sum(x => x.lhs.kills),
-                    Assists = _.Sum(x => x.lhs.assists),
-                    Deaths = _.Sum(x => x.lhs.deaths),
                 })
                 .ToList();
 
@@ -829,38 +827,26 @@ namespace HGV.Nullifier
                 .Join(heroes, _ => _.HeroId, _ => _.Id, (lhs, rhs) => new
                 {
                     Roles = rhs.Roles,
-                    Region = lhs.Region,
                     Matches = lhs.Matches,
                     Wins = lhs.Wins,
-                    Kills = lhs.Kills,
-                    Assists = lhs.Assists,
-                    Deaths = lhs.Deaths,
                 })
                 .SelectMany(_ => {
                     return _.Roles.Select(x => new
                     {
-                        _.Region,
                         _.Matches,
                         _.Wins,
-                        _.Kills,
-                        _.Assists,
-                        _.Deaths,
                         x.Role
                     });
                 })
-                .GroupBy(_ => new { _.Role, _.Region } )
+                .GroupBy(_ => _.Role)
                 .Select(_ => new
                 {
-                    Role = _.Key.Role,
-                    Region = _.Key.Region,
+                    Role = _.Key,
                     Matches = _.Sum(x => x.Matches),
                     Wins = _.Sum(x => x.Wins),
                     WinRate = (float)_.Sum(x => x.Wins) / (float)_.Sum(x => x.Matches),
-                    Kills = _.Sum(x => x.Kills),
-                    KDA = ((_.Sum(x => x.Kills) + (_.Sum(x => x.Assists) / 3.0f)) - _.Sum(x => x.Deaths)) / (float)_.Sum(x => x.Matches)
                 })
-                .OrderByDescending(_ => _.Region)
-                .ThenBy(_ => _.Role)
+                .OrderByDescending(_ => _.WinRate)
                 .ToList();
 
             this.WriteResultsToFile("heroes-roles.json", heroRoles);
@@ -874,9 +860,6 @@ namespace HGV.Nullifier
                     rhs.Roles,
                     Matches = lhs.Matches,
                     Wins = lhs.Wins,
-                    Kills = lhs.Kills,
-                    Deaths = lhs.Deaths,
-                    Assists = lhs.Assists,
                 })
                 .GroupBy(_ => new { _.Region, _.Attribute, })
                 .Select(_ => new
@@ -886,8 +869,6 @@ namespace HGV.Nullifier
                     Matches = _.Sum(x => x.Matches),
                     Wins = _.Sum(x => x.Wins),
                     WinRate = (float)_.Sum(x => x.Wins) / (float)_.Sum(x => x.Matches),
-                    Kills = _.Sum(x => x.Kills),
-                    KDA = ((_.Sum(x => x.Kills) + (_.Sum(x => x.Assists) / 3.0f)) - _.Sum(x => x.Deaths)) / (float)_.Sum(x => x.Matches)
                 })
                 .OrderBy(_ => _.Region)
                 .ThenBy(_ => _.Attribute)
