@@ -51,18 +51,19 @@ namespace HGV.Nullifier
             handler.Initialize();
 
             // Page - Draft Pool
-            //handler.ExportDraftPool();
+            handler.ExportDraftPool();
 
             // Page - Schedule
-            // handler.ExportSchedule();
+            handler.ExportSchedule();
 
             // Page - Heroes
-            //handler.ExportHeroesSearch();
-            //handler.ExportHeroesChart();
+            handler.ExportSummaryHeroes();
+            handler.ExportHeroesSearch();
+            handler.ExportHeroesChart();
             handler.ExportHeroesTypes();
 
             // Page - Abilities
-            //handler.ExportSummaryAbilities();
+            handler.ExportSummaryAbilities();
             handler.ExportSummaryCombos();
             handler.ExportAbilitiesGroups();
 
@@ -99,6 +100,132 @@ namespace HGV.Nullifier
             return primary == "DOTA_ATTRIBUTE_STRENGTH" ? 1 : primary == "DOTA_ATTRIBUTE_AGILITY" ? 2 : primary == "DOTA_ATTRIBUTE_INTELLECT" ? 3 : 0;
         }
 
+        public void ExportSummaryHeroes()
+        {
+            var heroes = this.metaClient.GetADHeroes();
+
+            var query = this.context.Players
+                .Join(this.context.Matches.Where(_ => _.valid == true), _ => _.match_ref, _ => _.id, (lhs, rhs) => new { player = lhs, match = rhs })
+                .Select(_ => new
+                {
+                    _.player.hero_id,
+                    _.player.kills,
+                    _.player.assists,
+                    _.player.deaths,
+                    wins = _.player.victory,
+                })
+                .ToList();
+
+            var groups = query.GroupBy(_ => _.hero_id).ToList();
+
+            // 1. Top Abilities by wins
+            var byWins = groups
+                .Select(_ => new
+                {
+                    id = _.Key,
+                    wins = _.Sum(x => x.wins)
+                })
+                .OrderByDescending(_ => _.wins)
+                .Take(3)
+                .Join(heroes, _ => _.id, _ => _.Id, (lhs, rhs) => new
+                {
+                    id = rhs.Id,
+                    name = rhs.Name,
+                    image = rhs.ImageBanner,
+                    icon = rhs.ImageIcon,
+                    lhs.wins
+                })
+                .ToList();
+
+            // 2. Top Abilities by kills
+            var byKills = groups
+                .Select(_ => new
+                {
+                    id = _.Key,
+                    kills = _.Sum(x => x.kills)
+                })
+                .OrderByDescending(_ => _.kills)
+                .Take(3)
+                .Join(heroes, _ => _.id, _ => _.Id, (lhs, rhs) => new
+                {
+                    id = rhs.Id,
+                    name = rhs.Name,
+                    image = rhs.ImageBanner,
+                    icon = rhs.ImageIcon,
+                    lhs.kills
+                })
+                .ToList();
+
+            // 3. Top Abilities by kda
+            var byKDA = groups
+               .Select(_ => new
+               {
+                   id = _.Key,
+                   kda = ((_.Sum(x => x.kills) + (_.Sum(x => x.assists) / 3.0f)) - _.Sum(x => x.deaths)) / _.Count(),
+               })
+               .OrderByDescending(_ => _.kda)
+               .Take(3)
+                .Join(heroes, _ => _.id, _ => _.Id, (lhs, rhs) => new
+                {
+                    id = rhs.Id,
+                    name = rhs.Name,
+                    image = rhs.ImageBanner,
+                    icon = rhs.ImageIcon,
+                    lhs.kda
+                })
+               .ToList();
+
+            // 4. Top Abilities by winrate
+            var byWinRate = groups
+                .Select(_ => new
+                {
+                    id = _.Key,
+                    winrate = (float)_.Sum(x => x.wins) / (float)_.Count()
+                })
+                .OrderByDescending(_ => _.winrate)
+                .Take(3)
+                .Join(heroes, _ => _.id, _ => _.Id, (lhs, rhs) => new
+                {
+                    id = rhs.Id,
+                    name = rhs.Name,
+                    image = rhs.ImageBanner,
+                    icon = rhs.ImageIcon,
+                    lhs.winrate
+                })
+                .ToList();
+
+            // 5. Top Abilities by picks
+            var byPicks = groups
+                .Select(_ => new
+                {
+                    id = _.Key,
+                    picks = _.Count()
+                })
+                .OrderByDescending(_ => _.picks)
+                .Take(3)
+                .Join(heroes, _ => _.id, _ => _.Id, (lhs, rhs) => new
+                {
+                    id = rhs.Id,
+                    name = rhs.Name,
+                    image = rhs.ImageBanner,
+                    icon = rhs.ImageIcon,
+                    lhs.picks
+                })
+                .ToList();
+
+            var data = new
+            {
+                wins = byWins,
+                picks = byPicks,
+                kills = byKills,
+                kda = byKDA,
+                winrate = byWinRate,
+                // rank = byRank,
+            };
+
+            this.WriteResultsToFile("summary-heroes.json", data);
+        }
+
         public void ExportSummaryAbilities()
         {
             var skills = this.metaClient.GetSkills();
@@ -110,27 +237,11 @@ namespace HGV.Nullifier
                 .Select(_ => new
                 {
                      _.skill.ability_id,
-                    from_same_source = _.skill.is_hero_same,
-                    _.skill.is_skill,
-                    _.skill.is_ulimate,
-                    ability_level = _.skill.level,
                     _.player.hero_id,
-                    hero_level = _.player.level,
-                    _.player.draft_order,
-                    _.player.level,
-                    _.player.team,
                     _.player.kills,
                     _.player.assists,
                     _.player.deaths,
-                    damage = _.player.hero_damage + _.player.tower_damage,
-                    healing = _.player.hero_healing,
-                    kda = (_.player.kills + (_.player.assists / 3.0f)) - _.player.deaths,
                     wins = _.player.victory,
-                    _.match.region,
-                    _.match.date,
-                    _.match.day_of_week,
-                    _.match.hour_of_day,
-                    _.match.duration,
                 })
                 .ToList();
 
@@ -1570,7 +1681,7 @@ namespace HGV.Nullifier
                 .GroupBy(_ => _.Region)
                 .Select(_ => new
                 {
-                    region = _.Key,
+                    region = this.metaClient.GetRegionName(_.Key),
                     players = _.OrderByDescending(x => x.WinRate).ThenByDescending(x => x.Matches).Take(3).ToList(),
                 })
                 .OrderBy(_ => _.region)

@@ -225,6 +225,8 @@ namespace HGV.Nullifier
                         context.Matches.Add(match_summary);
                         await context.SaveChangesAsync();
 
+                        var players_leave = 0;
+
                         foreach (var player in match.players)
                         {
                             var team = player.player_slot < 6 ? 0 : 1;
@@ -232,6 +234,13 @@ namespace HGV.Nullifier
                             var victory = team == 0 ? match.radiant_win : !match.radiant_win;
                             var hero_id = player.hero_id;
 
+                            if(player.leaver_status > 1)
+                                players_leave++;
+
+                            if (players_leave > 1)
+                                match_summary.valid = false;
+
+                            /*
                             if (player.leaver_status > 1)
                             {
                                 // https://wiki.teamfortress.com/wiki/WebAPI/GetMatchDetails
@@ -239,6 +248,7 @@ namespace HGV.Nullifier
                                 // this.logger.Warning($"  Warning: match {match.match_id} ({duration:0.00}) is invalid as player {order} has a leaver status of {player.leaver_status} ({status}) ");
                                 match_summary.valid = false;
                             }
+                            */
 
                             var heroes_abilities = new List<int>();
                             heroes.TryGetValue(hero_id, out heroes_abilities);
