@@ -51,31 +51,31 @@ namespace HGV.Nullifier
             handler.Initialize();
 
             // Page - Draft Pool
-            handler.ExportDraftPool();
+            //handler.ExportDraftPool();
 
             // Page - Schedule
-            handler.ExportSchedule();
+            //handler.ExportSchedule();
 
             // Page - Heroes
-            handler.ExportSummaryHeroes();
-            handler.ExportHeroesSearch();
-            handler.ExportHeroesChart();
-            handler.ExportHeroesTypes();
+            //handler.ExportSummaryHeroes();
+            //handler.ExportHeroesSearch();
+            //handler.ExportHeroesChart();
+            //handler.ExportHeroesTypes();
 
             // Page - Abilities
-            handler.ExportSummaryAbilities();
-            handler.ExportSummaryCombos();
-            handler.ExportAbilitiesGroups();
+            //handler.ExportSummaryAbilities();
+            //handler.ExportSummaryCombos();
+            //handler.ExportAbilitiesGroups();
 
 
             // Page - Hero
             handler.ExportHeroDetails();
 
             // Page - Ability
-            handler.ExportAbilityDetails();
+            //handler.ExportAbilityDetails();
 
             // Page - Leaderboard
-            handler.ExportAccounts();
+            // handler.ExportAccounts();
 
             var delta = DateTime.Now - then;
             l.Info(String.Format("Time: {0}", delta.TotalMinutes));
@@ -1097,7 +1097,7 @@ namespace HGV.Nullifier
                     WinRate = (float)lhs.Sum(x => x.victory) / (float)lhs.Count(),
                     Picks = lhs.Count(),
                 })
-                    .ToList();
+                .ToList();
 
                 // Talents
                 var talentContains = item.Talents.Select(x => x.Id).ToList();
@@ -1149,6 +1149,19 @@ namespace HGV.Nullifier
                         KDA = ((_.Sum(x => x.Kills) + (_.Sum(x => x.Assists) / 3.0f)) - _.Sum(x => x.Deaths)) / _.Count(),
                         Matches = _.Count(),
                     })
+                    .ToList()
+                    .Join(abilitiesMeta, _ => _.AbilityId, _ => _.Id, (lhs, rhs) => new
+                    {
+                        rhs.Id,
+                        rhs.Name,
+                        rhs.Image,
+                        lhs.Wins,
+                        lhs.WinRate,
+                        lhs.Kills,
+                        lhs.KDA,
+                        Picks = lhs.Matches
+                    })
+                    .OrderByDescending(_ => _.KDA)
                     .ToList();
 
                 // Ulimate Combos
@@ -1173,6 +1186,19 @@ namespace HGV.Nullifier
                         KDA = ((_.Sum(x => x.Kills) + (_.Sum(x => x.Assists) / 3.0f)) - _.Sum(x => x.Deaths)) / _.Count(),
                         Matches = _.Count(),
                     })
+                    .ToList()
+                    .Join(abilitiesMeta, _ => _.AbilityId, _ => _.Id, (lhs, rhs) => new
+                    {
+                        rhs.Id,
+                        rhs.Name,
+                        rhs.Image,
+                        lhs.Wins,
+                        lhs.WinRate,
+                        lhs.Kills,
+                        lhs.KDA,
+                        Picks = lhs.Matches
+                    })
+                    .OrderByDescending(_ => _.KDA)
                     .ToList();
 
                 // Ability Groups
@@ -1247,10 +1273,16 @@ namespace HGV.Nullifier
                         Wins = byWins,
                         Kills = byKills,
                         Kda = byKda,
-                        Winrate = byWinRate,
+                        WinRate = byWinRate,
                         Picks = byPicks,
                     },
-                    Details = item,
+                    Details = new
+                    {
+                        Id = item.Id,
+                        Name = item.Name,
+                        Image = item.ImageBanner,
+                        Icon = item.ImageIcon,
+                    },
                     Attributes = new
                     {
                         AttributeBaseStrength = GetHeroAttribute(heroes, item, _ => _.AttributeBaseStrength),
@@ -1655,7 +1687,7 @@ namespace HGV.Nullifier
             }
 
             var accounts = collection
-               .Join(profiles, _ => _.ProfileId, _ => _.steamid, (lhs, rhs) => new
+               .Join(profiles, _ => _.ProfileId, _ => _.steamid, (lhs, rhs) => new Player
                {
                    AccountId = lhs.AccountId,
                    ProfileId = lhs.ProfileId,
@@ -1669,31 +1701,60 @@ namespace HGV.Nullifier
                })
                .ToList();
 
-            var dataPlayers = new
+            var accountsByRegions = accounts.GroupBy(_ => _.Region).ToList();
+            foreach (var group in accountsByRegions)
             {
-                averageMatches = averageMatches,
-                players = accounts,
-            };
+                var rank = 1;
+                var items = group.OrderByDescending(_ => _.WinRate).ThenByDescending(_ => _.Matches).ToList();
+                foreach (var item in items)
+                {
+                    item.Rank = rank++;
+                }
+            }
 
-            this.WriteResultsToFile("leaderboard-collection.json", dataPlayers);
+            this.WriteResultsToFile("leaderboard-collection.json", accounts);
+
+            var creators = accounts.Where(_ => _.AccountId == 13029812).ToList();
 
             var regions = accounts
                 .GroupBy(_ => _.Region)
                 .Select(_ => new
                 {
+                    key = _.Key,
                     region = this.metaClient.GetRegionName(_.Key),
                     players = _.OrderByDescending(x => x.WinRate).ThenByDescending(x => x.Matches).Take(3).ToList(),
                 })
                 .OrderBy(_ => _.region)
-                .ToDictionary(_ => _.region, _ => _.players);
+                .ToList();
 
             var dataRegions = new
             {
                 averageMatches = averageMatches,
+                creators = creators,
                 regions = regions,
             };
 
             this.WriteResultsToFile("leaderboard-regions.json", dataRegions);
         }
+    }
+
+    public class HeroAttribute
+    {
+        public double Rank { get; set; }
+        public double Value { get; set; }
+    }
+
+    public class Player
+    {
+        public int Rank { get; set; }
+        public long AccountId { get; set; }
+        public long ProfileId { get; set; }
+        public string ProfileUrl { get; set; }
+        public string Avatar { get; set; }
+        public string Name { get; set; }
+        public double Wins { get; set; }
+        public double Matches { get; set; }
+        public double WinRate { get; set; }
+        public int Region { get; set; }
     }
 }

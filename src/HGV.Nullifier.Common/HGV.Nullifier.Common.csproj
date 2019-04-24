@@ -64,7 +64,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Export\HeroAttribute.cs" />
     <Compile Include="Export\StatExportHandler.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Logger\DefaultLogger.cs" />
