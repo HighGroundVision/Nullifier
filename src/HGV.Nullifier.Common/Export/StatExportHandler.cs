@@ -63,13 +63,13 @@ namespace HGV.Nullifier
             //handler.ExportHeroesTypes();
 
             // Page - Abilities
+            handler.ExportAbilitiesSearch();
             //handler.ExportSummaryAbilities();
             //handler.ExportSummaryCombos();
             //handler.ExportAbilitiesGroups();
 
-
             // Page - Hero
-            handler.ExportHeroDetails();
+            // handler.ExportHeroDetails();
 
             // Page - Ability
             //handler.ExportAbilityDetails();
@@ -1358,9 +1358,6 @@ namespace HGV.Nullifier
                 .Join(abilities, _ => _.AbilityId, _ => _.Id, (lhs, rhs) => new
                 {
                     Region = lhs.Region,
-                    Id = lhs.AbilityId,
-                    Name = rhs.Name,
-                    Image = rhs.Image,
                     Matches = lhs.Matches,
                     Wins = lhs.Wins,
                     Kills = lhs.Kills,
@@ -1373,9 +1370,6 @@ namespace HGV.Nullifier
                     return _.Keywords.Select(k => new
                     {
                         _.Region,
-                        _.Id,
-                        _.Name,
-                        _.Image,
                         _.Matches,
                         _.Wins,
                         _.Kills,
@@ -1403,17 +1397,16 @@ namespace HGV.Nullifier
                 .ToList();
 
 
-            this.WriteResultsToFile("abilities-group.json", collection);
+            this.WriteResultsToFile("abilities-group.json", groups);
         }
 
         private void ExportAbilitiesSearch()
         {
             var heroes = this.metaClient.GetADHeroes();
-            var abilities = this.metaClient.GetAbilities();
-            var ultimates = this.metaClient.GetUltimates();
+            var abilities = this.metaClient.GetSkills();
 
             var collection = abilities
-                .Union(ultimates)
+                .Where(_ => _.AbilityDraftEnabled == true)
                 .Join(heroes, _ => _.HeroId, _ => _.Id, (a, h) => new
                 {
                     Id = a.Id,
@@ -1421,6 +1414,7 @@ namespace HGV.Nullifier
                     Image = a.Image,
                     HeroId = h.Id,
                     HeroName = h.Name,
+                    Keywords = a.Keywords ?? new List<string>(),
                 })
                 .ToList();
 
