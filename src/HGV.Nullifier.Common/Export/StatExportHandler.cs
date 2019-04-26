@@ -63,9 +63,9 @@ namespace HGV.Nullifier
             //handler.ExportHeroesTypes();
 
             // Page - Abilities
-            handler.ExportAbilitiesSearch();
+            // handler.ExportAbilitiesSearch();
             //handler.ExportSummaryAbilities();
-            //handler.ExportSummaryCombos();
+            handler.ExportSummaryCombos();
             //handler.ExportAbilitiesGroups();
 
             // Page - Hero
@@ -427,7 +427,7 @@ namespace HGV.Nullifier
 
             var abilitiesByWins = queryAbilities
                 .OrderByDescending(_ => _.wins)
-                .Take(3)
+                .Take(10)
                 .Join(skills, _ => _.lhs, _ => _.Id, (lhs, rhs) => new
                 {
                     ability1 = rhs,
@@ -458,7 +458,7 @@ namespace HGV.Nullifier
 
             var abilitiesBykills = queryAbilities
                .OrderByDescending(_ => _.kills)
-               .Take(3)
+               .Take(10)
                .Join(skills, _ => _.lhs, _ => _.Id, (lhs, rhs) => new
                {
                    ability1 = rhs,
@@ -485,7 +485,7 @@ namespace HGV.Nullifier
 
             var abilitiesByPicks = queryAbilities
                .OrderByDescending(_ => _.picks)
-               .Take(3)
+               .Take(10)
                .Join(skills, _ => _.lhs, _ => _.Id, (lhs, rhs) => new
                {
                    ability1 = rhs,
@@ -514,7 +514,7 @@ namespace HGV.Nullifier
 
             var abilitiesByKda = queryAbilities
                 .OrderByDescending(_ => _.kda)
-                .Take(3)
+                .Take(10)
                 .Join(skills, _ => _.lhs, _ => _.Id, (lhs, rhs) => new
                 {
                     ability1 = rhs,
@@ -544,7 +544,7 @@ namespace HGV.Nullifier
             var abilityByWinrate = queryAbilities
                 .Where(_ => _.winrate < 1)
                 .OrderByDescending(_ => _.winrate)
-                .Take(3)
+                .Take(10)
                 .Join(skills, _ => _.lhs, _ => _.Id, (lhs, rhs) => new
                 {
                     ability1 = rhs,
@@ -612,7 +612,7 @@ namespace HGV.Nullifier
 
             var ulimatesByWins = queryUlimates
                .OrderByDescending(_ => _.wins)
-               .Take(3)
+               .Take(10)
                .Join(skills, _ => _.lhs, _ => _.Id, (lhs, rhs) => new
                {
                    ability1 = rhs,
@@ -626,25 +626,33 @@ namespace HGV.Nullifier
                        id = lhs.ability1.Id,
                        name = lhs.ability1.Name,
                        image = lhs.ability1.Image,
+                       is_ulimate = lhs.ability1.IsUltimate,
                    },
                    ability2 = new
                    {
                        id = rhs.Id,
                        name = rhs.Name,
-                       image = rhs.Image
+                       image = rhs.Image,
+                       is_ulimate = rhs.IsUltimate,
                    },
                    lhs.wins,
+               })
+               .Select(_ => new
+               {
+                   ability = (_.ability1.is_ulimate == false) ? _.ability1 : _.ability2,
+                   ultimate = (_.ability1.is_ulimate == true) ? _.ability1 : _.ability2,
+                   _.wins,
                })
                .ToList();
 
             var ulimateBykills = queryUlimates
                .OrderByDescending(_ => _.kills)
-               .Take(3)
+               .Take(10)
                .Join(skills, _ => _.lhs, _ => _.Id, (lhs, rhs) => new
                {
                    ability1 = rhs,
                    identity2 = lhs.rhs,
-                   kils = lhs.kills,
+                   kills = lhs.kills,
                })
                .Join(skills, _ => _.identity2, _ => _.Id, (lhs, rhs) => new
                {
@@ -653,20 +661,28 @@ namespace HGV.Nullifier
                        id = lhs.ability1.Id,
                        name = lhs.ability1.Name,
                        image = lhs.ability1.Image,
+                       is_ulimate = lhs.ability1.IsUltimate,
                    },
                    ability2 = new
                    {
                        id = rhs.Id,
                        name = rhs.Name,
-                       image = rhs.Image
+                       image = rhs.Image,
+                       is_ulimate = lhs.ability1.IsUltimate,
                    },
-                   lhs.kils
+                   lhs.kills
+               })
+               .Select(_ => new
+               {
+                   ability = (_.ability1.is_ulimate == false) ? _.ability1 : _.ability2,
+                   ultimate = (_.ability1.is_ulimate == true) ? _.ability1 : _.ability2,
+                   _.kills,
                })
                .ToList();
 
             var ulimateByPicks = queryUlimates
                .OrderByDescending(_ => _.picks)
-               .Take(3)
+               .Take(10)
                .Join(skills, _ => _.lhs, _ => _.Id, (lhs, rhs) => new
                {
                    ability1 = rhs,
@@ -680,20 +696,28 @@ namespace HGV.Nullifier
                        id = lhs.ability1.Id,
                        name = lhs.ability1.Name,
                        image = lhs.ability1.Image,
+                       is_ulimate = lhs.ability1.IsUltimate,
                    },
                    ability2 = new
                    {
                        id = rhs.Id,
                        name = rhs.Name,
-                       image = rhs.Image
+                       image = rhs.Image,
+                       is_ulimate = lhs.ability1.IsUltimate,
                    },
                    lhs.picks
+               })
+               .Select(_ => new
+               {
+                   ability = (_.ability1.is_ulimate == false) ? _.ability1 : _.ability2,
+                   ultimate = (_.ability1.is_ulimate == true) ? _.ability1 : _.ability2,
+                   _.picks,
                })
                .ToList();
 
             var ulimatesByKda = queryUlimates
                 .OrderByDescending(_ => _.kda)
-                .Take(3)
+                .Take(10)
                 .Join(skills, _ => _.lhs, _ => _.Id, (lhs, rhs) => new
                 {
                     ability1 = rhs,
@@ -707,21 +731,29 @@ namespace HGV.Nullifier
                         id = lhs.ability1.Id,
                         name = lhs.ability1.Name,
                         image = lhs.ability1.Image,
+                        is_ulimate = lhs.ability1.IsUltimate,
                     },
                     ability2 = new
                     {
                         id = rhs.Id,
                         name = rhs.Name,
-                        image = rhs.Image
+                        image = rhs.Image,
+                        is_ulimate = lhs.ability1.IsUltimate,
                     },
                     lhs.kda,
+                })
+                .Select(_ => new
+                {
+                    ability = (_.ability1.is_ulimate == false) ? _.ability1 : _.ability2,
+                    ultimate = (_.ability1.is_ulimate == true) ? _.ability1 : _.ability2,
+                    _.kda,
                 })
                 .ToList();
 
             var ulimatesByWinrate = queryUlimates
                 .Where(_ => _.winrate < 1)
                 .OrderByDescending(_ => _.winrate)
-                .Take(3)
+                .Take(10)
                 .Join(skills, _ => _.lhs, _ => _.Id, (lhs, rhs) => new
                 {
                     ability1 = rhs,
@@ -735,14 +767,22 @@ namespace HGV.Nullifier
                         id = lhs.ability1.Id,
                         name = lhs.ability1.Name,
                         image = lhs.ability1.Image,
+                        is_ulimate = lhs.ability1.IsUltimate,
                     },
                     ability2 = new
                     {
                         id = rhs.Id,
                         name = rhs.Name,
-                        image = rhs.Image
+                        image = rhs.Image,
+                        is_ulimate = lhs.ability1.IsUltimate,
                     },
                     winrate = lhs.winrate,
+                })
+                .Select(_ => new
+                {
+                    ability = (_.ability1.is_ulimate == false) ? _.ability1 : _.ability2,
+                    ultimate = (_.ability1.is_ulimate == true) ? _.ability1 : _.ability2,
+                    _.winrate,
                 })
                 .ToList();
 
@@ -756,7 +796,7 @@ namespace HGV.Nullifier
                     kda = abilitiesByKda,
                     winrate = abilityByWinrate
                 },
-                ulimates = new
+                ultimates = new
                 {
                     wins = ulimatesByWins,
                     picks = ulimateByPicks,
