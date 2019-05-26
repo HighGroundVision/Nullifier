@@ -1,97 +1,172 @@
-﻿using HGV.Daedalus;
-using HGV.Daedalus.GetMatchDetails;
-using System;
-using System.Collections.Generic;
-using System.Collections.Concurrent;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using HGV.Basilius;
+using HGV.Daedalus;
 using HGV.Nullifier.Data;
-using HGV.Basilius;
-using System.Threading;
-using System.Diagnostics;
-using HGV.Nullifier.Data.Models;
 using HGV.Nullifier.Logger;
+using Humanizer;
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace HGV.Nullifier
 {
     public class StatCollectionHandler
     {
         private ILogger logger;
-        private readonly ConcurrentQueue<Match> qProcessing;
-        private readonly string api_key;
-        private long match_number;
 
-        public static void Run(string apiKey, CancellationToken t, ILogger l)
+        private readonly ConcurrentQueue<Daedalus.GetMatchDetails.Match> qProcessing;
+
+        private long past_target = 0;
+        private DotaApiClient apiClient = null;
+
+        public static void Run(ILogger l, string apiKey, long pastTarget, CancellationToken t)
         {
-            var handler = new StatCollectionHandler(apiKey, l);
-            handler.Initialize();
+            var handler = new StatCollectionHandler(l, apiKey, pastTarget);
+            handler.Init().Wait();
 
-            var tasks = new Task[2] { handler.Collecting(), handler.Processing() };
-            var result = Task.WaitAny(tasks, t);
-            switch (result)
-            {
-                case 0:
-                    throw new Exception("Collecting Failed");
-                case 1:
-                    throw new Exception("Processing Failed");
-                default:
-                    break;
-            }
+            var tasksMain = new List<Task>() { handler.CollectingFuture(), handler.CollectingPast(), handler.Processing() };
+            Task.WaitAll(tasksMain.ToArray(), t);
         }
 
-        private StatCollectionHandler(string apiKey, ILogger l)
+        private StatCollectionHandler(ILogger l, string apiKey, long pastTarget)
         {
             this.logger = l;
-            this.qProcessing = new ConcurrentQueue<Match>();
-            this.api_key = apiKey; 
+            this.qProcessing = new ConcurrentQueue<Daedalus.GetMatchDetails.Match>();
+            this.apiClient = new DotaApiClient(apiKey);
+            this.past_target = pastTarget;
         }
 
-        public void Initialize()
+        private async Task Init()
         {
             var context = new DataContext();
-            var client = new DotaApiClient(this.api_key);
+            if (context.Matches.Count() > 0)
+                return;
 
+            var matches = await apiClient.GetLastestMatches();
+            var lastest = matches.OrderByDescending(_ => _.match_seq_num).FirstOrDefault();
 
-            var count = context.Matches.Count();
-            if(count > 0)
-            {
-                this.match_number = context.Matches.Max(_ => _.match_number) + 1;
-            }
-            else
-            {       
-                var latest = client.GetLastestMatches().Result;
-                this.match_number = latest.Max(_ => _.match_seq_num);
-            }
+            var date = DateTimeOffset.FromUnixTimeSeconds(lastest.start_time).UtcDateTime;
+            var match = new Data.Models.Match() { match_id = lastest.match_id, match_number = lastest.match_seq_num, date = date, valid = false };
+            context.Matches.Add(match);
+            await context.SaveChangesAsync();
         }
 
-        private async Task Collecting()
+        private async Task CollectingPast()
         {
-            if (this.match_number == 0)
-                throw new ApplicationException("match_number cannot be zero");
+            if (past_target == 0)
+                return;
 
-            var client = new DotaApiClient(this.api_key);
+            var context = new DataContext();
+
+            var refMatch = context.Matches.Where(_ => _.id == 1).First();
+            var refDate = refMatch.date.ToLocalTime();
+
+            var loc_match_seq_num = past_target;
+            var minMax = context.Matches.Where(_ => _.match_number < refMatch.match_number).ToList();
+            if(minMax.Count > 0)
+            {
+                loc_match_seq_num = minMax.Max(_ => _.match_number);
+            }
+
+            TimeSpan delta = TimeSpan.MinValue;
+            var count = 0;
+            var error = 0;
+            var countTimer = new System.Timers.Timer(60 * 1000); // 60 *
+            countTimer.Elapsed += (Object source, System.Timers.ElapsedEventArgs e) => {
+                this.logger.Info(String.Format("[P] M/m: {0}, E/m: {1}, dT: {2}", count, error, delta.Humanize(4)), 2);
+                count = 0;
+                error = 0;
+            };
+            countTimer.AutoReset = true;
+            countTimer.Enabled = true;
+
             while (true)
             {
                 try
                 {
-                    this.match_number++;
-                    var matches = await client.GetMatchesInSequence(this.match_number);
-                    foreach (var match in matches)
-                    {
-                        // Retarget match number
-                        if (match.match_seq_num > this.match_number)
-                            this.match_number = match.match_seq_num;
+                    loc_match_seq_num++;
 
-                        // Send AD match on to processs
-                        if (match.game_mode == 18)
-                            this.qProcessing.Enqueue(match);
+                    var matches = await this.apiClient.GetMatchesInSequence(loc_match_seq_num);
+                    if (matches.Count == 0)
+                        continue;
+
+                    count += matches.Count();
+
+                    var match = matches.OrderByDescending(_ => _.match_seq_num).First();
+                    var date = DateTimeOffset.FromUnixTimeSeconds(match.start_time).LocalDateTime;
+                    var duration = DateTimeOffset.FromUnixTimeSeconds(match.duration).TimeOfDay.TotalMinutes;
+                    delta = refDate - date.AddMinutes(duration);
+                    loc_match_seq_num = match.match_seq_num;
+
+                    var collection = matches.Where(_ => _.game_mode == 18).ToList();
+                    foreach (var item in collection)
+                    {
+                        this.qProcessing.Enqueue(item);
                     }
 
-                    await Task.Delay(TimeSpan.FromSeconds(3));
+                    await Task.Delay(TimeSpan.FromSeconds(5));
                 }
                 catch (Exception)
                 {
-                    await Task.Delay(TimeSpan.FromSeconds(60));
+                    await Task.Delay(TimeSpan.FromSeconds(30));
+                    error++;
+                }
+
+            }
+        }
+
+        private async Task CollectingFuture()
+        {
+            long loc_match_seq_num = 0;
+
+            var context = new DataContext();
+            loc_match_seq_num = context.Matches.Max(_ => _.match_number);
+
+            TimeSpan delta = TimeSpan.MinValue;
+            var count = 0;
+            var error = 0;
+            
+            var countTimer = new System.Timers.Timer( 60 * 1000); // 60 *
+            countTimer.Elapsed += (Object source, System.Timers.ElapsedEventArgs e) => {
+                this.logger.Info(String.Format("[F] M/m: {0}, E/m: {1}, dT: {2}", count, error, delta.Humanize(2)), 1);
+                count = 0;
+                error = 0;
+            };
+            countTimer.AutoReset = true;
+            countTimer.Enabled = true;
+
+            while (true)
+            {
+                try
+                {
+                    loc_match_seq_num++;
+
+                    var matches = await this.apiClient.GetMatchesInSequence(loc_match_seq_num);
+                    if (matches.Count == 0)
+                        continue;
+
+                    count += matches.Count();
+
+                    var match = matches.OrderByDescending(_ => _.match_seq_num).First();
+                    var date = DateTimeOffset.FromUnixTimeSeconds(match.start_time).LocalDateTime;
+                    var duration = DateTimeOffset.FromUnixTimeSeconds(match.duration).TimeOfDay.TotalMinutes;
+                    delta = DateTime.Now - date.AddMinutes(duration);
+                    loc_match_seq_num = match.match_seq_num;
+
+                    var collection = matches.Where(_ => _.game_mode == 18).ToList();
+                    foreach (var item in collection)
+                    {
+                        this.qProcessing.Enqueue(item);
+                    }
+
+                    await Task.Delay(TimeSpan.FromSeconds(1));
+                }
+                catch (Exception)
+                {
+                    await Task.Delay(TimeSpan.FromSeconds(30));
+                    error++;
                 }
 
             }
@@ -100,132 +175,156 @@ namespace HGV.Nullifier
         public async Task Processing()
         {
             var client = new MetaClient();
-            var heroes = client.GetHeroes().Select(_ => new { Key = _.Id, Abilities = _.Abilities.Select(__ => -__.Id).ToList() }).ToDictionary(_ => _.Key, _ => _.Abilities);
+            var heroesTest = client.GetHeroes();
+            var heroes = client.GetHeroes().Select(_ => new { Key = _.Id, Abilities = _.Abilities.Select(__ => __.Id).ToList() }).ToDictionary(_ => _.Key, _ => _.Abilities);
             var abilities = client.GetAbilities().Select(_ => _.Id).ToList();
             var ultimates = client.GetUltimates().Select(_ => _.Id).ToList();
             var talents = client.GetTalents().Select(_ => _.Id).ToList();
 
             while (true)
             {
-                try
+                var context = new DataContext();
+                using (var transation = context.Database.BeginTransaction())
                 {
-                    var then = DateTime.Now;
-
-                    Match match;
-                    if (!this.qProcessing.TryDequeue(out match))
-                        continue;
-
-                    var context = new DataContext();
-
-                    var count = context.Matches.Where(_ => _.match_number == match.match_seq_num).Count();
-                    if (count > 0)
-                        continue;
-
-                    var valid = 1;
-                    var date = DateTimeOffset.FromUnixTimeSeconds(match.start_time).UtcDateTime;
-                    var duration = DateTimeOffset.FromUnixTimeSeconds(match.duration).TimeOfDay.TotalMinutes;
-                    var day_of_week = (int)date.DayOfWeek;
-
-                    var time_limit = 10;
-                    if (duration < time_limit)
+                    try
                     {
-                        valid = 0;
-                        this.logger.Warning($"Match {match.match_id} is invalid as it is less then {time_limit} mins.");
+                        Daedalus.GetMatchDetails.Match match;
+                        if (!this.qProcessing.TryDequeue(out match))
+                            continue;
+
+                        var count = context.Matches.Where(_ => _.match_number == match.match_seq_num).Count();
+                        if (count > 0)
+                            continue;
+
+                        var date = DateTimeOffset.FromUnixTimeSeconds(match.start_time).UtcDateTime;
+                        var duration = DateTimeOffset.FromUnixTimeSeconds(match.duration).TimeOfDay.TotalMinutes;
+
+                        var match_summary = new Data.Models.Match()
+                        {
+                            match_id = match.match_id,
+                            match_number = match.match_seq_num,
+                            league_id = match.leagueid,
+                            duration = duration,
+                            day_of_week = (int)date.DayOfWeek,
+                            hour_of_day = date.Hour,
+                            date = date,
+                            cluster = match.cluster,
+                            region = client.ConvertClusterToRegion(match.cluster),
+                            victory_radiant = match.radiant_win ? 1 : 0,
+                            victory_dire = match.radiant_win ? 0 : 1,
+                            valid = true,
+                        };
+
+                        var time_limit = 10;
+                        if (duration < time_limit)
+                        {
+                            // this.logger.Warning($"    Error: match {match.match_id} is invalid as its durration of {duration:0.00} is lower then the time limit of {time_limit}");
+                            match_summary.valid = false;
+                        }
+
+                        context.Matches.Add(match_summary);
+                        await context.SaveChangesAsync();
+
+                        var players_leave = 0;
+
+                        foreach (var player in match.players)
+                        {
+                            var team = player.player_slot < 6 ? 0 : 1;
+                            var order = this.ConvertPlayerSlotToDraftOrder(player.player_slot);
+                            var victory = team == 0 ? match.radiant_win : !match.radiant_win;
+                            var hero_id = player.hero_id;
+
+                            if(player.leaver_status > 1)
+                                players_leave++;
+
+                            if (players_leave > 1)
+                                match_summary.valid = false;
+
+                            /*
+                            if (player.leaver_status > 1)
+                            {
+                                // https://wiki.teamfortress.com/wiki/WebAPI/GetMatchDetails
+                                var status = player.leaver_status == 2 ? "DISCONNECTED" : player.leaver_status == 3 ? "ABANDONED" : player.leaver_status == 4 ? "AFK" : "Unknown";
+                                // this.logger.Warning($"  Warning: match {match.match_id} ({duration:0.00}) is invalid as player {order} has a leaver status of {player.leaver_status} ({status}) ");
+                                match_summary.valid = false;
+                            }
+                            */
+
+                            var heroes_abilities = new List<int>();
+                            heroes.TryGetValue(hero_id, out heroes_abilities);
+
+                            var match_player = new Data.Models.Player()
+                            {
+                                // Match
+                                match_ref = match_summary.id,
+                                victory = victory ? 1 : 0,
+                                // Player
+                                team = team,
+                                draft_order = order,
+                                player_slot = player.player_slot,
+                                account_id = player.account_id,
+                                persona = player.persona,
+                                // Hero
+                                hero_id = hero_id,
+                                kills = player.kills,
+                                deaths = player.deaths,
+                                assists = player.assists,
+                                last_hits = player.last_hits,
+                                denies = player.denies,
+                                gold = player.gold,
+                                level = player.level,
+                                gold_per_min = player.gold_per_min,
+                                xp_per_min = player.xp_per_min,
+                                gold_spent = player.gold_spent,
+                                hero_damage = player.hero_damage,
+                                tower_damage = player.tower_damage,
+                                hero_healing = player.hero_healing,
+                            };
+                            context.Players.Add(match_player);
+                            await context.SaveChangesAsync();
+
+                            if (player.ability_upgrades == null)
+                            {
+                                throw new Exception($"    Error: match {match.match_id} is invalid as player {order} has no abilities.");
+                            }
+
+                            var query = player.ability_upgrades.Select(_ => _).ToList();
+                            var collection = query.Select(_ => _.ability).Distinct().ToList();
+                            foreach (var ability_id in collection)
+                            {
+                                var id = ConvertAbilityID(ability_id);
+
+                                var match_skill = new Data.Models.Skill()
+                                {
+                                    // Match
+                                    match_ref = match_summary.id,
+                                    // Player
+                                    player_ref = match_player.id,
+                                    // Ability
+                                    ability_id = id,
+                                    is_skill = abilities.Contains(id) ? 1 : 0,
+                                    is_ulimate = ultimates.Contains(id) ? 1 : 0,
+                                    is_taltent = talents.Contains(id) ? 1 : 0,
+                                    is_hero_same = heroes_abilities.Contains(id) ? 1 : 0,
+                                    level = query.Where(_ => _.ability == id || _.ability == ability_id).Max(_ => _.level),
+                                };
+                                context.Skills.Add(match_skill);
+                            }
+
+                            await context.SaveChangesAsync();
+                        }
+
+                        var match_delta = DateTime.Now - match_summary.date.ToLocalTime().AddMinutes(match_summary.duration);
+                        // this.logger.Info($"Processed: match {match_summary.match_id} which ended {match_delta.Humanize(3)} mins ago.");
+
+                        transation.Commit();
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        ProcessPlayer(heroes, abilities, ultimates, talents, match, context, ref valid);
+                        transation.Rollback();
+                        // this.logger.Error(ex);
                     }
-
-                    var match_summary = new MatchSummary()
-                    {
-                        id = match.match_id,
-                        match_number = match.match_seq_num,
-                        league_id = match.leagueid,
-                        duration = duration,
-                        day_of_week = day_of_week,
-                        date = date,
-                        victory_radiant = match.radiant_win ? 1 : 0,
-                        victory_dire = match.radiant_win ? 0 : 1,
-                        valid = valid,
-                    };
-                    context.Matches.Add(match_summary);
-
-                    await context.SaveChangesAsync();
-
-                    LogResults(then, match, match_summary);
                 }
-                catch (Exception ex)
-                {
-                    this.logger.Error(ex);
-                }
-            }
-        }
-
-        private void LogResults(DateTime then, Match match, MatchSummary match_summary)
-        {
-            var now = DateTime.Now;
-            var processing_delta = now - then;
-            var match_delta = now - match_summary.date.ToLocalTime().AddMinutes(match_summary.duration);
-            var end_time = Math.Round(match_delta.TotalMinutes, 2);
-            var processing_time = Math.Round(processing_delta.TotalSeconds, 2);
-
-            this.logger.Info($"Match {match.match_id} took {processing_time} secs to process which ended {end_time} mins ago");
-        }
-
-        private void ProcessPlayer(Dictionary<int, List<int>> heroes, List<int> abilities, List<int> ultimates, List<int> talents, Match match, DataContext context, ref int valid)
-        {
-            foreach (var player in match.players)
-            {
-                var team = player.player_slot < 6 ? 0 : 1;
-                var order = this.ConvertPlayerSlotToDraftOrder(player.player_slot);
-                var result = team == 0 ? match.radiant_win : !match.radiant_win;
-                var hero_id = player.hero_id;
-
-                var heroes_abilities = new List<int>();
-                heroes.TryGetValue(hero_id, out heroes_abilities);
-
-                if (player.ability_upgrades == null)
-                {
-                    valid = 0;
-                    this.logger.Warning($"Match {match.match_id} is invalid as player {order} has no abilities, no players and abilities will be logged.");
-                    continue;
-                }
-
-                var collection = player.ability_upgrades.Select(_ => _.ability).Distinct().ToList();
-                foreach (var ability_id in collection)
-                {
-                    var skill_summary = new SkillSummary()
-                    {
-                        ability_id = ability_id,
-
-                        is_skill = abilities.Contains(ability_id) ? 1 : 0,
-                        is_ulimate = ultimates.Contains(ability_id) ? 1 : 0,
-                        is_taltent = talents.Contains(ability_id) ? 1 : 0,
-                        is_self = heroes_abilities.Contains(ability_id) ? 1 : 0,
-
-                        match_result = result == true ? 1 : 0,
-                        team = team,
-                        hero_id = hero_id,
-                        draft_order = order,
-                        account_id = player.account_id,
-                        match_id = match.match_id,
-                        league_id = match.leagueid
-                    };
-                    context.Skills.Add(skill_summary);
-                }
-
-                var player_summary = new PlayerSummary()
-                {
-                    match_result = result == true ? 1 : 0,
-                    team = team,
-                    hero_id = hero_id,
-                    draft_order = order,
-                    account_id = player.account_id,
-                    match_id = match.match_id,
-                    league_id = match.leagueid
-                };
-                context.Players.Add(player_summary);
             }
         }
 
@@ -246,6 +345,22 @@ namespace HGV.Nullifier
                 default:
                     throw new ApplicationException(string.Format("Unknown Slot: {0}", slot));
             }
+        }
+
+        private int ConvertAbilityID(int ability_id)
+        {
+            if (ability_id == 6340) // Bedlem to Terrow
+                return 8340;
+            else if (ability_id == 5034) // Return
+                return 5033;
+            else if (ability_id == 5367) // Unstable Concoction Throw
+                return 5366;
+            else if (ability_id == 5631) // Launch Fire Spirit
+                return 5625;
+            else if (ability_id == 6937) // Tree Throw
+                return 5108;
+            else
+                return ability_id;
         }
     }
 }

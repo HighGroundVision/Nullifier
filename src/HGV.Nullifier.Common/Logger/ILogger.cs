@@ -8,8 +8,8 @@ namespace HGV.Nullifier.Logger
 {
     public interface ILogger
     {
-        void Info(string msg);
-        void Warning(string msg);
-        void Error(Exception ex);
+        void Info(string msg, int id = 0);
+        void Warning(string msg, int id = 0);
+        void Error(Exception ex, int id = 0);
     }
 }

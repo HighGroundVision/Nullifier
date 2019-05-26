@@ -9,12 +9,16 @@ namespace HGV.Nullifier.Tools.Export
     {
         static void Main(string[] args)
         {
-            var apiKey = System.Configuration.ConfigurationManager.AppSettings["DotaApiKey"].ToString();
             var defaultLogger = new DefaultLogger();
-            var cancellationSource = new CancellationTokenSource();
-            Console.CancelKeyPress += (object sender, ConsoleCancelEventArgs e) => { cancellationSource.Cancel(); };
 
-            StatExportHandler.Run(apiKey, cancellationSource.Token, defaultLogger);
+            var settings = System.Configuration.ConfigurationManager.AppSettings;
+            var apiKey = settings["DotaApiKey"].ToString();
+            var outputDirectory = settings["OutputDirectory"].ToString() ?? Environment.CurrentDirectory;
+
+            StatExportHandler.Run(defaultLogger, apiKey, outputDirectory);
+
+            Console.WriteLine("Press any key to continue");
+            Console.Read();
         }
     }
 }

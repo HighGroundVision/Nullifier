@@ -11,43 +11,25 @@ namespace HGV.Nullifer.Service
     public class EventLogger : ILogger
     {
         private EventLog events;
-        private List<string> messages;
 
         public EventLogger(EventLog e)
         {
-            this.messages = new List<string>();
             this.events = e;
         }
 
-        public void Error(Exception ex)
+        public void Error(Exception ex, int id = 0)
         {
-            this.Flush();
-            
-            this.events.WriteEntry(ex.Message, EventLogEntryType.Error);
+            this.events.WriteEntry(ex.Message, EventLogEntryType.Error, id);
         }
 
-        public void Warning(string msg)
+        public void Warning(string msg, int id = 0)
         {
-            this.Flush();
-
-            this.events.WriteEntry(msg, EventLogEntryType.Warning);
+            this.events.WriteEntry(msg, EventLogEntryType.Warning, id);
         }
 
-        public void Info(string msg)
+        public void Info(string msg, int id = 0)
         {
-            this.messages.Add(msg);
-
-            if (this.messages.Count >= 10) { this.Flush(); }
-        }
-     
-        private void Flush()
-        {
-            if(this.messages.Count() > 0)
-            {
-                var entry = string.Join(Environment.NewLine, this.messages.ToArray());
-                this.events.WriteEntry(entry);
-                this.messages.Clear();
-            }
+            this.events.WriteEntry(msg, EventLogEntryType.Information, id);
         }
     }
 }
