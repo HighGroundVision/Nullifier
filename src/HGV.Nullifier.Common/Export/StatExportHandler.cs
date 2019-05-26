@@ -31,7 +31,7 @@ namespace HGV.Nullifier
             this.metaClient = new MetaClient();
             this.apiClient = new DotaApiClient(apiKey);
             this.context = new DataContext();
-            this.context.Database.CommandTimeout = 180;
+            this.context.Database.CommandTimeout = 180 * 2;
 
             this.jsonSettings = new JsonSerializerSettings()
             {
@@ -51,31 +51,31 @@ namespace HGV.Nullifier
             handler.Initialize();
 
             // Page - Draft Pool
-            //handler.ExportDraftPool();
+            handler.ExportDraftPool();
 
             // Page - Schedule
-            //handler.ExportSchedule();
+            handler.ExportSchedule();
 
             // Page - Heroes
-            //handler.ExportSummaryHeroes();
-            //handler.ExportHeroesSearch();
-            //handler.ExportHeroesChart();
-            //handler.ExportHeroesTypes();
+            handler.ExportSummaryHeroes();
+            handler.ExportHeroesSearch();
+            handler.ExportHeroesChart();
+            handler.ExportHeroesTypes();
 
             // Page - Abilities
-            // handler.ExportAbilitiesSearch();
-            //handler.ExportSummaryAbilities();
+            handler.ExportAbilitiesSearch();
+            handler.ExportSummaryAbilities();
             handler.ExportSummaryCombos();
-            //handler.ExportAbilitiesGroups();
+            handler.ExportAbilitiesGroups();
 
             // Page - Hero
-            // handler.ExportHeroDetails();
+            handler.ExportHeroDetails();
 
             // Page - Ability
-            //handler.ExportAbilityDetails();
+            handler.ExportAbilityDetails();
 
             // Page - Leaderboard
-            // handler.ExportAccounts();
+            handler.ExportAccounts();
 
             var delta = DateTime.Now - then;
             l.Info(String.Format("Time: {0}", delta.TotalMinutes));
