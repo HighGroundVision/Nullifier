@@ -52,21 +52,21 @@ namespace HGV.Nullifier
             handler.Initialize();
 
             // Page - Draft Pool
-            handler.ExportDraftPool();
+            //handler.ExportDraftPool();
 
             // Page - Schedule
-            handler.ExportSchedule();
+            //handler.ExportSchedule();
 
             // Page - Heroes
-            handler.ExportSummaryHeroes();
-            handler.ExportHeroesSearch();
-            handler.ExportHeroesChart();
-            handler.ExportHeroesTypes();
+            //handler.ExportSummaryHeroes();
+            //handler.ExportHeroesSearch();
+            //handler.ExportHeroesChart();
+            //handler.ExportHeroesTypes();
 
             // Page - Abilities
-            handler.ExportAbilitiesSearch();
-            handler.ExportSummaryAbilities();
-            handler.ExportSummaryCombos();
+            //handler.ExportAbilitiesSearch();
+            //handler.ExportSummaryAbilities();
+            //handler.ExportSummaryCombos();
             handler.ExportAbilitiesGroups();
 
             // Page - Hero
@@ -76,7 +76,7 @@ namespace HGV.Nullifier
             handler.ExportAbilityDetails();
 
             // Page - Leaderboard
-            handler.ExportAccounts();
+            // handler.ExportAccounts();
 
             var delta = DateTime.Now - then;
             l.Info(String.Format("Time: {0}", delta.TotalMinutes));
@@ -1650,6 +1650,7 @@ namespace HGV.Nullifier
         }
 
         const long CATCH_ALL_ACCOUNT_ID = 4294967295;
+        const long CREATOR_ACCOUNT_ID = 13029812;
         public void ExportAccounts()
         {
             var matches = this.context.Matches.Where(_ => _.valid == true);
@@ -1686,9 +1687,15 @@ namespace HGV.Nullifier
                 })
                 .ToList();
 
-            var collection = players
+            var limitedPlayers = players
                 .Where(_ => _.Matches > averageMatches)
                 .ToList();
+
+            var creatorPlayers = players
+                .Where(_ =>  _.AccountId == CREATOR_ACCOUNT_ID)
+                .ToList();
+
+            var collection = limitedPlayers.Union(creatorPlayers).ToList();
 
             var chunks = collection
                 .GroupBy(_ => _.ProfileId)
@@ -1745,11 +1752,11 @@ namespace HGV.Nullifier
                 {
                     item.Rank = rank++;
                 }
+
+                this.WriteResultsToFile($"leaderboard.{group.Key}.json", items);
             }
 
-            this.WriteResultsToFile("leaderboard-collection.json", accounts);
-
-            var creators = accounts.Where(_ => _.AccountId == 13029812).ToList();
+            var creators = accounts.Where(_ => _.AccountId == CREATOR_ACCOUNT_ID).ToList();
 
             var regions = accounts
                 .GroupBy(_ => _.Region)
