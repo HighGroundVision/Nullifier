@@ -52,21 +52,21 @@ namespace HGV.Nullifier
             handler.Initialize();
 
             // Page - Draft Pool
-            //handler.ExportDraftPool();
+            handler.ExportDraftPool();
 
             // Page - Schedule
-            //handler.ExportSchedule();
+            handler.ExportSchedule();
 
             // Page - Heroes
-            //handler.ExportSummaryHeroes();
-            //handler.ExportHeroesSearch();
-            //handler.ExportHeroesChart();
-            //handler.ExportHeroesTypes();
+            handler.ExportSummaryHeroes();
+            handler.ExportHeroesSearch();
+            handler.ExportHeroesChart();
+            handler.ExportHeroesTypes();
 
             // Page - Abilities
-            //handler.ExportAbilitiesSearch();
-            //handler.ExportSummaryAbilities();
-            //handler.ExportSummaryCombos();
+            handler.ExportAbilitiesSearch();
+            handler.ExportSummaryAbilities();
+            handler.ExportSummaryCombos();
             handler.ExportAbilitiesGroups();
 
             // Page - Hero
