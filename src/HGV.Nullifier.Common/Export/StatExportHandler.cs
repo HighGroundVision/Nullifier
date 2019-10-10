@@ -51,6 +51,7 @@ namespace HGV.Nullifier
             var handler = new StatExportHandler(l, apiKey, output);
             handler.Initialize();
 
+            /*
             // Page - Draft Pool
             handler.ExportDraftPool();
 
@@ -74,9 +75,10 @@ namespace HGV.Nullifier
 
             // Page - Ability
             handler.ExportAbilityDetails();
+            */
 
             // Page - Leaderboard
-            // handler.ExportAccounts();
+            handler.ExportAccounts();
 
             var delta = DateTime.Now - then;
             l.Info(String.Format("Time: {0}", delta.TotalMinutes));
@@ -1743,9 +1745,19 @@ namespace HGV.Nullifier
                })
                .ToList();
 
+            var avg = accounts.Average(_ => _.Wins);
+
             var accountsByRegions = accounts.GroupBy(_ => _.Region).ToList();
             foreach (var group in accountsByRegions)
             {
+                /*
+                foreach (var item in group)
+                {
+                    var lost = (item.Matches - item.Wins);
+                    item.ELO = (item.Wins * avg) / (item.Wins + lost);
+                }
+                */
+
                 var rank = 1;
                 var items = group.OrderByDescending(_ => _.WinRate).ThenByDescending(_ => _.Matches).ToList();
                 foreach (var item in items)
@@ -1756,15 +1768,14 @@ namespace HGV.Nullifier
                 this.WriteResultsToFile($"leaderboard.{group.Key}.json", items);
             }
 
-            var creators = accounts.Where(_ => _.AccountId == CREATOR_ACCOUNT_ID).ToList();
+            var creators = accounts.Where(_ => _.AccountId == CREATOR_ACCOUNT_ID && _.Region == 2).ToList();
 
-            var regions = accounts
-                .GroupBy(_ => _.Region)
+            var regions = accountsByRegions
                 .Select(_ => new
                 {
                     key = _.Key,
                     region = this.metaClient.GetRegionName(_.Key),
-                    players = _.OrderByDescending(x => x.WinRate).ThenByDescending(x => x.Matches).Take(3).ToList(),
+                    players = _.OrderBy(x => x.Rank).Take(10).ToList(),
                 })
                 .OrderBy(_ => _.region)
                 .ToList();
@@ -1788,6 +1799,7 @@ namespace HGV.Nullifier
 
     public class Player
     {
+        public double ELO { get; set; }
         public int Rank { get; set; }
         public long AccountId { get; set; }
         public long ProfileId { get; set; }
