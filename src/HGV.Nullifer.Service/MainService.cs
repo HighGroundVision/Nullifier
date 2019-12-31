@@ -1,5 +1,4 @@
-﻿using HGV.Nullifier;
-using HGV.Nullifier.Logger;
+﻿using HGV.Nullifier.Common.Collection;
 using System;
 using System.Diagnostics;
 using System.ServiceProcess;
@@ -51,11 +50,7 @@ namespace HGV.Nullifer.Service
         {
             MainEvenLog.WriteEntry($"${this.ServiceName} is stopping");
 
-            // signal the event to shutdown
-            this.tokenSource.Cancel();
-
-            // wait for the thread to stop giving it 10 seconds
-            mainThread.Join(TimeSpan.FromSeconds(10));
+            mainThread.Abort();
 
             MainEvenLog.WriteEntry($"${this.ServiceName} has stopped");
         }
@@ -65,13 +60,10 @@ namespace HGV.Nullifer.Service
             try
             {
                 var apiKey = System.Configuration.ConfigurationManager.AppSettings["DotaApiKey"].ToString();
-                var pastTarget = long.Parse(System.Configuration.ConfigurationManager.AppSettings["PastTarget"].ToString());
                 var eventLogger = new EventLogger(this.MainEvenLog);
-                StatCollectionHandler.Run(eventLogger, apiKey, pastTarget, this.tokenSource.Token);
-            }
-            catch (OperationCanceledException)
-            {
-                MainEvenLog.WriteEntry($"Handler is canceled");
+
+                var handler = new StatCollectionHandler(eventLogger, apiKey);
+                handler.Run().Wait();
             }
             catch(Exception ex)
             {
