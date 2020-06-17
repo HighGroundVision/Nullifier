@@ -1,12 +1,10 @@
 # Nullifier
-Testbed for Ability Draft Changes
+Azure Functions for Ability Draft Match Collection & Analysis
 
 **Project Status:**
+- Cosmos Collector
+- Cosmos Change Feed
 
-- Create a Windows Console Application with EF Core on .NET Framework to find AD matches to store them for later processing.
-- Create a Windows Console Application with EF Core on .NET Framework to process each match to collect states.
-- Create a Windows Console Application with EF Core on .NET Framework to export reports about heroes, abilties, and combos each day.
-- BONUS: Create a Windows Console Application on .NET Framework to export the AD Pool each day (Basilius)[https://github.com/HighGroundVision/Basilius]. make sure it is updated to use the (new json files)[https://github.com/dotabuff/d2vpkr]
 
 ## Getting Started
 
