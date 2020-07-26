@@ -1,3 +1,10 @@
+using HGV.Nullifier.Collection.Models.Diagnostics;
+using HGV.Nullifier.Collection.Models.History;
+using Humanizer;
+using Microsoft.Azure.WebJobs;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using Polly;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -6,13 +13,6 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using HGV.Nullifier.Collection.Models;
-using HGV.Nullifier.Collection.Models.History;
-using Humanizer;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using Polly;
 
 namespace HGV.Nullifier.Collection.Functions
 {
@@ -21,6 +21,7 @@ namespace HGV.Nullifier.Collection.Functions
         private readonly JsonSerializer serializer;
         private readonly string apiKey;
         private readonly HttpClient client;
+        private readonly TimeSpan timeStep = TimeSpan.FromSeconds(3);
 
         public ForwardCollectorFunction(IHttpClientFactory factory)
         {
@@ -28,7 +29,7 @@ namespace HGV.Nullifier.Collection.Functions
             this.apiKey = Environment.GetEnvironmentVariable("SteamApiKey");
 
             client = factory.CreateClient();
-            client.BaseAddress = new Uri("http://api.steampowered.com");
+            client.BaseAddress = new Uri("http://api.steampowered.com/IDOTA2Match_570/GetMatchHistoryBySequenceNum/v0001/");
         }
 
         [FunctionName("ForwardCollector")]
@@ -52,14 +53,12 @@ namespace HGV.Nullifier.Collection.Functions
 
             var start = existing.Single();
 
-            var data = new DiagnosticData
+            var data = new ForwardCollectorDiagnostics
             {
                 Current = start.MatchSeqNum+1,
                 StartTime = start.StartTime.GetValueOrDefault(),
                 Duration = start.Duration.GetValueOrDefault()
             };
-
-            log.LogWarning($"Delta: {data.Delta.Humanize(3)}");
 
             var cts = new CancellationTokenSource();
             var timer = Task.Delay(TimeSpan.FromMinutes(9), cts.Token);
@@ -68,12 +67,13 @@ namespace HGV.Nullifier.Collection.Functions
             if (winner == timer)
                 cts.Cancel();
 
-            log.LogWarning($"In Error: {data.InError.Humanize(3)}");
-            log.LogWarning($"Matches Processed: {data.MatchesProcessed}");
-            log.LogWarning($"Matches Collected: {data.MatchesCollected}");
+            log.LogInformation($"Delta: {data.Delta.Humanize(3)}");
+            log.LogInformation($"Sleeping: {data.Sleeping.Humanize(3)}");
+            log.LogInformation($"Matches Processed: {data.MatchesProcessed}");
+            log.LogInformation($"Matches Collected: {data.MatchesCollected}");
         }
 
-        private async Task DoWork(DiagnosticData data, IAsyncCollector<Match> collector, ILogger log, CancellationToken token)
+        private async Task DoWork(ForwardCollectorDiagnostics data, IAsyncCollector<Match> collector, ILogger log, CancellationToken token)
         {
             try
             {
@@ -101,26 +101,22 @@ namespace HGV.Nullifier.Collection.Functions
             }
         }
 
-        private async Task<MatchHistory> GetMatchHistory(DiagnosticData data, ILogger log, CancellationToken token)
+        private async Task<Reponse> GetMatchHistory(ForwardCollectorDiagnostics data, ILogger log, CancellationToken token)
         {
+
+            await Task.Delay(timeStep, token);
+            data.Sleeping += timeStep;
+
             var policy = Policy
                 .Handle<HttpRequestException>()
-                .WaitAndRetryForeverAsync(
-                    n => TimeSpan.FromSeconds(Math.Pow(2, n))
-                    , (ex, n, time) =>
-                    {
-                        data.InError += time;
-                        Debug.WriteLine($"Error with Steam API (Too Many Requests) Retrying in {time.Humanize(3)}");
-                    });
+                .WaitAndRetryForeverAsync(n => TimeSpan.FromSeconds(n * 30), (ex, n, time) => data.Sleeping += time);
 
-            var history = await policy.ExecuteAsync<MatchHistory>(async t =>
+            var history = await policy.ExecuteAsync<Reponse>(async t =>
             {
-                var url =
-                    $"/IDOTA2Match_570/GetMatchHistoryBySequenceNum/v0001/?key={apiKey}&start_at_match_seq_num={data.Current}";
-                var stream = await this.client.GetStreamAsync(url);
+                var stream = await this.client.GetStreamAsync($"?key={apiKey}&start_at_match_seq_num={data.Current}");
                 using var sr = new StreamReader(stream);
                 using var jsonTextReader = new JsonTextReader(sr);
-                return this.serializer.Deserialize<MatchHistory>(jsonTextReader);
+                return this.serializer.Deserialize<Reponse>(jsonTextReader);
             }, token);
 
             return history;

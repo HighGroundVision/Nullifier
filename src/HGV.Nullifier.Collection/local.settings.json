@@ -4,6 +4,6 @@
     "FUNCTIONS_WORKER_RUNTIME": "dotnet",
     "AzureWebJobsStorage": "UseDevelopmentStorage=true",
     "CosmosDBConnection": "AccountEndpoint=https://localhost:8081/;AccountKey=C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==",
-    "SteamApiKey": "D929B1E7DFCC5FABB23DE7969F813E5E"
+    "SteamApiKey": "BD0FBFBE762E542E3090A90D3C6D8E56"
   }
 }

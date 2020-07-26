@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace HGV.Nullifier.Collection.Models
+namespace HGV.Nullifier.Collection.Models.Diagnostics
 {
-    public class DiagnosticData
+    public class ForwardCollectorDiagnostics
     {
         public long StartTime { get; set; }
         public long Duration { get; set; }
@@ -12,6 +12,6 @@ namespace HGV.Nullifier.Collection.Models
         public long Current { get; set; }
         public long MatchesProcessed { get; set; }
         public long MatchesCollected { get; set; }
-        public TimeSpan InError { get; set; }
+        public TimeSpan Sleeping { get; set; }
     }
 }
