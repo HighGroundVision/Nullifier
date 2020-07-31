@@ -32,14 +32,15 @@ namespace HGV.Nullifier.Collection.Functions
             this.ObjectiveService = objectiveService;
             this.TeamService = teamService;
 
-            this.PlayerRecordsCollection = UriFactory.CreateDocumentCollectionUri("hgv-nullifier", "player-records");
-            this.PlayerRatingsCollection = UriFactory.CreateDocumentCollectionUri("hgv-nullifier", "player-ratings");
+            this.PlayerRecordsCollection = UriFactory.CreateDocumentCollectionUri("HGV-Nullifier", "player-records");
+            this.PlayerRatingsCollection = UriFactory.CreateDocumentCollectionUri("HGV-Nullifier", "player-ratings");
 
         }
 
+        [Disable]
         [FunctionName("HistoryFeed")]
         public async Task ChangeFeed([CosmosDBTrigger(
-            databaseName: "hgv-nullifier",
+            databaseName: "HGV-Nullifier",
             collectionName: "history",
             ConnectionStringSetting = "CosmosDBConnection",
             LeaseCollectionName = "history-leases",

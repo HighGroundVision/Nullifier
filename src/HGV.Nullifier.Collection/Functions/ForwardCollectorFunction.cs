@@ -36,13 +36,13 @@ namespace HGV.Nullifier.Collection.Functions
         public async Task Run(
             [TimerTrigger("0 */10 * * * *")]TimerInfo myTimer,
             [CosmosDB(
-                databaseName: "hgv-nullifier",
+                databaseName: "HGV-Nullifier",
                 collectionName: "history",
                 ConnectionStringSetting = "CosmosDBConnection",
                 SqlQuery = "SELECT c.match_seq_num,c.start_time,c.duration FROM c ORDER BY c.match_seq_num DESC OFFSET 0 LIMIT 1")] 
             IEnumerable<MatchSummary> existing,
             [CosmosDB(
-                databaseName: "hgv-nullifier",
+                databaseName: "HGV-Nullifier",
                 collectionName: "history",
                 ConnectionStringSetting = "CosmosDBConnection")]
             IAsyncCollector<Match> collector,

@@ -34,7 +34,7 @@ namespace HGV.Nullifier.Collection.Functions
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "seed/{id}")] HttpRequest req,
             long id,
             [CosmosDB(
-                databaseName: "hgv-nullifier",
+                databaseName: "HGV-Nullifier",
                 collectionName: "history",
                 ConnectionStringSetting = "CosmosDBConnection")]
             IAsyncCollector<Match> collector,
