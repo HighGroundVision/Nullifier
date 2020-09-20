@@ -7,24 +7,24 @@ using System.Threading.Tasks;
 
 namespace HGV.Nullifier.Collection.Functions
 {
-    public class ForwardCollectorFunction
+    public class BackwardCollectorFunction
     {
         private readonly ICollectionService colletionService;
 
-        public ForwardCollectorFunction(ICollectionService colletionService)
+        public BackwardCollectorFunction(ICollectionService colletionService)
         {
             this.colletionService = colletionService;
-            this.colletionService.Config(Direction.Forward);
+            this.colletionService.Config(Direction.Backward);
         }
 
-        [FunctionName("ForwardCollector")]
+        [FunctionName("BackwardCollector")]
         public async Task RunAsync(
             [TimerTrigger("0 */10 * * * *")]TimerInfo myTimer,
             [CosmosDB(
                 databaseName: "HGV-Nullifier",
                 collectionName: "history",
                 ConnectionStringSetting = "CosmosDBConnection",
-                SqlQuery = "SELECT c.match_seq_num,c.start_time,c.duration FROM c ORDER BY c.match_seq_num DESC OFFSET 0 LIMIT 1")] 
+                SqlQuery = "SELECT c.match_seq_num,c.start_time,c.duration FROM c ORDER BY c.match_seq_num OFFSET 0 LIMIT 1")] 
             IEnumerable<MatchSummary> existing,
             [CosmosDB(
                 databaseName: "HGV-Nullifier",

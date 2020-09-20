@@ -1,5 +1,4 @@
-﻿using HGV.Nullifier.Collection.Models.Stats;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -35,7 +34,7 @@ namespace HGV.Nullifier.Collection.Services
 
     public interface IObjectiveService
     {
-        double CalculateLost(long? radiantTowerStatus, long? radiantBarracksStatus);
+        double CalculateLost(long? towerStatus, long? barracksStatus);
     }
 
     public class ObjectiveService : IObjectiveService

@@ -1,4 +1,4 @@
-using HGV.Nullifier.Collection.Models.History;
+using HGV.Nullifier.Collection.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -29,6 +29,7 @@ namespace HGV.Nullifier.Collection.Functions
             client.BaseAddress = new Uri("http://api.steampowered.com/IDOTA2Match_570/GetMatchHistoryBySequenceNum/v0001/");
         }
 
+        [Disable]
         [FunctionName("SeedHistory")]
         public async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "seed/{id}")] HttpRequest req,
@@ -37,13 +38,13 @@ namespace HGV.Nullifier.Collection.Functions
                 databaseName: "HGV-Nullifier",
                 collectionName: "history",
                 ConnectionStringSetting = "CosmosDBConnection")]
-            IAsyncCollector<Match> collector,
+            IAsyncCollector<MatchHistory> collector,
             ILogger log)
         {
             var stream = await this.client.GetStreamAsync($"?key={apiKey}&start_at_match_seq_num={id}&matches_requested=1");
             using var sr = new StreamReader(stream);
             using var jsonTextReader = new JsonTextReader(sr);
-            var reponse = this.serializer.Deserialize<Reponse>(jsonTextReader);
+            var reponse = this.serializer.Deserialize<MatchReponse>(jsonTextReader);
             var match = reponse.Result.Matches.Single();
             await collector.AddAsync(match);
 

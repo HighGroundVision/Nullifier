@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using HGV.Nullifier.Collection.Models;
 using Humanizer;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -10,10 +12,10 @@ namespace HGV.Nullifier.Collection.Services
 
     public interface ITeamService
     {
-        int GetTeam(int? slot);
-        int GetDraftOrder(int? slot);
-        bool Victor(int team, bool? winner);
-        int[] GetStandings(bool? winner);
+        int GetTeam(int slot);
+        int GetDraftOrder(int slot);
+        bool Victor(int team, bool winner);
+        int[] GetTeamStandings(bool winner);
     }
 
     public static class TeamNames
@@ -36,32 +38,32 @@ namespace HGV.Nullifier.Collection.Services
             this.Order = new Dictionary<int, int>() { {0,1}, {128,2}, {1,3}, {129,4}, {2,5}, {130,6}, {3,7}, {131,8}, {4,9}, {132,10} };
         }
 
-        public int GetTeam(int? slot)
+        public int GetTeam(int slot)
         {
-            if (this.Radiant.Contains(slot.Value))
+            if (this.Radiant.Contains(slot))
                 return TeamNames.Radiant;
-            else if (this.Dire.Contains(slot.Value))
+            else if (this.Dire.Contains(slot))
                 return TeamNames.Dire;
             else
                 return TeamNames.Unknown;
         }
 
-        public int GetDraftOrder(int? slot)
+        public int GetDraftOrder(int slot)
         {
-            if (!slot.HasValue)
-                return 0;
-            else 
-                return this.Order[slot.Value];
+            if(this.Order.TryGetValue(slot, out int order))
+                return order;
+            else
+                throw new ArgumentOutOfRangeException(nameof(slot));
         }
 
-        public bool Victor(int team, bool? winner)
+        public bool Victor(int team, bool winner)
         { 
             return ((team == TeamNames.Radiant && winner == true) || (team == TeamNames.Dire && winner == false)) ? true : false;
         }
 
-        public int[] GetStandings(bool? winner)
+        public int[] GetTeamStandings(bool winner)
         { 
-            return winner.GetValueOrDefault() ? new int[] { 1,2 } : new int[] { 2,1 };
+            return winner ? new int[] { 1,2 } : new int[] { 2,1 };
         }
     }
 }

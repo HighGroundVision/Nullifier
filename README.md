@@ -2,9 +2,11 @@
 Azure Functions for Ability Draft Match Collection & Analysis
 
 **Project Status:**
-- Cosmos Collector
-- Cosmos Change Feed
-
+- Batch Generator (Forward, Manual, Player)
+- Batch Handler (list, range)
+- History (cosmos, blob)
+- Player Record
+- Player History
 
 ## Getting Started
 
@@ -20,6 +22,6 @@ If you have any questions, you can tweet us at [@DotaHGV](https://twitter.com/Do
 
 ## Authors and Acknowledgements
 
-Crystalys is maintained and development by [HGV](http://www.highgroundvision.com), a leading Dota 2 data visualization and analysis web site. HGV's Team:
+Nullifier is maintained and development by [HGV](http://www.highgroundvision.com), a leading Dota 2 data visualization and analysis web site. HGV's Team:
 
 * [Jamie Webster](https://github.com/RGBKnights) 
